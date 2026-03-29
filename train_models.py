@@ -39,13 +39,13 @@ joblib.dump(scaler, "scaler.pkl")
 dt_model= DecisionTreeClassifier(max_depth=5, random_state=42)
 dt_model.fit(X_train, y_train)
 
-rf_model = RandomForestClassifier(n_estimators=200, random_state=42)
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 rf_model.fit(X_train, y_train)
 
-gb_model= GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, random_state=42)
+gb_model= GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, random_state=42)
 gb_model.fit(X_train, y_train)
 
-xgb_model=XGBClassifier(n_estimators=200,learning_rate=0.1, max_depth=5, use_label_encoder=False, eval_metric='logloss')
+xgb_model=XGBClassifier(n_estimators=100,learning_rate=0.1, max_depth=5, use_label_encoder=False, eval_metric='logloss')
 xgb_model.fit(X_train, y_train)
 
 models={"Decision Tree": dt_model, "Random Forest": rf_model, "Gradient Boosting": gb_model, "XGBoost": xgb_model}
