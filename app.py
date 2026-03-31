@@ -270,8 +270,7 @@ with col2:
 from sklearn.metrics import roc_curve, auc
 import plotly.graph_objects as go
 
-y = y.values.reshape(-1)
-y_prob = y_prob.reshape(-1)
+y = y.map({"No": 0, "Yes": 1})
 
 y_prob = model.predict_proba(X_scaled)[:, 1]
 fpr, tpr, _ = roc_curve(y, y_prob)
