@@ -266,3 +266,65 @@ with col2:
      
      fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
      st.plotly_chart(fig4)
+
+from sklearn.metrics import roc_curve, auc
+import plotly.graph_objects as go
+
+y_prob = model.predict_proba(X_scaled)[:, 1]
+fpr, tpr, _ = roc_curve(y, y_prob)
+roc_auc = auc(fpr, tpr)
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=fpr,
+    y=tpr,
+    mode="lines",
+    name=f"AUC = {roc_auc:.3f}"
+))
+
+# Diagonal line (random model)
+fig.add_trace(go.Scatter(
+    x=[0, 1],
+    y=[0, 1],
+    mode="lines",
+    line=dict(dash="dash"),
+    name="Random Model"
+))
+
+fig.update_layout(
+    title="ROC Curve",
+    xaxis_title="False Positive Rate",
+    yaxis_title="True Positive Rate",
+    template="plotly_dark"
+)
+
+st.plotly_chart(fig)
+
+models = {
+    "Random Forest": rf_model,
+    "Gradient Boosting": gb_model,
+    "XGBoost": xgb_model
+}
+
+fig = go.Figure()
+
+for name, m in models.items():
+    y_prob = m.predict_proba(X_scaled)[:, 1]
+    fpr, tpr, _ = roc_curve(y, y_prob)
+    roc_auc = auc(fpr, tpr)
+
+    fig.add_trace(go.Scatter(
+        x=fpr,
+        y=tpr,
+        mode="lines",
+        name=f"{name} (AUC={roc_auc:.3f})"
+    ))
+
+fig.add_trace(go.Scatter(
+    x=[0, 1], y=[0, 1],
+    mode="lines",
+    line=dict(dash="dash"),
+    name="Random"
+))
+
+st.plotly_chart(fig)
