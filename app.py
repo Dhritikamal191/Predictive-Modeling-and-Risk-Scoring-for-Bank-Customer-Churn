@@ -268,16 +268,15 @@ with col2:
      st.plotly_chart(fig4)
 
 
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, auc
 
 y= df["Exited"]
 
-y_true = df["Exited"].to_numpy().ravel()
-from sklearn.metrics import roc_curve, auc
+if st.button("Show ROC"):
+    y_true = df["Exited"].to_numpy().ravel()
+    y_prob = model.predict_proba(X_scaled)[:, 1]
 
-y_true = df["Exited"].to_numpy().ravel()
-y_prob = model.predict_proba(X_scaled)[:, 1]
-
+    fpr, tpr, _ = roc_curve(y_true, y_prob)
 fpr, tpr, _ = roc_curve(y_true, y_prob)
 roc_auc = auc(fpr, tpr)   
 
