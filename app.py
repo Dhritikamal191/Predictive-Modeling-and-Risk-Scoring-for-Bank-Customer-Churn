@@ -277,8 +277,8 @@ if st.button("Show ROC"):
     y_prob = model.predict_proba(X_scaled)[:, 1]
 
     fpr, tpr, _ = roc_curve(y_true, y_prob)
-fpr, tpr, _ = roc_curve(y_true, y_prob)
-roc_auc = auc(fpr, tpr)   
+
+    roc_auc = auc(fpr, tpr)   
 
 fig = go.Figure()
 
