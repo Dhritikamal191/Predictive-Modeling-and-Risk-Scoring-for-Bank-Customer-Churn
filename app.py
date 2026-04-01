@@ -269,38 +269,17 @@ with col2:
 
 
 from sklearn.metrics import roc_curve
-import numpy as np
-
-# Dummy test (to check if sklearn works)
-y_test = np.array([0, 1, 0, 1])
-y_prob_test = np.array([0.2, 0.8, 0.3, 0.7])
-
-fpr, tpr, _ = roc_curve(y_test, y_prob_test)
-
-st.write("ROC working")
-
 
 y= df["Exited"]
-if len(y_true.shape) > 1:
-    y_true = y_true.ravel()
 
+y_true = df["Exited"].to_numpy().ravel()
+from sklearn.metrics import roc_curve, auc
 
-try:
-    y_true = y_true.astype(int)
-except:
-    
-    y_true = np.where((y_true == "Yes") | (y_true == True), 1, 0)
-
-
+y_true = df["Exited"].to_numpy().ravel()
 y_prob = model.predict_proba(X_scaled)[:, 1]
 
-# Ensure 1D
-y_prob = np.array(y_prob).ravel()
-
-
-
 fpr, tpr, _ = roc_curve(y_true, y_prob)
-roc_auc = auc(fpr, tpr)
+roc_auc = auc(fpr, tpr)   
 
 fig = go.Figure()
 
