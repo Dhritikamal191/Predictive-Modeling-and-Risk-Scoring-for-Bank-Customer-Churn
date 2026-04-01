@@ -275,9 +275,9 @@ y= df["Exited"]
 y_true = df["Exited"].to_numpy().ravel()
 y_prob = model.predict_proba(X_scaled)[:, 1]
 
-    fpr, tpr, _ = roc_curve(y_true, y_prob)
+fpr, tpr, _ = roc_curve(y_true, y_prob)
 
-    roc_auc = auc(fpr, tpr)   
+roc_auc = auc(fpr, tpr)   
 
 fig = go.Figure()  
 fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
