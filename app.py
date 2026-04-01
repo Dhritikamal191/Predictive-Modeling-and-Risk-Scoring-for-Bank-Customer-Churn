@@ -298,7 +298,7 @@ for name, m in models.items():
     fpr, tpr, _ = roc_curve(y, y_prob)
     roc_auc = auc(fpr, tpr)
 
-fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name (AUC={roc_auc:.3f})"))
+fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name (AUC={roc_auc:.3f}")))
 
 fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
 
