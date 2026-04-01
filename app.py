@@ -281,7 +281,7 @@ if st.button("Show ROC"):
     roc_auc = auc(fpr, tpr)   
 
 fig = go.Figure()  
-fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"AUC = {roc_auc:.3f}"))
+fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
 
 fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random Model"))
 
