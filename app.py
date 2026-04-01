@@ -301,20 +301,24 @@ st.plotly_chart(fig)
 
 from sklearn.inspection import partial_dependence
 
-feature_index = 0
 
-pdp = partial_dependence(model, X_scaled, features=[feature_index])
-
-x_vals = pdp["grid_values"][0]
-y_vals = pdp["average"][0]. flatten()
+features = ["Age", "Balance", "NumOfProducts", "EstimatedSalary"]
 
 fig = go.Figure()
 
-fig.add_trace(go.Scatter(
-    x=x_vals,
-    y=y_vals,
-    mode="lines+markers",
-    name="PDP"
-))
+for feature in features:
+    feature_index = X.columns.get_loc(feature)
+
+    pdp = partial_dependence(model, X_scaled, features=[feature_index])
+
+    x_vals = pdp["grid_values"][0]
+    y_vals = pdp["average"][0].flatten()
+
+    fig.add_trace(go.Scatter(
+        x=x_vals,
+        y=y_vals,
+        mode="lines",
+        name=feature
+    ))
 
 st.plotly_chart(fig)
