@@ -329,3 +329,5 @@ fig.update_layout(
     yaxis_title="Churn Probability",
     template="plotly_dark"
 )
+
+st.plotly_chart(fig)
