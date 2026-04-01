@@ -321,8 +321,6 @@ for feature in features:
         name=feature
     ))
 
-st.plotly_chart(fig)
-
 fig.update_layout(
     title="Partial Dependence Plot (Key Features)",
     xaxis_title="Feature Value",
