@@ -273,7 +273,7 @@ import plotly.graph_objects as go
 from sklearn.metrics import roc_curve, auc
 
 
-y_true = np.array(y)
+y_true = np.array(y, dtype=float).ravel()
 
 if len(y_true.shape) > 1:
     y_true = y_true.ravel()
