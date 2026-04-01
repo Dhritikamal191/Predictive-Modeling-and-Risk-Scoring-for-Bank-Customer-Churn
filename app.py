@@ -272,9 +272,8 @@ from sklearn.metrics import roc_curve, auc
 
 y= df["Exited"]
 
-if st.button("Show ROC"):
-    y_true = df["Exited"].to_numpy().ravel()
-    y_prob = model.predict_proba(X_scaled)[:, 1]
+y_true = df["Exited"].to_numpy().ravel()
+y_prob = model.predict_proba(X_scaled)[:, 1]
 
     fpr, tpr, _ = roc_curve(y_true, y_prob)
 
