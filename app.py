@@ -298,3 +298,13 @@ fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.
 fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
 
 st.plotly_chart(fig)
+
+from sklearn.inspection import partial_dependence
+
+pdp = partial_dependence(model, X_scaled, [0])  
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(x=pdp['values'][0], y=pdp['average'][0], mode='lines'))
+
+st.plotly_chart(fig)
