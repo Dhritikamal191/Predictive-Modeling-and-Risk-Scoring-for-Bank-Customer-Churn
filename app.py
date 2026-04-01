@@ -268,7 +268,17 @@ with col2:
      st.plotly_chart(fig4)
 
 
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve
+import numpy as np
+
+# Dummy test (to check if sklearn works)
+y_test = np.array([0, 1, 0, 1])
+y_prob_test = np.array([0.2, 0.8, 0.3, 0.7])
+
+fpr, tpr, _ = roc_curve(y_test, y_prob_test)
+
+st.write("ROC working")
+
 
 y= df["Exited"]
 if len(y_true.shape) > 1:
