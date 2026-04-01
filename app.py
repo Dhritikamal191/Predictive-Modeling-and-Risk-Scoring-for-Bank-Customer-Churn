@@ -271,9 +271,8 @@ from sklearn.metrics import roc_curve, auc
 import plotly.graph_objects as go
 
 from sklearn.metrics import roc_curve, auc
-import numpy as np
 
-# 🔹 Force y into correct format
+🔹 Force y into correct format
 y_true = np.array(y)
 
 # If it's 2D → make it 1D
