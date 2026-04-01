@@ -267,7 +267,7 @@ with col2:
      fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
      st.plotly_chart(fig4)
 
-st.subheader(f"{model_name} ROC Curve with Random Baseline")
+st.subheader("ROC Curve with Random Baseline")
 from sklearn.metrics import roc_curve, auc
 
 y= df["Exited"]
