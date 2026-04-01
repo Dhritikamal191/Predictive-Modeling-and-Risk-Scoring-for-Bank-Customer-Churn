@@ -282,35 +282,20 @@ if st.button("Show ROC"):
 
 fig = go.Figure()
 
-fig.add_trace(go.Scatter(
-    x=fpr,
-    y=tpr,
-    mode="lines",
-    name=f"AUC = {roc_auc:.3f}"
+fig.add_trace(go.Scatter(x=fpr,y=tpr,mode="lines",name=f"AUC = {roc_auc:.3f}"
 ))
 
 # Diagonal line (random model)
-fig.add_trace(go.Scatter(
-    x=[0, 1],
-    y=[0, 1],
-    mode="lines",
-    line=dict(dash="dash"),
-    name="Random Model"
+fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1], mode="lines",line=dict(dash="dash"),name="Random Model"
 ))
 
-fig.update_layout(
-    title="ROC Curve",
-    xaxis_title="False Positive Rate",
-    yaxis_title="True Positive Rate",
-    template="plotly_dark"
+fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate",
+yaxis_title="True Positive Rate", template="plotly_dark"
 )
 
 st.plotly_chart(fig)
 
-models = {
-    "Random Forest": rf_model,
-    "Gradient Boosting": gb_model,
-    "XGBoost": xgb_model
+models = {"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model
 }
 
 fig = go.Figure()
@@ -320,18 +305,11 @@ for name, m in models.items():
     fpr, tpr, _ = roc_curve(y, y_prob)
     roc_auc = auc(fpr, tpr)
 
-    fig.add_trace(go.Scatter(
-        x=fpr,
-        y=tpr,
-        mode="lines",
-        name=f"{name} (AUC={roc_auc:.3f})"
+    fig.add_trace(go.Scatter(x=fpr,y=tpr,mode="lines",name=f"{name} (AUC={roc_auc:.3f})"
     ))
 
-fig.add_trace(go.Scatter(
-    x=[0, 1], y=[0, 1],
-    mode="lines",
-    line=dict(dash="dash"),
-    name="Random"
+fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],
+mode="lines",line=dict(dash="dash"),name="Random"
 ))
 
 st.plotly_chart(fig)
