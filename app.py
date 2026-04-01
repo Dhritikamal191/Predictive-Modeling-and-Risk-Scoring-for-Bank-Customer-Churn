@@ -272,27 +272,26 @@ import plotly.graph_objects as go
 
 from sklearn.metrics import roc_curve, auc
 
-🔹 Force y into correct format
+
 y_true = np.array(y)
 
-# If it's 2D → make it 1D
 if len(y_true.shape) > 1:
     y_true = y_true.ravel()
 
-# 🔹 Convert to numeric (handles Yes/No, True/False)
+
 try:
     y_true = y_true.astype(int)
 except:
-    # fallback mapping
+    
     y_true = np.where((y_true == "Yes") | (y_true == True), 1, 0)
 
-# 🔹 Get probabilities
+
 y_prob = model.predict_proba(X_scaled)[:, 1]
 
 # Ensure 1D
 y_prob = np.array(y_prob).ravel()
 
-# 🔹 ROC
+
 fpr, tpr, _ = roc_curve(y_true, y_prob)
 roc_auc = auc(fpr, tpr)
 
