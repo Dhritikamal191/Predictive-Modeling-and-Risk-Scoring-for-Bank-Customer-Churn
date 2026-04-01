@@ -290,7 +290,7 @@ st.plotly_chart(fig)
 
 fig = go.Figure()
 
-for name, m in models.items():
+for name, m in model.items():
     y_prob = m.predict_proba(X_scaled)[:, 1]
     fpr, tpr, _ = roc_curve(y, y_prob)
     roc_auc = auc(fpr, tpr)
