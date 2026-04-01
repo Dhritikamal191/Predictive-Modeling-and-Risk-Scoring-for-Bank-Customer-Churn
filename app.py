@@ -300,9 +300,10 @@ fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),
 st.plotly_chart(fig)
 
 from sklearn.inspection import partial_dependence
-import plotly.graph_objects as go
 
-pdp = partial_dependence(model, X_scaled, features=[0])
+feature_index = 0
+
+pdp = partial_dependence(model, X_scaled, features=[feature_index])
 
 x_vals = pdp["grid_values"][0]
 y_vals = pdp["average"][0]. flatten()
@@ -312,7 +313,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=x_vals,
     y=y_vals,
-    mode="lines",
+    mode="lines+markers",
     name="PDP"
 ))
 
