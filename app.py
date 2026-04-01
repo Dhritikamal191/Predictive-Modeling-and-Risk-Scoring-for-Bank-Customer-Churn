@@ -267,11 +267,8 @@ with col2:
      fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
      st.plotly_chart(fig4)
 
-from sklearn.metrics import roc_curve, auc
-import plotly.graph_objects as go
 
 from sklearn.metrics import roc_curve, auc
-
 
 y= df["Exited"]
 if len(y_true.shape) > 1:
@@ -289,6 +286,7 @@ y_prob = model.predict_proba(X_scaled)[:, 1]
 
 # Ensure 1D
 y_prob = np.array(y_prob).ravel()
+
 
 
 fpr, tpr, _ = roc_curve(y_true, y_prob)
