@@ -269,34 +269,32 @@ with col2:
 
 
 from sklearn.metrics import roc_curve, auc
-col1, col2= st.columns(2)
 
 y= df["Exited"]
 y_true = df["Exited"].to_numpy().ravel()
 y_prob = model.predict_proba(X_scaled)[:, 1]
 
 fpr, tpr, _ = roc_curve(y_true, y_prob)
-
 roc_auc = auc(fpr, tpr)   
-with col1:
-     fig = go.Figure()  
-     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
 
-     fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random Model"))
+fig = go.Figure()  
+fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
 
-     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark")
+fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random Model"))
 
-     st.plotly_chart(fig)
-with col2:
-     fig = go.Figure()
-     models = {"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
-     for name, m in models.items():
-         y_prob = m.predict_proba(X_scaled)[:, 1]
-         fpr, tpr, _ = roc_curve(y, y_prob)
-         roc_auc = auc(fpr, tpr)
+fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark")
 
-     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
+st.plotly_chart(fig)
 
-     fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
+fig = go.Figure()
+models = {"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+for name, m in models.items():
+    y_prob = m.predict_proba(X_scaled)[:, 1]
+    fpr, tpr, _ = roc_curve(y, y_prob)
+    roc_auc = auc(fpr, tpr)
 
-     st.plotly_chart(fig)
+fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
+
+fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
+
+st.plotly_chart(fig)
