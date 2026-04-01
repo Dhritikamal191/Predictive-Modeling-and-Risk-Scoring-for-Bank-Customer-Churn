@@ -288,8 +288,6 @@ fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_ti
 
 st.plotly_chart(fig)
 
-models = {"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
-
 fig = go.Figure()
 
 for name, m in models.items():
