@@ -305,7 +305,7 @@ import plotly.graph_objects as go
 pdp = partial_dependence(model, X_scaled, features=[0])
 
 x_vals = pdp["grid_values"][0]
-y_vals = pdp["average"][0]
+y_vals = pdp["average"][0]. flatten()
 
 fig = go.Figure()
 
