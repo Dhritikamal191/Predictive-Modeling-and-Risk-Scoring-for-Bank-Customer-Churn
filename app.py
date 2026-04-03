@@ -223,10 +223,13 @@ title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
 
-if len(input_encoded)<200:
-   X_sample=input_encoded
+if hasattr(model, "named_steps"):
+   final_model = model.named_steps[list(model.named_steps.keys())[-1]]
+    
+   X_transformed = model[:-1].transform(X_sample)
 else:
-     X_sample= input_encoded.sample(200, random_state=42)
+     final_model = model
+     X_transformed = X_sample
      
 explainer=shap.Explainer(model,X_sample)
 shap_values=explainer(X_sample)
