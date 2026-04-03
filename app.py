@@ -222,7 +222,12 @@ fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h",
 title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
-X_sample=input_encoded.sample(n=min(200, len_encoded), random_state=42)
+
+if len(input_encoded)<200:
+   X_sample=input_encoded
+else:
+     X_sample= input_encoded.sample(200, random_state=42)
+     
 explainer=shap.Explainer(model,X_sample)
 shap_values=explainer(X_sample)
 
