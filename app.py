@@ -223,18 +223,7 @@ title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
 
-if "LogisticRegression" in model_name:
-    explainer = shap.LinearExplainer(final_model, X_sample)
-    shap_values = explainer.shap_values(X_sample)
-
-elif "Forest" in model_name or "XGB" in model_name:
-    explainer = shap.TreeExplainer(final_model)
-    shap_values = explainer.shap_values(X_sample)
-
-else:
-    st.warning("SHAP not supported for this model")
-
-
+explainer=shap.Explainer(model)
 shap_values=explainer(input_encoded)
 values=np.array(shap_values.values).reshape(-1)
 features=list(input_encoded.columns)
