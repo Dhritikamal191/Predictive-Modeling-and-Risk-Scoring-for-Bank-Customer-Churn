@@ -222,13 +222,6 @@ fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h",
 title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
-
-if hasattr(model, "feature_importances_"):
-   importance= model.feature_importances_
-elif hasattr(model, "coef_"):
-     importance= np.abs(model.coef_[0])
-else:
-     importance=None
      
 explainer=shap.Explainer(model)
 shap_values=explainer(input_encoded)
