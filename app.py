@@ -207,7 +207,13 @@ st.plotly_chart(fig, use_container_width=True)
 # --------------------------------------------------
 st.subheader("Feature Importance Dashboard")
 
-importance = model.feature_importances_
+if hasattr(model, "feature_importances_"):
+    importance = model.feature_importances_
+elif hasattr(model, "coef_"):
+    importance = abs(model.coef_[0])
+else:
+    st.error("Model does not support feature importance")
+
 features =df.drop("Exited", axis=1).columns
 
 importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
