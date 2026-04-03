@@ -223,6 +223,7 @@ title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
 
+importance = model.feature_importances_
 explainer=shap.Explainer(model)
 shap_values=explainer(input_encoded)
 values=np.array(shap_values.values).reshape(-1)
