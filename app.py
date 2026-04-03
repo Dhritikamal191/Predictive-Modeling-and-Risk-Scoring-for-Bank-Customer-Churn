@@ -223,19 +223,10 @@ title="Feature Importance")
 
 st.plotly_chart(fig2, use_container_width=True)
 
-if hasattr(model, "named_steps"):
-   final_model = model.named_steps[list(model.named_steps.keys())[-1]]
-    
-   X_transformed = model[:-1].transform(X_sample)
-else:
-     final_model = model
-     X_transformed = X_sample
-     
-explainer=shap.Explainer(model,X_sample)
-shap_values=explainer(X_sample)
-
+explainer=shap.Explainer(model)
+shap_values=explainer(input_encoded)
 values=np.array(shap_values.values).reshape(-1)
-features=list(X_sample.columns)
+features=list(input_encoded.columns)
 min_len=min(len(values), len(features))
 values=values[:min_len]
 features=features[:min_len]
