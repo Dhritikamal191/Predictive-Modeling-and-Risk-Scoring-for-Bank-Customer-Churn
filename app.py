@@ -7,7 +7,6 @@ import joblib
 import shap
 import plotly.express as px
 import matplotlib.pyplot as plt
-from streamlit_autorefresh import st_autorefresh
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
@@ -24,6 +23,7 @@ with col2:
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
+lr_model,feature_names=joblib.load("logistic_regression.pkl")
 dt_model,feature_names=joblib.load("decision_tree.pkl")
 rf_model,feature_names=joblib.load("random_forest.pkl")
 gb_model,feature_names=joblib.load("gradient_boosting.pkl")
@@ -69,11 +69,12 @@ input_df =pd.DataFrame({
 input_encoded = pd.get_dummies(input_df)
 input_encoded= input_encoded.reindex(columns=columns,fill_value=0)
 input_scaled= scaler.transform(input_encoded)
-model_choice=st.radio("Select Model",["Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
+model_choice=st.radio("Select Model",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 
 model= rf_model
-
-if model_choice=="Decision Tree": 
+if model_choice=="Logistic Regression":
+   model=lr_model
+elif model_choice=="Decision Tree": 
    model=dt_model
 elif model_choice=="Gradient Boosting":
      model=gb_model
@@ -81,7 +82,7 @@ elif model_choice=="XGBoost":
      model=xgb_model
 
 if st.button("Predict"):
-                        prediction= model.predict(input_encoded)[0]
+   prediction= model.predict(input_encoded)[0]
 
 probability = model.predict_proba(input_encoded)[0][1]
 risk_score = probability * 100
@@ -287,7 +288,7 @@ fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_ti
 st.plotly_chart(fig)
 
 fig = go.Figure()
-models = {"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
 for name, m in models.items():
     y_prob = m.predict_proba(X_scaled)[:, 1]
     fpr, tpr, _ = roc_curve(y, y_prob)
