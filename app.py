@@ -96,7 +96,7 @@ threshold=st.slider("Select Threshold", 0.05, 0.5, 0.2)
 if st.button("Predict"):
    prediction= model.predict(input_encoded)[0]
 
-   y_prob=model.predict_proba(X_scaled)[:,1]
+   y_prob=model.predict_proba(X_test)[:,1]
    y_pred=(y_prob>threshold).astype(int)
    
    st.write("Prediction:", y_pred[0])
@@ -107,6 +107,7 @@ if st.button("Predict"):
    st.success(f"Prediction:{y_pred[0]}")
 
    cm = confusion_matrix(y_test, y_pred)
+   cm=cm[::-1]
 
    labels = ["Churn", "No Churn"]
 
