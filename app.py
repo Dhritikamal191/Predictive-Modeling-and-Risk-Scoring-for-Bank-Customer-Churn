@@ -270,6 +270,18 @@ xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template
 
 st.plotly_chart(fig)
 
+shap_long = shap_df.melt(var_name="Feature", value_name="SHAP Value")
+value_long = X_df.melt(var_name="Feature", value_name="Feature Value")
+
+shap_long["Feature Value"] = value_long["Feature Value"]
+
+fig = px.strip(shap_long,x="SHAP Value", y="Feature",color="Feature Value", orientation="h", color_continuous_scale="viridis")
+
+fig.update_layout(title="SHAP Feature Impact (Interactive)",xaxis_title="Impact on Prediction",yaxis_title="Features", height=600,template="plotly_white")
+
+fig.update_traces(marker=dict(size=6, opacity=0.7))
+
+st.plotly_chart(fig, use_container_width=True)
 # --------------------------------------------------
 # Customer Feature Visualization
 # --------------------------------------------------
