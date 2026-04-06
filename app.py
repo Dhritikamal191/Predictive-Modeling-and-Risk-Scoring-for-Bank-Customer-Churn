@@ -259,20 +259,6 @@ fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=
 fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features")
 st.plotly_chart(fig)
 
-
-colors = ["red" if v > 0 else "green" for v in shap_df["SHAP Value"]]
-
-fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"],y=shap_df["Feature"],mode="markers",marker=dict(size=12,color=colors,
-line=dict(width=1)),text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],hovertemplate="<b>%{y}</b><br>Impact: %{x}<extra></extra>"))
-
-fig.update_layout(title="Feature Impact on Churn Prediction",
-xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",height=500)
-
-st.plotly_chart(fig)
-
-import plotly.graph_objects as go
-import numpy as np
-
 colors = shap_df["SHAP Value"]
 
 fig = go.Figure(go.Scatter(
