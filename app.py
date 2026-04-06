@@ -94,7 +94,7 @@ threshold=st.slider("Select Threshold", 0.05, 0.5, 0.2)
 if st.button("Predict"):
    prediction= model.predict(input_encoded)[0]
 
-   y_prob=model.predict_proba(X_input)[:,1]
+   y_prob=model.predict_proba(X_scaled)[:,1]
    y_pred=(y_prob>threshold).astype(int)
    
    st.write("Prediction:", y_pred[0])
@@ -103,17 +103,19 @@ if st.button("Predict"):
    st.write("Churn Probability:", y_prob[0])
 
    st.success(f"Prediction:{y_pred[0]}")
+     
+y_prob_test= model.predict_proba(X_test)[:,1]
+y_pred_test=(y_prob_test> threshold).astype(int)     
+cm = confusion_matrix(y_test, y_pred)
+cm=cm[::-1]
 
-   cm = confusion_matrix(y_test, y_pred)
-   cm=cm[::-1]
+labels = ["Churn", "No Churn"]
 
-   labels = ["Churn", "No Churn"]
+fig = ff.create_annotated_heatmap(z=cm,x=labels,y=labels,colorscale="Blues")
 
-   fig = ff.create_annotated_heatmap(z=cm,x=labels,y=labels,colorscale="Blues")
+fig.update_layout(title="Confusion Matrix",xaxis_title="Predicted",yaxis_title="Actual")
 
-   fig.update_layout(title="Confusion Matrix",xaxis_title="Predicted",yaxis_title="Actual")
-
-   st.plotly_chart(fig)
+st.plotly_chart(fig)
    
 probability = model.predict_proba(input_encoded)[0][1]
 risk_score = probability * 100
