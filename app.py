@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
 from sklearn.metrics import confusion_matrix
+import plotly.figure_factory as ff
 
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
@@ -105,6 +105,17 @@ if st.button("Predict"):
    st.write("Churn Probability:", y_prob[0])
 
    st.success(f"Prediction:{y_pred[0]}")
+
+   cm = confusion_matrix(y_test, y_pred)
+   cm = cm[::-1]
+
+   labels = ["Churn", "No Churn"]
+
+   fig = ff.create_annotated_heatmap(z=cm,x=labels,y=labels,colorscale="Blues")
+
+   fig.update_layout(title="Confusion Matrix",xaxis_title="Predicted",yaxis_title="Actual")
+
+   st.plotly_chart(fig)
    
 probability = model.predict_proba(input_encoded)[0][1]
 risk_score = probability * 100
@@ -347,26 +358,6 @@ fig.update_layout(
     xaxis_title="Feature Value",
     yaxis_title="Churn Probability",
     template="plotly_dark"
-)
-
-st.plotly_chart(fig)
-
-cm = confusion_matrix(y_test, y_pred)
-cm = cm[::-1]
-
-labels = ["Churn", "No Churn"]
-
-fig = ff.create_annotated_heatmap(
-    z=cm,
-    x=labels,
-    y=labels,
-    colorscale="Blues"
-)
-
-fig.update_layout(
-    title="Confusion Matrix",
-    xaxis_title="Predicted",
-    yaxis_title="Actual"
 )
 
 st.plotly_chart(fig)
