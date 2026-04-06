@@ -106,7 +106,7 @@ if st.button("Predict"):
      
 y_prob_test= model.predict_proba(X_test)[:,1]
 y_pred_test=(y_prob_test> threshold).astype(int)     
-cm = confusion_matrix(y_test, y_pred)
+cm = confusion_matrix(y_prob_test, y_pred_test)
 cm=cm[::-1]
 
 labels = ["Churn", "No Churn"]
