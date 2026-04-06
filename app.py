@@ -94,7 +94,7 @@ threshold=st.slider("Select Threshold", 0.05, 0.5, 0.2)
 if st.button("Predict"):
    prediction= model.predict(input_encoded)[0]
 
-   y_prob=model.predict_proba(X_scaled)[:,1]
+   y_prob=model.predict_proba(X_input)[:,1]
    y_pred=(y_prob>threshold).astype(int)
    
    st.write("Prediction:", y_pred[0])
