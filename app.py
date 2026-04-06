@@ -35,6 +35,7 @@ xgb_model,feature_names=joblib.load("xgboost.pkl")
 scaler=joblib.load("scaler.pkl")
 columns=joblib.load("columns.pkl")
 X_scaled=joblib.load("X_scaled.pkl")
+X_test, y_test= pickle.load(open("test_data.pkl","rb"))
 
 # Load dataset for visualization
 
