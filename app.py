@@ -107,7 +107,6 @@ if st.button("Predict"):
    st.success(f"Prediction:{y_pred[0]}")
 
    cm = confusion_matrix(y_test, y_pred)
-   cm = cm[::-1]
 
    labels = ["Churn", "No Churn"]
 
