@@ -270,6 +270,14 @@ xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template
 
 st.plotly_chart(fig)
 
+import plotly.express as px
+
+explainer = shap.Explainer(model, X_train)
+shap_values = explainer(X_test)
+
+shap_df = pd.DataFrame(shap_values.values, columns=X_test.columns)
+X_df = pd.DataFrame(X_test, columns=X_test.columns)
+
 shap_long = shap_df.melt(var_name="Feature", value_name="SHAP Value")
 value_long = X_df.melt(var_name="Feature", value_name="Feature Value")
 
