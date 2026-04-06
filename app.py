@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
+from sklearn.metrics import confusion_matrix
 
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
@@ -344,6 +346,26 @@ fig.update_layout(
     xaxis_title="Feature Value",
     yaxis_title="Churn Probability",
     template="plotly_dark"
+)
+
+st.plotly_chart(fig)
+
+cm = confusion_matrix(y_test, y_pred)
+cm = cm[::-1]
+
+labels = ["Churn", "No Churn"]
+
+fig = ff.create_annotated_heatmap(
+    z=cm,
+    x=labels,
+    y=labels,
+    colorscale="Blues"
+)
+
+fig.update_layout(
+    title="Confusion Matrix",
+    xaxis_title="Predicted",
+    yaxis_title="Actual"
 )
 
 st.plotly_chart(fig)
