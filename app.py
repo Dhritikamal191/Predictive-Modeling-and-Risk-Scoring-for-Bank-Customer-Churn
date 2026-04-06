@@ -214,6 +214,20 @@ with col2:
      fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
      fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
      st.plotly_chart(fig2)
+
+y_prob=model.predict_proba(X_test)[:,1]
+y_pred=(y_prob> threshold).astype(int)
+
+cm =confusion_matrix(y_test, y_pred)
+cm=cm[::-1]
+
+labels = ["Churn", "No Churn"]
+fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Blues")
+
+fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
+
+st.plotly_chart(fig)
+
 # --------------------------------------------------
 # Probability Distribution Visualization
 # --------------------------------------------------
@@ -261,35 +275,14 @@ st.plotly_chart(fig)
 
 colors = shap_df["SHAP Value"]
 
-fig = go.Figure(go.Scatter(
-    x=shap_df["SHAP Value"],
-    y=shap_df["Feature"],
-    mode="markers",
+fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"],
+y=shap_df["Feature"],
+mode="markers",
     
-    marker=dict(
-        size=10,
-        color=colors,                    
-        colorscale="Viridis",            
-        showscale=True,
-        colorbar=dict(title="Impact")
-    ),
-    
-    text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],
-    
-    hovertemplate=
-    "<b>%{y}</b><br>" +
-    "Impact: %{x:.3f}<br>" +
-    "<extra></extra>"
-))
+marker=dict(size=10,color=colors,    colorscale ="Viridis",            showscale=True,colorbar=dict(title="Impact")),text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],hovertemplate="<b>%{y}</b><br>" +
+"Impact: %{x:.3f}<br>" +"<extra></extra>"))
 
-fig.update_layout(
-    title="Feature Impact on Churn Prediction",
-    xaxis_title="Impact on Prediction (SHAP Value)",
-    yaxis_title="Features",
-    template="plotly_white",
-    height=550
-)
-
+fig.update_layout(title="Feature Impact on Churn Prediction",xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_white",height=550)
 
 fig.update_yaxes(autorange="reversed")
 
@@ -343,26 +336,7 @@ fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.
 
 fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
 
-st.plotly_chart(fig)
-
-y_prob=model.predict_proba(X_test)[:,1]
-y_pred=(y_prob> threshold).astype(int)
-
-cm =confusion_matrix(y_test, y_pred)
-cm=cm[::-1]
-
-
-
-labels = ["Churn", "No Churn"]
-fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Blues")
-
-
-
-fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
-
-
-
-st.plotly_chart(fig)
+st.plotly_chart(fig)
 
 from sklearn.inspection import partial_dependence
 
