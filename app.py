@@ -270,6 +270,22 @@ xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template
 
 st.plotly_chart(fig)
 
+fig = px.scatter(
+    shap_long,
+    x="SHAP Value",
+    y="Feature",
+    color="Feature Value",
+    size=abs(shap_long["SHAP Value"]),
+    color_continuous_scale="plasma"
+)
+
+fig.update_layout(
+    title="SHAP Impact Scatter Plot",
+    template="plotly_white"
+)
+
+st.plotly_chart(fig)
+
 # --------------------------------------------------
 # Customer Feature Visualization
 # --------------------------------------------------
