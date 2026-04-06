@@ -10,3 +10,4 @@ streamlit-autorefresh
 statsmodels
 shap
 xgboost
+X_scaled
