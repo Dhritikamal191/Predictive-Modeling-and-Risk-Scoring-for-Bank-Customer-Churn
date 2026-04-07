@@ -288,14 +288,14 @@ with tab2:
      col1,col2=st.columns(2)
 
      with col1:
-          fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn")
+          fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn", color_discrete_sequence=["#3b82f6","#ef4444"])
      
           fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
 
           st.plotly_chart(fig3)
 
      with col2:
-          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn")
+          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#6366f1","#f43f5e"])
      
           fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
           st.plotly_chart(fig4)
