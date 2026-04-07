@@ -190,6 +190,13 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(input_encoded)[0][1]
 new_risk = new_probability * 100
 
+st.markdown("""
+<style>
+.stTabs [aria-selected="true"] {
+    border-bottom: 3px solid #ff4b4b;
+}
+</style>
+""", unsafe_allow_html=True)
 tab1, tab2, tab3= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP"])
 
 with tab1:
