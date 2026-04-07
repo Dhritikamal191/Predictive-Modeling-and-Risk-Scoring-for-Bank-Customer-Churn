@@ -219,7 +219,7 @@ with tab1:
      cm=cm[::-1]
 
      labels = ["Churn", "No Churn"]
-     fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Blues")
+     fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
 
      fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
 
