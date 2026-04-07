@@ -232,7 +232,7 @@ with tab1:
 
      st.subheader("Probability Distribution Visualization")
 
-     fig = px.histogram(df, probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability")
+     fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_map={0: "#3b82f6", 1: "#ef4444"})
 
      st.plotly_chart(fig, use_container_width=True)
 with tab2:
