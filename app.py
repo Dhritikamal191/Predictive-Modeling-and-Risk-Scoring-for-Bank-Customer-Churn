@@ -207,7 +207,7 @@ with tab1:
 
      with col2:
           compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
-          fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison")
+          fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison",color_discrete_sequence=["#6366f1","#f43f5e"])
           fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
           fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
           st.plotly_chart(fig2)
