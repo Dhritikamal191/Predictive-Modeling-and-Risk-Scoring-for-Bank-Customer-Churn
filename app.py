@@ -295,7 +295,7 @@ with tab2:
           st.plotly_chart(fig3)
 
      with col2:
-          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#6366f1","#f43f5e"])
+          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"])
      
           fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
           st.plotly_chart(fig4)
