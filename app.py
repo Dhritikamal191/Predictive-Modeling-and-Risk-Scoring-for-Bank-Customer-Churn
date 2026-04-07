@@ -199,9 +199,14 @@ with tab1:
 
      with col1:
      
-          fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)", 'font': {'size': 20}}, delta={'reference': risk_score, 'increasing': {'color': "red"}}, gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color': "darkblue", 'thickness': 0.25},'bgcolor': "white",'borderwidth': 2,'bordercolor': "gray",'steps': [{'range': [0, 40], 'color': "#2ecc71"},{'range': [40, 70],'color': "#f1c40f"},{'range': [70, 100], 'color': "#e74c3c"}],'threshold': {'line': {'color': "black", 'width': 4},'thickness': 0.75,'value': new_risk}}))
+          fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)",
+          'font': {'size': 20}}, delta={'reference': risk_score, 'increasing': {'color': "red"}},
+          gauge={'axis': {'range': [0, 100], 'tickwidth': 1,'tickcolor':"white"},'bar': {'color':"#6366f1", 'thickness': 0.3},'bgcolor':"#111827",
+          'borderwidth':2,'bordercolor':"#374151",'steps': [{'range': [0, 40], 'color': "#22c55e"},
+          {'range': [40, 70],'color':"#f59e0b"},{'range': [70, 100], 'color':"#ef4444"}],
+          'threshold': {'line': {'color':"#ffffff", 'width':4},'thickness':0.8,'value':new_risk}}))
 
-          fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20))
+          fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20),paper_bgcolor="#111827", font={'color':"white"})
 
           st.plotly_chart(fig1)
 
