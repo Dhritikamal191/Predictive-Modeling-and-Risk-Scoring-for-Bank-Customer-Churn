@@ -266,9 +266,9 @@ with tab2:
      shap_df=pd.DataFrame({"Feature": features, "SHAP Value": values})
      shap_df=shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
 
-     fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df)))
+     fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df), increasing=dict(marker=dict(color="#22c55e")), decreasing=dict(marker=dict(color="#ef4444")), totals=dict(marker=dict(color="#3b82f6"))))
 
-     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features")
+     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features", template=plotly_dark", height=500)
      st.plotly_chart(fig)
 
      colors = shap_df["SHAP Value"]
