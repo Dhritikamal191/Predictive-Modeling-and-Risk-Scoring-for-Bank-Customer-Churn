@@ -232,9 +232,9 @@ with tab1:
 
      st.subheader("Probability Distribution Visualization")
 
-     fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_map={0: "#3b82f6", 1: "#ef4444"})
+     fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_sequence=["#6366f1","#f43f5e"])
 
-     st.plotly_chart(fig, use_container_width=True)
+     fig.update_layout(template="plotly_dark")
 with tab2:
      # --------------------------------------------------
      # Feature Importance Dashboard
