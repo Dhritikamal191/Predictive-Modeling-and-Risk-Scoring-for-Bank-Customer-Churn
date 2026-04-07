@@ -190,171 +190,161 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(input_encoded)[0][1]
 new_risk = new_probability * 100
 
-st.subheader("Customer Churn Risk Calculator")
-col1,col2=st.columns(2)
+tab1, tab2, tab3= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP"])
 
-with col1:
+with tab1:
+     st.subheader("Customer Churn Risk Calculator")
+     col1,col2=st.columns(2)
+
+     with col1:
      
-     fig1 = go.Figure(go.Indicator(mode="gauge+number+delta",
-value=new_risk,
-    
-     title={'text': "Customer Churn Risk (%)", 'font': {'size': 20}},
-    
-     delta={'reference': risk_score, 'increasing': {'color': "red"}},
-    
-     gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color': "darkblue", 'thickness': 0.25},'bgcolor': "white",'borderwidth': 2,'bordercolor': "gray",'steps': [{'range': [0, 40], 'color': "#2ecc71"},{'range': [40, 70],'color': "#f1c40f"},{'range': [70, 100], 'color': "#e74c3c"}],'threshold': {'line': {'color': "black", 'width': 4},'thickness': 0.75,'value': new_risk}}))
+          fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)", 'font': {'size': 20}}, delta={'reference': risk_score, 'increasing': {'color': "red"}}, gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color': "darkblue", 'thickness': 0.25},'bgcolor': "white",'borderwidth': 2,'bordercolor': "gray",'steps': [{'range': [0, 40], 'color': "#2ecc71"},{'range': [40, 70],'color': "#f1c40f"},{'range': [70, 100], 'color': "#e74c3c"}],'threshold': {'line': {'color': "black", 'width': 4},'thickness': 0.75,'value': new_risk}}))
 
-     fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20))
+          fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20))
 
-     st.plotly_chart(fig1)
+          st.plotly_chart(fig1)
 
-with col2:
-     compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
-     fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison")
-     fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
-     fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
-     st.plotly_chart(fig2)
+     with col2:
+          compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
+          fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison")
+          fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
+          fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
+          st.plotly_chart(fig2)
 
-y_prob=model.predict_proba(X_test)[:,1]
-y_pred=(y_prob> threshold).astype(int)
+     y_prob=model.predict_proba(X_test)[:,1]
+     y_pred=(y_prob> threshold).astype(int)
 
-cm =confusion_matrix(y_test, y_pred)
-cm=cm[::-1]
+     cm =confusion_matrix(y_test, y_pred)
+     cm=cm[::-1]
 
-labels = ["Churn", "No Churn"]
-fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Blues")
+     labels = ["Churn", "No Churn"]
+     fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Blues")
 
-fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
+     fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
 
-st.plotly_chart(fig)
 
-# --------------------------------------------------
-# Probability Distribution Visualization
-# --------------------------------------------------
+     st.plotly_chart(fig)
 
-st.subheader("Probability Distribution Visualization")
+     # --------------------------------------------------
+     # Probability Distribution Visualization
+     # --------------------------------------------------
 
-fig = px.histogram(df, probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability")
+     st.subheader("Probability Distribution Visualization")
 
-st.plotly_chart(fig, use_container_width=True)
+     fig = px.histogram(df, probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability")
 
-# --------------------------------------------------
-# Feature Importance Dashboard
-# --------------------------------------------------
-st.subheader("Feature Importance Dashboard")
+     st.plotly_chart(fig, use_container_width=True)
+with tab2:
+     # --------------------------------------------------
+     # Feature Importance Dashboard
+     # --------------------------------------------------
+     st.subheader("Feature Importance Dashboard")
 
-importance = model.feature_importances_
-features =df.drop("Exited", axis=1).columns
+     importance = model.feature_importances_
+     features =df.drop("Exited", axis=1).columns
 
-importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
+     importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
 
-fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h",
-title="Feature Importance")
+     fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h",
+     title="Feature Importance")
 
-st.plotly_chart(fig2, use_container_width=True)
+     st.plotly_chart(fig2, use_container_width=True)
 
-explainer=shap.Explainer(model)
-shap_values=explainer(input_scaled)
+     explainer=shap.Explainer(model)
+     shap_values=explainer(input_scaled)
 
-values=np.array(shap_values.values).reshape(-1)
-features=list(input_encoded.columns)
-min_len=min(len(values), len(features))
-values=values[:min_len]
-features=features[:min_len]
-base_value=shap_values.base_values[0]
+     values=np.array(shap_values.values).reshape(-1)
+     features=list(input_encoded.columns)
+     min_len=min(len(values), len(features))
+     values=values[:min_len]
+     features=features[:min_len]
+     base_value=shap_values.base_values[0]
 
-shap_df=pd.DataFrame({"Feature": features, "SHAP Value": values})
-shap_df=shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
+     shap_df=pd.DataFrame({"Feature": features, "SHAP Value": values})
+     shap_df=shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
 
-import plotly.graph_objects as go
+     fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df)))
 
-fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df)))
+     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features")
+     st.plotly_chart(fig)
 
-fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features")
-st.plotly_chart(fig)
+     colors = shap_df["SHAP Value"]
 
-colors = shap_df["SHAP Value"]
+     fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=10,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
 
-fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"],
-y=shap_df["Feature"],
-mode="markers",
-    
-marker=dict(size=10,color=colors,    colorscale ="Viridis",            showscale=True,colorbar=dict(title="Impact")),text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],hovertemplate="<b>%{y}</b><br>" +
-"Impact: %{x:.3f}<br>" +"<extra></extra>"))
+     fig.update_layout(title="Feature Impact on Churn Prediction",xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_white",height=550)
 
-fig.update_layout(title="Feature Impact on Churn Prediction",xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_white",height=550)
+     fig.update_yaxes(autorange="reversed")
 
-fig.update_yaxes(autorange="reversed")
+     st.plotly_chart(fig, use_container_width=True)
+     # --------------------------------------------------
+     # Customer Feature Visualization
+     # --------------------------------------------------
+     st.subheader("Customer Data Exploration")
 
-st.plotly_chart(fig, use_container_width=True)
-# --------------------------------------------------
-# Customer Feature Visualization
-# --------------------------------------------------
-st.subheader("Customer Data Exploration")
+     col1,col2=st.columns(2)
 
-col1,col2=st.columns(2)
-
-with col1:
-     fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn")
+     with col1:
+          fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn")
      
-     fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
+          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
 
-     st.plotly_chart(fig3)
+          st.plotly_chart(fig3)
 
-with col2:
-     fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn")
+     with col2:
+          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn")
      
-     fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
-     st.plotly_chart(fig4)
+          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
+          st.plotly_chart(fig4)
+with tab3:
+     from sklearn.metrics import roc_curve, auc
 
-from sklearn.metrics import roc_curve, auc
+     y= df["Exited"]
+     y_true = df["Exited"].to_numpy().ravel()
+     y_prob = model.predict_proba(X_scaled)[:, 1]
 
-y= df["Exited"]
-y_true = df["Exited"].to_numpy().ravel()
-y_prob = model.predict_proba(X_scaled)[:, 1]
+     fpr, tpr, _ = roc_curve(y_true, y_prob)
+     roc_auc = auc(fpr, tpr)   
 
-fpr, tpr, _ = roc_curve(y_true, y_prob)
-roc_auc = auc(fpr, tpr)   
+     fig = go.Figure()  
+     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
 
-fig = go.Figure()  
-fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
+     fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random Model"))
 
-fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random Model"))
+     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark")
 
-fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark")
+     st.plotly_chart(fig)
 
-st.plotly_chart(fig)
+     fig = go.Figure()
+     models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+     for name, m in models.items():
+         y_prob = m.predict_proba(X_scaled)[:, 1]
+         fpr, tpr, _ = roc_curve(y, y_prob)
+         roc_auc = auc(fpr, tpr)
 
-fig = go.Figure()
-models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
-for name, m in models.items():
-    y_prob = m.predict_proba(X_scaled)[:, 1]
-    fpr, tpr, _ = roc_curve(y, y_prob)
-    roc_auc = auc(fpr, tpr)
+     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
 
-fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
+     fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
 
-fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
+     st.plotly_chart(fig)
 
-st.plotly_chart(fig)
 
-from sklearn.inspection import partial_dependence
+     from sklearn.inspection import partial_dependence
 
-features = ["Age", "Balance", "NumOfProducts", "EstimatedSalary"]
+     features = ["Age", "Balance", "NumOfProducts", "EstimatedSalary"]
 
-fig = go.Figure()
+     fig = go.Figure()
 
-for feature in features:
-    feature_index = X.columns.get_loc(feature)
+     for feature in features:
+         feature_index = X.columns.get_loc(feature)
 
-    pdp = partial_dependence(model, X_scaled, features=[feature_index])
+         pdp = partial_dependence(model, X_scaled, features=[feature_index])
 
-    x_vals = pdp["grid_values"][0]
-    y_vals = pdp["average"][0].flatten()
+         x_vals = pdp["grid_values"][0]
+         y_vals = pdp["average"][0].flatten()
 
-    fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines",
-name=feature))
+         fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines", name=feature))
 
-fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value",yaxis_title="Churn Probability",template="plotly_dark")
+     fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value",yaxis_title="Churn Probability",template="plotly_dark")
 
-st.plotly_chart(fig)
+     st.plotly_chart(fig)
