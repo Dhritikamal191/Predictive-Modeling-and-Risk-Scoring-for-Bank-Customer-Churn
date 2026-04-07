@@ -149,6 +149,36 @@ else:
 # --------------------------------------------------
 # Display Risk Calculator
 # --------------------------------------------------
+
+st.markdown("""
+<style>
+.kpi-card {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    color: white;
+}
+
+.kpi-title {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.kpi-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 col1, col2, col3 = st.columns(3)
 
 with col1:  
