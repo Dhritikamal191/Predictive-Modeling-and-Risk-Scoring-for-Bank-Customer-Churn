@@ -119,7 +119,7 @@ print("Model features:",columns)
 print("input features:",columns)
 X=X.drop(columns=["Exited","probability"],errors="ignore")
 X=X.reindex(columns=columns,fill_value=0)
-input_scaled= scaler.transform(input_df)
+
 
 # --------------------------------------------------
 # Churn Prediction
