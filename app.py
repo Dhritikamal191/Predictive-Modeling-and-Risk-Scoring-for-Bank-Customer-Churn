@@ -247,7 +247,7 @@ with tab2:
      features =df.drop("Exited", axis=1).columns
 
      importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
-     colors=["#3b82f6", "#ef4444", "#22c55e", "#f59e0b", "#6366f1", "#ec4899", "#14b8a6", "#8b5cf6", "#f97316", #10b981", "#e11d48", "#0ea5e9", "#a855f7"]
+     colors=["#3b82f6", "#ef4444", "#22c55e", "#f59e0b", "#6366f1", "#ec4899", "#14b8a6", "#8b5cf6", "#f97316", "#10b981", "#e11d48", "#0ea5e9", "#a855f7"]
      fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", title="Feature Importance")
      fig2.update_traces(marker_color=colors[:len(importance_df)])
      fig2.update_layout(template="plotly_white", yaxis=dict(autorange="reversed"))
