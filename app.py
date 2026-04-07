@@ -249,7 +249,7 @@ with tab2:
      importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
 
      fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", title="Feature Importance", color="Importance", color_continuous_scale="viridis")
-     fig2.update_layout(template="plotly_white", yaxis=dict(autorange="reversed", height=500)
+     fig2.update_layout(template="plotly_white", yaxis=dict(autorange="reversed"), height=500)
      st.plotly_chart(fig2, use_container_width=True)
 
      explainer=shap.Explainer(model)
