@@ -234,7 +234,7 @@ with tab1:
 
      fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_sequence=["#6366f1","#f43f5e"])
 
-     fig.update_layout(template="plotly_dark")
+     fig.update_layout(template="plotly_white")
 with tab2:
      # --------------------------------------------------
      # Feature Importance Dashboard
