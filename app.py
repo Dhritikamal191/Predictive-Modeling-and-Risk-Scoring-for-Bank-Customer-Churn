@@ -150,6 +150,27 @@ else:
 # Display Risk Calculator
 # --------------------------------------------------
 
+col1, col2, col3 = st.columns(3)
+
+with col1:  
+     icon,metric=st.columns([1,3])
+     with icon:
+          st.image("churn.jpg",width=70)   
+     with metric:
+          st.metric("Churn Probability",round(prob,3))
+with col2:
+     icon,metric=st.columns([1,3])
+     with icon:
+          st.image("risk.png",width=70)   
+     with metric:
+          st.metric("Risk Score", f"{risk_score:.0f}/100")
+with col3:
+     icon,metric=st.columns([1,3])
+     with icon:
+          st.image("category.png",width=70)   
+     with metric:
+          st.metric("Risk Category", risk)
+
 st.markdown("""
 <style>
 .kpi-card {
@@ -174,31 +195,10 @@ st.markdown("""
 
 .kpi-icon {
     font-size: 24px;
-    margin-bottom: 8px;
+     margin-bottom: 8px;
 }
 </style>
 """, unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns(3)
-
-with col1:  
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("churn.jpg",width=70)   
-     with metric:
-          st.metric("Churn Probability",round(prob,3))
-with col2:
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("risk.png",width=70)   
-     with metric:
-          st.metric("Risk Score", f"{risk_score:.0f}/100")
-with col3:
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("category.png",width=70)   
-     with metric:
-          st.metric("Risk Category", risk)
 
 probs= model.predict_proba(X_scaled)[:,1]
 col1,col2=st.columns(2)
