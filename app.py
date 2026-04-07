@@ -171,35 +171,6 @@ with col3:
      with metric:
           st.metric("Risk Category", risk)
 
-st.markdown("""
-<style>
-.kpi-card {
-    background: linear-gradient(135deg, #1f2937, #111827);
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    color: white;
-}
-
-.kpi-title {
-    font-size: 14px;
-    color: #9ca3af;
-}
-
-.kpi-value {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.kpi-icon {
-    font-size: 24px;
-     margin-bottom: 8px;
-}
-</style>
-""", unsafe_allow_html=True)
-
 probs= model.predict_proba(X_scaled)[:,1]
 col1,col2=st.columns(2)
 
@@ -220,13 +191,6 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(input_encoded)[0][1]
 new_risk = new_probability * 100
 
-st.markdown("""
-<style>
-.stTabs [aria-selected="true"] {
-    border-bottom: 3px solid #ff4b4b;
-}
-</style>
-""", unsafe_allow_html=True)
 tab1, tab2, tab3= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP"])
 
 with tab1:
