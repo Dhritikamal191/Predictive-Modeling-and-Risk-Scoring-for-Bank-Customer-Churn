@@ -234,7 +234,7 @@ with tab1:
 
      fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_sequence=["#6366f1","#f43f5e"])
      fig.update_traces(opacity=0.7)
-     fig.update_layout(template="plotly_white",bargap=0.1, legend_text="Customer Status")
+     fig.update_layout(template="plotly_white",bargap=0.1, legend_title_text="Customer Status")
      st.plotly_chart(fig, use_container_width=True)
      
 with tab2:
