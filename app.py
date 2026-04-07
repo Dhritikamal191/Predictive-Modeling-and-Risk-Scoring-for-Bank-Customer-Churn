@@ -39,7 +39,7 @@ X_test, y_test= pickle.load(open("test_data.pkl","rb"))
 
 # Load dataset for visualization
 
-df=pd.read_csv("Bank.csv")
+df=pd.read_csv("European_Bank.csv")
 
 st.sidebar.image("mentor.png",width=150)
 
