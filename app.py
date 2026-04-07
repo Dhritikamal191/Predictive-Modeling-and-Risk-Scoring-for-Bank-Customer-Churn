@@ -96,7 +96,7 @@ elif model_choice=="XGBoost":
 if st.button("Predict"):
    prediction= model.predict(input_encoded)[0]
 
-   y_prob=model.predict_proba(input_scaled)[:,1]
+   y_prob=model.predict_proba(X_scaled)[:,1]
    y_pred=(y_prob>threshold).astype(int)
    
    st.write("Prediction:", y_pred[0])
