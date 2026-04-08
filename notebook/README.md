@@ -110,3 +110,6 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 # 
                                                                                          
   [Open Dashboard](https://predictive-modeling-and-risk-scoring-for-bank-customer-churn-k.streamlit.app/)                                                                                       
+#
+    Author: Dhritikamal Das
+    [LinkedIn](https://www.linkedin.com/in/dhritikamal-das-9912652a5/)
