@@ -124,7 +124,6 @@ X=X.reindex(columns=columns,fill_value=0)
 pred=model.predict(input_scaled)[0]
 df["probability"]=model.predict_proba(input_encoded)[0][1]
 
-
 prob = model.predict_proba(input_scaled)[0][1]
 
 if pred==1:
@@ -188,7 +187,7 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(input_encoded)[0][1]
 new_risk = new_probability * 100
 
-tab1, tab2, tab3= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP"])
+tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
 
 with tab1:
      st.subheader("Customer Churn Risk Calculator")
@@ -348,3 +347,12 @@ with tab3:
      fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value",yaxis_title="Churn Probability",template="plotly_dark")
 
      st.plotly_chart(fig)
+with tab4:
+     st.subheader("Model Comparison")
+     st.markdown("## Model Performance Comparison")
+     st.table(df_metrics.stylr.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+     fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
+     st.plotly_chart(fig, use_container_width=True)
+
+     best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
+     st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
