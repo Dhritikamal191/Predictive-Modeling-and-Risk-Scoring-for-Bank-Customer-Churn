@@ -1,22 +1,22 @@
 # Predictive Modeling and Risk Scoring for Bank Customer Churn
-# Project Overview
+### Project Overview
 This project focuses on predicting customer churn using multiple machine learning models and providing an interactive dashboard for business insights. The system not only predicts whether a customer is likely to churn but also calculates a churn risk score, identifies key drivers, and enables scenario-based analysis.
 
-# Objectives
-# Primary Objectives
+### Objectives
+### Primary Objectives
 - Predict customer churn with high accuracy
 - Generate churn probability scores
 - Identify key factors influencing churn
-# Secondary Objectives
+### Secondary Objectives
 - Reduce false positives in churn prediciton
 - Improve interpretability of ML models
 - Enable scenario-based churn risk analysis
-# Dataset Description
+### Dataset Description
 The dataset contains customer-level information typically used in banking/telecom churn analysis. Key features include:
 - Demographics: Age, Gender, Credit Score, Tenure
 - Customer Behavior: Number of Products, Activity Status
 - Target Variable: Exited (1=Churn, 0=Retained)
-# Machine Learning Models Used
+### Machine Learning Models Used
 - Logistic Regression
 - Decision Tree
 - Random Forest
@@ -24,42 +24,42 @@ The dataset contains customer-level information typically used in banking/teleco
 - XGBoost
 Each model was evaluated using performance metrics such as Accuracy, Precision, Recall, and F1 Score
 
-# Methodology
-# Data Preprocessing
+### Methodology
+### Data Preprocessing
 - Handling missing values
 - Encoding categorical variables using one-hot encoding
 - Feature scaling using StandardScaler
 - Train-test split
-# Model Training
+### Model Training
 - Models trained on preprocessed dataset
 - Hyperparameter tuning applied
 - Models saved using joblib
-# Feature Engineering
+### Feature Engineering
 - Created consistent feature schema for deployment
 - Stored training columns to ensure alignment in prediction
-# Exploratory Data Analysis (EDA)
+### Exploratory Data Analysis (EDA)
 - Distribution plots for numerical features
 - Churn comparison across categorical variables
 - Violin plots for feature relationships
 -  Correlation analysis
-# Model Evaluation Metrics
+### Model Evaluation Metrics
 - Accuracy: Overall correctness
 - Precision: Correct churn customers
 - F1 Score: Balance between precison and recall
   ![Confusion Matrix](0.3.jpeg)
   ![Confusion_Matrix](0.4.jpeg)
   - Choosing thresholds between 0.3 and 0.4 gives the best results.
-# Model Explainability
-# SHAP Analysis
+### Model Explainability
+### SHAP Analysis
 - Identifies feature contribution to individual predictions
 - Visualized using SHAP summary and waterfall plots
-# Feature Importance 
+### Feature Importance 
 - Highlights most influencial variables
 - Used for business insights
-# Partial Dependence Plots (PDP)
+### Partial Dependence Plots (PDP)
 - Shows relationship between features and churn probability
 
-# Dashboard Features (Streamlit)
+### Dashboard Features (Streamlit)
 - Churn Prediction with probability score
 - Risk Score Gauge Visualization
 - Feature Importance Graph
@@ -67,7 +67,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Distribution & Violin Plots
 - Interactive Sliders for Scenario Analysis
 - Model Comparison
-# Tech Stack
+### Tech Stack
 - Python
 - Pandas, NumPy
 - Scikit-learn
@@ -76,7 +76,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Plotly
 - Streamlit
 
-# Key Challenges & Solutions
+### Key Challenges & Solutions
 |          Challange                    |                Solution                       |
 |---------------------------------------|-----------------------------------------------|
 |XGboost not responding to categorical  | Fixed by proper encoding and column alignment |
@@ -85,7 +85,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 |Visualization inconsistencies          | Applied custom Plotly styling                 |
 |Model interpretability                 | Integrated SHAP and PDP                       |
 
-# Key Insights 
+### Key Insights 
 - Feature importance varies across models, with XGBoost focusing on strong predictors
 - Age is the most significant factor influencing customer churn.
 - Balance and gender have moderate influence on churn.
@@ -94,14 +94,14 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Other features like salary, tenure and credit score contribute less to predictions
   ![Feature Importance](gitimage.png)
 
-# Future Work
+### Future Work
 - Improve recall for churn detection
 - Add deep learning models
 - deploy using cloud pltforms (Streamlit Cloud)
 - Real-time prediction API
 - Advanced customer segmentation
 
-# Recommendations
+### Recommendations
 - Focus on high-risk customers identified by model
 - Improve engagement for inactive users
 - Offer targeted retention strategies
