@@ -357,4 +357,4 @@ with tab4:
      st.plotly_chart(fig, use_container_width=True)
 
      best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
-     st.success(f"Best Model:{best_model['Model']}(F1 Score:{best_model['F1 Score']:.2f})")
+     st.success(f"Best Model:{best_model['model_choice']}(F1 Score:{best_model['F1 Score']:.2f})")
