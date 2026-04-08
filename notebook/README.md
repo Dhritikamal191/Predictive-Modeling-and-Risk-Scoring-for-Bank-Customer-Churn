@@ -75,7 +75,6 @@ Dashboard Features (Streamlit)
 - Streamlit
 
 # Key Challenges & Solutions
-|---------------------------------------------------------------------------------------|
 |          Challange                    |                Solution                       |
 |---------------------------------------|-----------------------------------------------|
 |XGboost not responding to categorical  | Fixed by proper encoding and column alignment |
@@ -83,7 +82,6 @@ Dashboard Features (Streamlit)
 |Feature mismatch during deployment     | Stored training columns and reindexed input   |
 |Visualization inconsistencies          | Applied custom Plotly styling                 |
 |Model interpretability                 | Integrated SHAP and PDP                       |
-|---------------------------------------|-----------------------------------------------|
 
 # Key Insights 
 - Customers with higher balance and age are more likely to churn
@@ -91,7 +89,7 @@ Dashboard Features (Streamlit)
 - Certain geographic regions show higher churn patterns
 - Feature importancve varies across models, with XGBoost focusing on strong predictors
 
-  
+  ![Feature Importance](images/feature_importance.png)
 
 # Future Work
 - Improve recall for churn detection
