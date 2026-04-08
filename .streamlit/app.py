@@ -104,7 +104,18 @@ if st.button("Predict"):
    st.write("Churn Probability:", y_prob[0])
 
    st.success(f"Prediction:{y_pred[0]}")
-   
+
+   st.subheader("Model Comparison")
+     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
+     
+     st.markdown("## Model Performance Comparison")
+     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+     fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
+     st.plotly_chart(fig, use_container_width=True)
+     
+     best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
+     st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
+
 probability = model.predict_proba(input_encoded)[0][1]
 risk_score = probability * 100
 
@@ -355,18 +366,6 @@ with tab4:
      st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
-     
-     model=None
-     
-     if model_choice=="LR": 
-        model=lr_model
-     elif model_choice=="RF":
-          model=rf_model
-     elif model_choice=="GB":
-          model=gb_model
-     else:
-          model=xgb_model
-     y_prob=model.predict_proba(input_scaled)[:,1]
      
      best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
      st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
