@@ -46,7 +46,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Accuracy: Overall correctness
 - Precision: Correct churn customers
 - F1 Score: Balance between precison and recall
-- 
+  
 # Model Explainability
 # SHAP Analysis
 - Identifies feature contribution to individual predictions
@@ -57,7 +57,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 # Partial Dependence Plots (PDP)
 - Shows relationship between features and churn probability
 
-Dashboard Features (Streamlit)
+# Dashboard Features (Streamlit)
 - Churn Prediction with probability score
 - Risk Score Gauge Visualization
 - Feature Importance Graph
