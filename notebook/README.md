@@ -48,6 +48,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - F1 Score: Balance between precison and recall
   ![Confusion Matrix](0.3.jpeg)
   ![Confusion_Matrix](0.4.jpeg)
+  - Choosing thresholds between 0.3 and 0.4 gives the best results.
 # Model Explainability
 # SHAP Analysis
 - Identifies feature contribution to individual predictions
