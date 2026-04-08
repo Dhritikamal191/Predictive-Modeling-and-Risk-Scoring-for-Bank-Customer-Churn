@@ -89,7 +89,7 @@ Dashboard Features (Streamlit)
 - Certain geographic regions show higher churn patterns
 - Feature importancve varies across models, with XGBoost focusing on strong predictors
 
-  ![Feature Importance](Images/feature_importance.png)
+  ![Feature Importance](notebook/feature_importance.png)
 
 # Future Work
 - Improve recall for churn detection
