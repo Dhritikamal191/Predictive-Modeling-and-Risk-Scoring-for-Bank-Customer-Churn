@@ -87,7 +87,7 @@ Dashboard Features (Streamlit)
 - Customers with higher balance and age are more likely to churn
 - Active members are less likely to churn
 - Certain geographic regions show higher churn patterns
-- Feature importancve varies across models, with XGBoost focusing on strong predictors
+- Feature importance varies across models, with XGBoost focusing on strong predictors
 
   ![Feature Importance](feature_importance.png)
 
