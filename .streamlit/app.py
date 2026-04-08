@@ -2,9 +2,9 @@ import streamlit as st
 from PIL import Image
 import pandas as pd
 import numpy as np
-import pickle
-import joblib
-import shap
+import models/pickle
+import models/joblib
+import models/shap
 import plotly.express as px
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
