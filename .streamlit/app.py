@@ -29,13 +29,13 @@ st.divider()
 # --------------------------------------------------
 lr_model,feature_names=models/joblib.load("logistic_regression.pkl")
 dt_model,feature_names=models/joblib.load("decision_tree.pkl")
-rf_model,feature_names="models/joblib.load("random_forest.pkl")"
-gb_model,feature_names="models/joblib.load("gradient_boosting.pkl")"
-xgb_model,feature_names="models/joblib.load("xgboost.pkl")"
-scaler="models/joblib.load("scaler.pkl")"
-columns="models/joblib.load("columns.pkl")"
-X_scaled="models/joblib.load("X_scaled.pkl")"
-X_test, y_test="models/pickle.load(open("test_data.pkl","rb"))"
+rf_model,feature_names=models/joblib.load("random_forest.pkl")
+gb_model,feature_names=models/joblib.load("gradient_boosting.pkl")
+xgb_model,feature_names=models/joblib.load("xgboost.pkl")
+scaler=models/joblib.load("scaler.pkl")
+columns=models/joblib.load("columns.pkl")
+X_scaled=models/joblib.load("X_scaled.pkl")
+X_test, y_test=models/pickle.load(open("test_data.pkl","rb"))
 
 # Load dataset for visualization
 
