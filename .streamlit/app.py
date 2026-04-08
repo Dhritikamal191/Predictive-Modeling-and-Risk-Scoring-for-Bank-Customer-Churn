@@ -27,8 +27,8 @@ st.divider()
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
-lr_model,feature_names="models/joblib.load("logistic_regression.pkl")"
-dt_model,feature_names="models/joblib.load("decision_tree.pkl")"
+lr_model,feature_names=models/joblib.load("logistic_regression.pkl")
+dt_model,feature_names=models/joblib.load("decision_tree.pkl")
 rf_model,feature_names="models/joblib.load("random_forest.pkl")"
 gb_model,feature_names="models/joblib.load("gradient_boosting.pkl")"
 xgb_model,feature_names="models/joblib.load("xgboost.pkl")"
