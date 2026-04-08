@@ -355,6 +355,15 @@ with tab4:
      st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
-
+     if model_choice=="LR": 
+        model=lr_model
+     elif model_choice=="RF":
+          model=rf_model
+     elif model_choice=="GB":
+          model=gb_model
+     else:
+          model=xgb_model
+     y_prob=model.predict_proba(input_scaled)[:,1]
+     
      best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
      st.success(f"Best Model:{best_model['model_choice']}(F1 Score:{best_model['F1 Score']:.2f})")
