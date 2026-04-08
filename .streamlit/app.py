@@ -106,7 +106,6 @@ if st.button("Predict"):
    st.success(f"Prediction:{y_pred[0]}")
 
    st.subheader("Model Comparison")
-     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
      
      st.markdown("## Model Performance Comparison")
      st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
