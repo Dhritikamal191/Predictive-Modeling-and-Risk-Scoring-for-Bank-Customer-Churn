@@ -27,21 +27,21 @@ st.divider()
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
-lr_model,feature_names=joblib.load("logistic_regression.pkl")
-dt_model,feature_names=joblib.load("decision_tree.pkl")
-rf_model,feature_names=joblib.load("random_forest.pkl")
-gb_model,feature_names=joblib.load("gradient_boosting.pkl")
-xgb_model,feature_names=joblib.load("xgboost.pkl")
-scaler=joblib.load("scaler.pkl")
-columns=joblib.load("columns.pkl")
-X_scaled=joblib.load("X_scaled.pkl")
-X_test, y_test= pickle.load(open("test_data.pkl","rb"))
+lr_model,feature_names="models/joblib.load("logistic_regression.pkl")"
+dt_model,feature_names="models/joblib.load("decision_tree.pkl")"
+rf_model,feature_names="models/joblib.load("random_forest.pkl")"
+gb_model,feature_names="models/joblib.load("gradient_boosting.pkl")"
+xgb_model,feature_names="models/joblib.load("xgboost.pkl")"
+scaler="models/joblib.load("scaler.pkl")"
+columns="models/joblib.load("columns.pkl")"
+X_scaled="models/joblib.load("X_scaled.pkl")"
+X_test, y_test="models/pickle.load(open("test_data.pkl","rb"))"
 
 # Load dataset for visualization
 
-df=pd.read_csv("Bank.csv")
+df=pd.read_csv("Data/European_Bank.csv")
 
-st.sidebar.image("mentor.png",width=150)
+st.sidebar.image("images/mentor.png",width=150)
 
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 
@@ -152,19 +152,19 @@ col1, col2, col3 = st.columns(3)
 with col1:  
      icon,metric=st.columns([1,3])
      with icon:
-          st.image("churn.jpg",width=70)   
+          st.image("images/churn.jpg",width=70)   
      with metric:
           st.metric("Churn Probability",round(prob,3))
 with col2:
      icon,metric=st.columns([1,3])
      with icon:
-          st.image("risk.png",width=70)   
+          st.image("images/risk.png",width=70)   
      with metric:
           st.metric("Risk Score", f"{risk_score:.0f}/100")
 with col3:
      icon,metric=st.columns([1,3])
      with icon:
-          st.image("category.png",width=70)   
+          st.image("images/category.png",width=70)   
      with metric:
           st.metric("Risk Category", risk)
 
