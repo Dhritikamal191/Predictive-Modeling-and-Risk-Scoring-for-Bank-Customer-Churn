@@ -106,5 +106,5 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Improve engagement for inactive users
 - Offer targeted retention strategies
 - Monitor key churn indicators continuously
-                                                                                             Dhritikamal Das
+                                                                                             
                                                                                            
