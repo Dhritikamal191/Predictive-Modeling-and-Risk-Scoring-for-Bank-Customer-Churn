@@ -46,7 +46,8 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Accuracy: Overall correctness
 - Precision: Correct churn customers
 - F1 Score: Balance between precison and recall
-  ![Confusion Matrix](0.3.jpeg)   ![Confusion_Matrix](0.4.jpeg)
+  ![Confusion Matrix](0.3.jpeg)
+  ![Confusion_Matrix](0.4.jpeg)
 # Model Explainability
 # SHAP Analysis
 - Identifies feature contribution to individual predictions
