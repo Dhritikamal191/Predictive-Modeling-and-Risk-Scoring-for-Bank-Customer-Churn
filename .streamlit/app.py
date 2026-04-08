@@ -105,16 +105,6 @@ if st.button("Predict"):
 
    st.success(f"Prediction:{y_pred[0]}")
 
-   st.subheader("Model Comparison")
-     
-     st.markdown("## Model Performance Comparison")
-     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
-     fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
-     st.plotly_chart(fig, use_container_width=True)
-     
-     best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
-     st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
-
 probability = model.predict_proba(input_encoded)[0][1]
 risk_score = probability * 100
 
@@ -366,5 +356,4 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
      
-     best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
-     st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
+
