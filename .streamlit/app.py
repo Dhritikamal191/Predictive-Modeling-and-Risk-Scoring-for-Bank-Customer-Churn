@@ -3,8 +3,8 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 import pickle
-import models/joblib
-import models/shap
+import joblib
+import shap
 import plotly.express as px
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
