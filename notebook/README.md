@@ -84,11 +84,12 @@ Dashboard Features (Streamlit)
 |Model interpretability                 | Integrated SHAP and PDP                       |
 
 # Key Insights 
-- Customers with higher balance and age are more likely to churn
-- Active members are less likely to churn
-- Certain geographic regions show higher churn patterns
 - Feature importance varies across models, with XGBoost focusing on strong predictors
-
+- Age is the most significant factor influencing customer churn.
+- Balance and gender have moderate influence on churn.
+- Number of products and activity status strongly impact churn prediction.
+- Geographic location, particularly Germany, plays an important role
+- Other features like salary, tenure and credit score contribute less to predictions
   ![Feature Importance](gitimage.png)
 
 # Future Work
