@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 import pandas as pd
 import numpy as np
-import models/pickle
+import pickle
 import models/joblib
 import models/shap
 import plotly.express as px
