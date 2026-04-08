@@ -27,7 +27,7 @@ st.divider()
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
-lr_model,feature_names= .streamlit/joblib.load("logistic_regression.pkl")
+lr_model,feature_names= load("logistic_regression.pkl")
 dt_model,feature_names= joblib.load("decision_tree.pkl")
 rf_model,feature_names= joblib.load("random_forest.pkl")
 gb_model,feature_names= joblib.load("gradient_boosting.pkl")
