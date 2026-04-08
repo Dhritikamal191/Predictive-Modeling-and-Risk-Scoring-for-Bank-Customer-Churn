@@ -369,4 +369,4 @@ with tab4:
      y_prob=model.predict_proba(input_scaled)[:,1]
      
      best_model=df_metrics.loc[df_metrics["F1 Score"].idxmax()]
-     st.success(f"Best Model:{best_model['model_choice']}(F1 Score:{best_model['F1 Score']:.2f})")
+     st.success(f"Best Model:{best_model['model']}(F1 Score:{best_model['F1 Score']:.2f})")
