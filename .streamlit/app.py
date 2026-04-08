@@ -18,7 +18,7 @@ st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Cus
 col1,col2=st.columns([0.5,6])
 
 with col1:
-     st.image("office.png",width=60)
+     st.image("images/office.png",width=60)
 with col2:
      st.title("Predictive Modeling and Risk Scoring for Bank Customer Churn")
 
