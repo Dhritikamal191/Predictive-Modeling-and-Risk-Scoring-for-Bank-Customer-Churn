@@ -366,7 +366,8 @@ with tab4:
         st.info("Higher threshold → fewer churn predictions (higher precision)")
      elif threshold < 0.3:
           st.info("Lower threshold → more churn predictions (higher recall)")
- st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+
+     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      def highlight_best(row):
          if row["F1 Score"]==df_metrics["F1 Score"].max():
             return ['background-color: lightgreen']*len(row)
