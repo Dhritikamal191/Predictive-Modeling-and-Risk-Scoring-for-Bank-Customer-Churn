@@ -414,4 +414,4 @@ with tab4:
     
      
         
-     st.table(pd.DataFrame(acc, rec, f1))
+     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
