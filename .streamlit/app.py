@@ -327,13 +327,7 @@ with tab3:
 
      st.plotly_chart(fig)
      
-     y_prob_lr=lr_model_predict_proba(input_scaled)[:,1]
-     y_prob_dt=dt_model_predict_proba(input_scaled)[:,1]
-     y_prob_rf=rf_model_predict_proba(input_scaled)[:,1]
-     y_prob_gb=gb_model_predict_proba(input_scaled)[:,1]
-     y_prob_xgb=xgb_model_predict_proba(input_scaled)[:,1]
-     fpr, tpr, thresholds = roc_curve(y_test, y_prob)
-
+     
      j_scores = tpr - fpr
      best_index = np.argmax(j_scores)
      best_threshold = thresholds[best_index]
