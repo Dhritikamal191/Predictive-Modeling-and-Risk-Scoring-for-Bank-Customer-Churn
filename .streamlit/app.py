@@ -34,8 +34,8 @@ gb_model,feature_names= joblib.load("models/gradient_boosting.pkl")
 xgb_model,feature_names= joblib.load("models/xgboost.pkl")
 scaler= joblib.load("models/scaler.pkl")
 X.columns= joblib.load("models/columns.pkl")
-X_test_scaled=joblib.load("models/"X_test_scaled.pkl")
-
+X_test_scaled=joblib.load("models/X_test_scaled.pkl")
+y_test=joblib.load("models/y_test.pkl")
 # Load dataset for visualization
 
 df=pd.read_csv("Data/European_Bank.csv")
