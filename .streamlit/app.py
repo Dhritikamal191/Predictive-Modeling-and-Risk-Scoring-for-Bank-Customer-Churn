@@ -33,7 +33,7 @@ rf_model,feature_names= joblib.load("models/random_forest.pkl")
 gb_model,feature_names= joblib.load("models/gradient_boosting.pkl")
 xgb_model,feature_names= joblib.load("models/xgboost.pkl")
 scaler= joblib.load("models/scaler.pkl")
-X.columns= joblib.load("models/columns.pkl")
+columns= joblib.load("models/columns.pkl")
 X_test_scaled=joblib.load("models/X_test_scaled.pkl")
 y_test=joblib.load("models/y_test.pkl")
 # Load dataset for visualization
@@ -76,7 +76,7 @@ input_df =pd.DataFrame({
     "Gender":[gender]
 })
 input_encoded = pd.get_dummies(input_df)
-input_encoded= input_encoded.reindex(columns=X.columns,fill_value=0)
+input_encoded= input_encoded.reindex(columns=columns,fill_value=0)
 
 input_scaled= scaler.transform(input_encoded)
 
