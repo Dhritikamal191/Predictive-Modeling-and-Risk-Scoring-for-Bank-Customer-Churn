@@ -44,7 +44,10 @@ st.sidebar.image("Images/mentor.png",width=150)
 
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 
-threshold=st.sidebar.slider("Select Threshold", 0.05, 0.5, 0.2)
+threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50)
+
+0.01)
+
 
 st.sidebar.header("Customer Feature Inputs")
 
