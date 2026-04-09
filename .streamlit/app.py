@@ -362,7 +362,7 @@ with tab4:
      col3.metric("Recall", f"{best_model['Recall']:.2f}")
      col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
      
-  st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      def highlight_best(row):
          if row["F1 Score"]==df_metrics["F1 Score"].max():
             return ['background-color: lightgreen']*len(row)
