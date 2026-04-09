@@ -333,20 +333,19 @@ with tab3:
 
      fig = go.Figure()
 
-     for feature in features:
-         feature_index = X.columns.get_loc(feature)
+     colors=["#00D4FF","#FF6B6B","#FFD93D","#6BCB77"]
 
-         pdp = partial_dependence(model, X_scaled, features=[feature_index])
+     for i, feature in enumerate(features):
+         feature_index=X.columns.get_loc(feature)
 
-         x_vals = pdp["grid_values"][0]
-         y_vals = pdp["average"][0].flatten()
-
-         fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines", name=feature))
-
-     fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value",yaxis_title="Churn Probability",template="plotly_dark")
-
-     st.plotly_chart(fig)
-
+         pdp=partial_dependence(model,X_scaled,features=[feature_index])
+         x_vals=pdp["grid_values"][0]
+         y_vals=pdp["average"][0].flatten()
+         fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
+         fig.update_layout(title="Partial Dependence Plot (key Features)", xaxis_title="Feature Value", yaxis_title=Churn Probability", template="plotly_dark", height=550,margin=dict(l=40, r=40, t=60, b=40), legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified"0
+         fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+         fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+         st.plotly_chart(fig, use_container_width=True)
 with tab4:
      
      st.subheader("Model Comparison")
@@ -356,6 +355,7 @@ with tab4:
      y_pred_rf = rf_model.predict(X_test)
      y_pred_gb = gb_model.predict(X_test)
      y_pred_xgb = xgb_model.predict(X_test)
+     
      from sklearn.metrics import accuracy_score, recall_score, f1_score
 
      lr_acc = accuracy_score(y_test, y_pred_lr)
@@ -377,11 +377,7 @@ with tab4:
      xgb_f1 = f1_score(y_test, y_pred_xgb)
 
      df_metrics = pd.DataFrame({
-     "Model": ["LR", "DT", "RF", "GB", "XGB"],
-     "Accuracy": [lr_acc, dt_acc, rf_acc, gb_acc, xgb_acc],
-     "Recall": [lr_rec, dt_rec, rf_rec, gb_rec, xgb_rec],
-     "F1 Score": [lr_f1, dt_f1, rf_f1, gb_f1, xgb_f1]
-     })
+     "Model": ["LR", "DT", "RF", "GB", "XGB"],"Accuracy": [lr_acc, dt_acc, rf_acc, gb_acc, xgb_acc],"Recall": [lr_rec, dt_rec, rf_rec, gb_rec, xgb_rec],"F1 Score": [lr_f1, dt_f1, rf_f1, gb_f1, xgb_f1]})
      
      best_model = df_metrics.loc[df_metrics["F1 Score"].idxmax()]
 
