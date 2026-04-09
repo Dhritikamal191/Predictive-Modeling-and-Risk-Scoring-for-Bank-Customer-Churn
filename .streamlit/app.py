@@ -412,18 +412,6 @@ with tab4:
          rec = recall_score(y_test, preds)
          f1 = f1_score(y_test, preds)
     
-         
-         comp_data.append({
-            "Model": name,
-            "Accuracy": round(acc, 3),
-            "Recall": round(rec, 3),
-            "F1 Score": round(f1, 3)
-        })
-
-
-     if comp_data:
-        st.table(pd.DataFrame(comp_data))
-     else:
-          st.warning("No model data found. Check if models are loaded correctly.")
-
-     st.table(pd.DataFrame(results))
+     
+        
+     st.table(pd.DataFrame(acc, rec, f1))
