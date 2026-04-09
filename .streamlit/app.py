@@ -326,22 +326,6 @@ with tab3:
      fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
 
      st.plotly_chart(fig)
-     
-     
-     j_scores = tpr - fpr
-     best_index = np.argmax(j_scores)
-     best_threshold = threshold[best_index]
-
-     print("Best Threshold:", best_threshold)
-     
-
-     roc_df = pd.DataFrame({
-     "FPR": fpr,
-     "TPR": tpr
-     })
-
-     fig = px.line(roc_df, x="FPR", y="TPR", title="ROC Curve")
-     st.plotly_chart(fig)
 
      from sklearn.inspection import partial_dependence
 
