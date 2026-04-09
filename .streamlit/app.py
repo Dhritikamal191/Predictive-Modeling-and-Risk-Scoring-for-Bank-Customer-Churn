@@ -351,6 +351,8 @@ with tab3:
 with tab4:
      
      st.subheader("Model Comparison")
+     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
+     
      best_model = df_metrics.loc[df_metrics["F1 Score"].idxmax()]
 
      col1, col2, col3, col4 = st.columns(4)
@@ -359,9 +361,8 @@ with tab4:
      col2.metric("Accuracy", f"{best_model['Accuracy']:.2f}")
      col3.metric("Recall", f"{best_model['Recall']:.2f}")
      col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
-     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
      
-     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+  st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      def highlight_best(row):
          if row["F1 Score"]==df_metrics["F1 Score"].max():
             return ['background-color: lightgreen']*len(row)
