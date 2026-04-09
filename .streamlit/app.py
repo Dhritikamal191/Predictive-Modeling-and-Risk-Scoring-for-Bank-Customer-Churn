@@ -351,7 +351,7 @@ with tab3:
 with tab4:
      
      st.subheader("Model Comparison")
-     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
+     df_metrics= pd.DataFrame({"Model":["Logistic Regression","Decision Tree","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
      
      best_model = df_metrics.loc[df_metrics["F1 Score"].idxmax()]
 
