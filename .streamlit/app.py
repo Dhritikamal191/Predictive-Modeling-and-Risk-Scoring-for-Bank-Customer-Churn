@@ -352,6 +352,30 @@ with tab4:
      
      st.subheader("Model Comparison")
     
+     y_pred_lr = lr_model.predict(X_test_scaled)
+     y_pred_dt = dt_model.predict(X_test_scaled)
+     y_pred_rf = rf_model.predict(X_test_scaled)
+     y_pred_gb = gb_model.predict(X_test_scaled)
+     y_pred_xgb = xgb_model.predict(X_test_scaled)
+     from sklearn.metrics import accuracy_score, recall_score, f1_score
+
+     lr_acc = accuracy_score(y_test, y_pred_lr)
+     dt_acc = accuracy_score(y_test, y_pred_dt)
+     rf_acc = accuracy_score(y_test, y_pred_rf)
+     gb_acc = accuracy_score(y_test, y_pred_gb)
+     xgb_acc = accuracy_score(y_test, y_pred_xgb)
+
+     lr_rec = recall_score(y_test, y_pred_lr)
+     dt_rec = recall_score(y_test, y_pred_dt)
+     rf_rec = recall_score(y_test, y_pred_rf)
+     gb_rec = recall_score(y_test, y_pred_gb)
+     xgb_rec = recall_score(y_test, y_pred_xgb)
+
+     lr_f1 = f1_score(y_test, y_pred_lr)
+     dt_f1 = f1_score(y_test, y_pred_dt)
+     rf_f1 = f1_score(y_test, y_pred_rf)
+     gb_f1 = f1_score(y_test, y_pred_gb)
+     xgb_f1 = f1_score(y_test, y_pred_xgb)
 
      df_metrics = pd.DataFrame({
      "Model": ["LR", "DT", "RF", "GB", "XGB"],
