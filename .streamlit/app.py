@@ -335,7 +335,7 @@ with tab3:
 
      colors=["#00D4FF","#FF6B6B","#FFD93D","#6BCB77"]
 
-     for i, feature in features:
+     for feature in features:
          feature_index=X.columns.get_loc(feature)
 
          pdp=partial_dependence(model,X_scaled,features=[feature_index])
