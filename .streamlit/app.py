@@ -412,7 +412,7 @@ with tab4:
          rec = recall_score(y_test, preds)
          f1 = f1_score(y_test, preds)
     
-         df_metrics.append({"Model": name,
+         model_choice.append({"Model": name,
          "Accuracy": acc,
          "Recall": rec,
          "F1 Score": f1
