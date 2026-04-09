@@ -166,7 +166,7 @@ with col3:
      with metric:
           st.metric("Risk Category", risk)
 
-probs= model.predict_proba(input_scaled)[:,1]
+probs= model.predict_proba(X_test_scaled)[:,1]
 col1,col2=st.columns(2)
 
 with col1:
