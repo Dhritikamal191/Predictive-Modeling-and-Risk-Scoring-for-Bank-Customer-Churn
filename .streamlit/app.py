@@ -404,4 +404,19 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
      
+     for name, model in models_dict.items():
+    
+     preds = (probs >= threshold).astype(int)
+    
+     acc = accuracy_score(y_test, preds)
+     rec = recall_score(y_test, preds)
+     f1 = f1_score(y_test, preds)
+    
+     results.append({
+        "Model": name,
+        "Accuracy": acc,
+        "Recall": rec,
+        "F1 Score": f1
+     })
 
+     st.table(pd.DataFrame(results))
