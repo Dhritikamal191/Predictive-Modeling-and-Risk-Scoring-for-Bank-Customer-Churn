@@ -412,7 +412,7 @@ with tab4:
          rec = recall_score(y_test, preds)
          f1 = f1_score(y_test, preds)
     
-         model_choice.append({"Model": name,
+         comparison_result.append({"Model": name,
          "Accuracy": acc,
          "Recall": rec,
          "F1 Score": f1
