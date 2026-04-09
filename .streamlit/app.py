@@ -404,7 +404,7 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
      
-     for name, model in models_choice.items():
+     for name, model in df_metrics.items():
     
          preds = (probs >= threshold).astype(int)
     
