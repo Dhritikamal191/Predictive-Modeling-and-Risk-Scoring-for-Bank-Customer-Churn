@@ -340,7 +340,7 @@ with tab3:
      for i, feature in enumerate(features):
          feature_index=X.columns.get_loc(feature)
 
-         pdp=partial_dependence(model,X_scaled,features=[feature_index])
+         pdp=partial_dependence(model,X_test_scaled,features=[feature_index])
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
