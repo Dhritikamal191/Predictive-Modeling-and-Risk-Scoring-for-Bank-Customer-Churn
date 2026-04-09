@@ -302,7 +302,7 @@ with tab3:
      y_true = df["Exited"].to_numpy().ravel()
      y_prob = model.predict_proba(X_test_scaled)[:, 1]
 
-     fpr, tpr, _ = roc_curve(y_true, y_prob)
+     fpr, tpr, _ = roc_curve(y_test, y_prob)
      roc_auc = auc(fpr, tpr)   
 
      fig = go.Figure()  
@@ -320,7 +320,7 @@ with tab3:
      models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
      for name, m in models.items():
          y_prob = m.predict_proba(X_test_scaled)[:, 1]
-         fpr, tpr, _ = roc_curve(y, y_prob)
+         fpr, tpr, _ = roc_curve(y_test, y_prob)
          roc_auc = auc(fpr, tpr)
 
      fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
