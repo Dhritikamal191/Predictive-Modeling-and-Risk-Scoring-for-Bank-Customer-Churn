@@ -330,7 +330,7 @@ with tab3:
      
      j_scores = tpr - fpr
      best_index = np.argmax(j_scores)
-     best_threshold = thresholds[best_index]
+     best_threshold = threshold[best_index]
 
      print("Best Threshold:", best_threshold)
      
