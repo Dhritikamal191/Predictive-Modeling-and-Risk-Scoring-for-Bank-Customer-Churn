@@ -347,17 +347,26 @@ with tab3:
      fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value",yaxis_title="Churn Probability",template="plotly_dark")
 
      st.plotly_chart(fig)
+
 with tab4:
+     
      st.subheader("Model Comparison")
+     best_model = df_metrics.loc[df_metrics["F1 Score"].idxmax()]
+
+     col1, col2, col3, col4 = st.columns(4)
+
+     col1.metric("🏆 Best Model", best_model["Model"])
+     col2.metric("Accuracy", f"{best_model['Accuracy']:.2f}")
+     col3.metric("Recall", f"{best_model['Recall']:.2f}")
+     col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
      df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
      
-     st.markdown("## Model Performance Comparison")
-     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+              st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      def highlight_best(row):
          if row["F1 Score"]==df_metrics["F1 Score"].max():
             return ['background-color: lightgreen']*len(row)
          return ['']*len(row)
-     st.dataframe(df_metrics.style.apply(highlight_best, axis=1))
+          st.dataframe(df_metrics.style.apply(highlight_best, axis=1))
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
      
