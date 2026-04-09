@@ -342,7 +342,10 @@ with tab3:
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
-         fig.update_layout(title="Partial Dependence Plot (key Features)", xaxis_title="Feature Value", yaxis_title=Churn Probability", template="plotly_dark", height=550,margin=dict(l=40, r=40, t=60, b=40), legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+         fig.update_layout(title="Partial Dependence Plot (Key Features)",
+xaxis_title="Feature Value", yaxis_title=Churn Probability", 
+template="plotly_dark", height=550, margin=dict(l=40, r=40, t=60, b=40),
+legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
