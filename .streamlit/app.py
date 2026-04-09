@@ -300,7 +300,7 @@ with tab3:
 
      y= df["Exited"]
      y_true = df["Exited"].to_numpy().ravel()
-     y_prob = model.predict_proba(X_test_scaled)[:, 1]
+     y_prob = model.predict_proba(X_scaled)[:, 1]
 
      fpr, tpr, _ = roc_curve(y_true, y_prob)
      roc_auc = auc(fpr, tpr)   
