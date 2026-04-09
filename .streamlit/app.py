@@ -406,17 +406,17 @@ with tab4:
      
      for name, model in models_dict.items():
     
-     preds = (probs >= threshold).astype(int)
+         preds = (probs >= threshold).astype(int)
     
-     acc = accuracy_score(y_test, preds)
-     rec = recall_score(y_test, preds)
-     f1 = f1_score(y_test, preds)
+         acc = accuracy_score(y_test, preds)
+         rec = recall_score(y_test, preds)
+         f1 = f1_score(y_test, preds)
     
-     results.append({
-        "Model": name,
-        "Accuracy": acc,
-        "Recall": rec,
-        "F1 Score": f1
-     })
+         results.append({"Model": name,
+         "Accuracy": acc,
+         "Recall": rec,
+         "F1 Score": f1
+         })
+            
 
      st.table(pd.DataFrame(results))
