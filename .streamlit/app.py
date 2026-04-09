@@ -335,7 +335,7 @@ with tab3:
 
      colors=["#00D4FF","#FF6B6B","#FFD93D","#6BCB77"]
 
-     for i, feature in enumerate(features):
+     for i, feature in features:
          feature_index=X.columns.get_loc(feature)
 
          pdp=partial_dependence(model,X_scaled,features=[feature_index])
@@ -383,7 +383,7 @@ with tab4:
 
      col1, col2, col3, col4 = st.columns(4)
 
-     col1.metric("🏆 Best Model", best_model["Model"])
+     col1.metric("Best Model", best_model["Model"])
      col2.metric("Accuracy", f"{best_model['Accuracy']:.2f}")
      col3.metric("Recall", f"{best_model['Recall']:.2f}")
      col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
