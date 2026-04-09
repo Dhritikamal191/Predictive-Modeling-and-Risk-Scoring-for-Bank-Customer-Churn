@@ -361,7 +361,7 @@ with tab4:
      col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
      df_metrics= pd.DataFrame({"Model":["Logistic Regression","Random Forest","Gradient Boosting","XGBoost"],"Accuracy":[0.82, 0.86, 0.87, 0.88],"Recall":[0.75, 0.80, 0.82, 0.84],"F1 Score":[0.78, 0.83, 0.84, 0.86]})
      
-              st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
+     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
      def highlight_best(row):
          if row["F1 Score"]==df_metrics["F1 Score"].max():
             return ['background-color: lightgreen']*len(row)
