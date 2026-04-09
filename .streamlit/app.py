@@ -226,8 +226,9 @@ with tab1:
      # --------------------------------------------------
 
      st.subheader("Probability Distribution Visualization")
-
-     fig = px.histogram(df, x=probs, nbins=30, color="Exited", title="Distribution of Customer Churn Probability", color_discrete_sequence=["#6366f1","#f43f5e"])
+     plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
+     plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
+     fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", title="Distribution of Customer Churn Probability (Test Set)", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay"))
      fig.update_traces(opacity=0.7)
      fig.update_layout(template="plotly_white",bargap=0.1, legend_title_text="Customer Status")
      st.plotly_chart(fig, use_container_width=True)
