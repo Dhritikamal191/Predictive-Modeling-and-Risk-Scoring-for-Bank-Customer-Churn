@@ -33,9 +33,8 @@ rf_model,feature_names= joblib.load("models/random_forest.pkl")
 gb_model,feature_names= joblib.load("models/gradient_boosting.pkl")
 xgb_model,feature_names= joblib.load("models/xgboost.pkl")
 scaler= joblib.load("models/scaler.pkl")
-columns= joblib.load("models/columns.pkl")
-X_scaled= joblib.load("models/X_scaled.pkl")
-X_test, y_test= pickle.load(open("models/test_data.pkl","rb"))
+X.columns= joblib.load("models/columns.pkl")
+X_test_scaled=joblib.load("models/"X_test_scaled.pkl")
 
 # Load dataset for visualization
 
@@ -77,7 +76,7 @@ input_df =pd.DataFrame({
     "Gender":[gender]
 })
 input_encoded = pd.get_dummies(input_df)
-input_encoded= input_encoded.reindex(columns=columns,fill_value=0)
+input_encoded= input_encoded.reindex(columns=X.columns,fill_value=0)
 
 input_scaled= scaler.transform(input_encoded)
 
@@ -95,7 +94,7 @@ elif model_choice=="XGBoost":
 if st.button("Predict"):
    prediction= model.predict(input_encoded)[0]
 
-   y_prob=model.predict_proba(X_scaled)[:,1]
+   y_prob=model.predict_proba(X_test_scaled)[:,1]
    y_pred=(y_prob>threshold).astype(int)
    
    st.write("Prediction:", y_pred[0])
@@ -208,7 +207,7 @@ with tab1:
           fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
           st.plotly_chart(fig2)
 
-     y_prob=model.predict_proba(X_test)[:,1]
+     y_prob=model.predict_proba(X_test_scaled)[:,1]
      y_pred=(y_prob> threshold).astype(int)
 
      cm =confusion_matrix(y_test, y_pred)
@@ -319,7 +318,7 @@ with tab3:
      fig = go.Figure()
      models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
      for name, m in models.items():
-         y_prob = m.predict_proba(X_scaled)[:, 1]
+         y_prob = m.predict_proba(X_test_scaled)[:, 1]
          fpr, tpr, _ = roc_curve(y, y_prob)
          roc_auc = auc(fpr, tpr)
 
@@ -352,11 +351,11 @@ with tab4:
      
      st.subheader("Model Comparison")
     
-     y_pred_lr = lr_model.predict(X_test)
-     y_pred_dt = dt_model.predict(X_test)
-     y_pred_rf = rf_model.predict(X_test)
-     y_pred_gb = gb_model.predict(X_test)
-     y_pred_xgb = xgb_model.predict(X_test)
+     y_pred_lr = lr_model.predict(X_test_scaled)
+     y_pred_dt = dt_model.predict(X_test_scaled)
+     y_pred_rf = rf_model.predict(X_test_scaled)
+     y_pred_gb = gb_model.predict(X_test_scaled)
+     y_pred_xgb = xgb_model.predict(X_test_scaled)
      
      from sklearn.metrics import accuracy_score, recall_score, f1_score
 
