@@ -351,11 +351,11 @@ with tab4:
      
      st.subheader("Model Comparison")
     
-     y_pred_lr = lr_model.predict(X_scaled)
-     y_pred_dt = dt_model.predict(X_scaled)
-     y_pred_rf = rf_model.predict(X_scaled)
-     y_pred_gb = gb_model.predict(X_scaled)
-     y_pred_xgb = xgb_model.predict(X_scaled)
+     y_pred_lr = lr_model.predict(X_test)
+     y_pred_dt = dt_model.predict(X_test)
+     y_pred_rf = rf_model.predict(X_test)
+     y_pred_gb = gb_model.predict(X_test)
+     y_pred_xgb = xgb_model.predict(X_test)
      from sklearn.metrics import accuracy_score, recall_score, f1_score
 
      lr_acc = accuracy_score(y_test, y_pred_lr)
