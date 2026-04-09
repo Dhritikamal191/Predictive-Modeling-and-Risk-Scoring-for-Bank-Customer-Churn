@@ -310,8 +310,7 @@ with tab3:
 
      fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
 
-     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark", height=550)
-     legend=dict(orientation="h',yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark", height=550, legend=dict(orientation="h',yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
      fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
      
