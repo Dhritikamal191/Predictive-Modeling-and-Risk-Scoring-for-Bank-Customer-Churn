@@ -383,7 +383,7 @@ with tab4:
      st.subheader("Model Comaprison Table")
      st.dataframe(df_metrics)
 
-
+     st.subheader("Model Comparison Table (Percentage wise)")
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
 
 
@@ -405,7 +405,7 @@ with tab4:
      })
 
      st.dataframe(styled_df, use_container_width=True)
-
+     st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      
