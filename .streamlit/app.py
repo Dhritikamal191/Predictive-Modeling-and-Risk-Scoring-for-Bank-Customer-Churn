@@ -401,7 +401,7 @@ with tab4:
      st.plotly_chart(fig, use_container_width=True)
 
      def get_metrics(model, X, y, threshold):
-         y_prob=model.predict_proba()[:,1]
+         y_prob=model.predict_proba(X)[:,1]
          y_pred=(y_prob>=threshold).astype(int)
 
          acc= accuracy_score(y, y_pred)
