@@ -406,14 +406,14 @@ with tab4:
 "XGB": joblib.load("models/xgboost.pkl")}
      results = []
 
-     for m_name, m_object in models_dict.items():
-         m_probs=m_objects_proba(X_test_scaled)[:,1]
-         m_preds = (m_probs >= threshold).astype(int)
+     for m_name, current_model in models_dict.items():
+         y_probabilities=current_model.predict_proba(X_test_scaled)[:,1]
+         y_predictions = (y_probabilities >= threshold).astype(int)
     
     
-         m_acc = accuracy_score(y_test, m_preds)
-         m_rec = recall_score(y_test, m_preds)
-         m_f1 = f1_score(y_test, m_preds)
+         acc = accuracy_score(y_test,y_predictions)
+         rec = recall_score(y_test,y_predictions)
+         f1 = f1_score(y_test,y_predictions)
     
          results.append({
          "Model": name,
