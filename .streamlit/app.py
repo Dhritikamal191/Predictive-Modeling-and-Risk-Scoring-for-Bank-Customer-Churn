@@ -409,7 +409,7 @@ with tab4:
          f1= f1_score(y, y_pred)
          return acc, rec, f1
     
-     models={"Logistic Regression": lr_model","Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+     models={"Logistic Regression": lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
      metrics_data=[]
      for name, model in models.items():
          acc, rec, f1= get_metrics(model, X_test_scaled, y_test, threshold)
