@@ -416,9 +416,9 @@ with tab4:
          preds = (probs >= threshold).astype(int)
     
     
-         acc = accuracy_score(y_eval, preds)
-         rec = recall_score(y_eval, preds)
-         f1 = f1_score(y_eval, preds)
+         acc = accuracy_score(y_test, preds)
+         rec = recall_score(y_test, preds)
+         f1 = f1_score(y_test, preds)
     
          results.append({
          "Model": name,
