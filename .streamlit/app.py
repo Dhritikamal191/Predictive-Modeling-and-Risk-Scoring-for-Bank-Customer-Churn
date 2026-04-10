@@ -410,7 +410,7 @@ with tab4:
 
      for name in models_dict.items():
 
-         results.append({
+         comp_results.append({
          "Model": name,
          "Accuracy": accuracy_score(y_test,y_pred),
          "Recall": recall_score(y_test,y_pred) ,
