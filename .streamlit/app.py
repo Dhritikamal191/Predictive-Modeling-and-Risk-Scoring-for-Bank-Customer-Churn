@@ -412,7 +412,7 @@ with tab4:
      
      df_metrics=pd.DataFrame(metrics_data)
 
-     best_row=df_metrics.sort_values(by="F1 Score", ascending=false).iloc[0]
+     best_row=df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]
      best_model_name=best_row["Model"]
      best_accuracy=best_row["Accuracy"]
      best_recall=best_row["Recall"]
