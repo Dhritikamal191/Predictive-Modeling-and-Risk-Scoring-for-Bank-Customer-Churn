@@ -402,4 +402,25 @@ with tab4:
          return ['']*len(row)
      st.dataframe(df_metrics.style.apply(highlight_best, axis=1))
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
-     st.plotly_chart(fig, use_container_width=True)
+     st.plotly_chart(fig, use_container_width=True)
+
+     results = []
+
+     for name, model in models_dict.items():
+    
+         preds = (probs >= threshold).astype(int)
+    
+    
+         acc = accuracy_score(y_eval, preds)
+         rec = recall_score(y_eval, preds)
+         f1 = f1_score(y_eval, preds)
+    
+         results.append({
+         "Model": name,
+         "Accuracy": round(acc, 3),
+         "Recall": round(rec, 3),
+         "F1 Score": round(f1, 3)
+         })
+
+
+     st.table(pd.DataFrame(results))
