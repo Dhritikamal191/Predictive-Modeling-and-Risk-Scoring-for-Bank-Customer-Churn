@@ -412,9 +412,9 @@ with tab4:
      for name,models in models_dict.items():
          y_prob=model.predict_proba(X_test_scaled)[:,1]
          y_pred=(y_prob>=threshold).astype(int)
-         acc=accuracy_score(y_prob,y_pred)
-         rec=recall_score(y_prob,y_pred)
-         f1=f1_score(y_prob,y_pred)
+         acc=accuracy_score(y_test,y_pred)
+         rec=recall_score(y_test,y_pred)
+         f1=f1_score(y_test,y_pred)
          comp_results.append({
          "Model": name,
          "Accuracy": round(acc,3),
