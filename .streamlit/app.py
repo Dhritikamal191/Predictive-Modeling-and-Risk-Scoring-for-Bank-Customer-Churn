@@ -414,8 +414,8 @@ with tab4:
 
          comp_results.append({
          "Model": name,
-         "Accuracy": round(accuracy_score(y_test,y_pred),3)
-         "Recall": round(recall_score(y_test,y_pred),3) ,
+         "Accuracy": round(accuracy_score(y_test,y_pred),3),
+         "Recall": round(recall_score(y_test,y_pred),3),
          "F1 Score":round(f1_score(y_test,y_pred),3)
          })
 
