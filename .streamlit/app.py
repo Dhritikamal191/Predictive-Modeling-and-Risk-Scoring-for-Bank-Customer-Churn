@@ -399,25 +399,25 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
-     models_dict={"LR": lr_model,
-"DT": dt_model,
-"RF": rf_model,
-"GB": gb_model,
-"XGB": xgb_model}
+     models_dict={"LR": joblib.load("models/logistic_regression.pkl"),
+"DT": joblib.load("models/decision_tree.pkl"),
+"RF": joblib.load("models/random_forest.pkl"),
+"GB":joblib.load("models/gradient_boosting.pkl"),
+"XGB":joblib.load("models/xgboost.pkl")}
 
      results = []
 
-     for name, model in models_dict.items():
-    
-         acc = accuracy_score(y_test,y_pred)
-         rec = recall_score(y_test,y_pred)
-         f1 = f1_score(y_test,y_pred)
-    
+     for name, model_object in models_dict.items():
+         
+         y_probs=model_object_predict_proba(X_test_scaled)[:,1]
+
+preds=y_probs>=threshold).astype(int)
+         
          results.append({
          "Model": name,
-         "Accuracy": round(acc, 3),
-         "Recall": round(rec, 3),
-         "F1 Score": round(f1, 3)
+         "Accuracy": accuracy_score(y_test,y_pred),
+         "Recall": recall_score(y_test,y_pred) ,
+         "F1 Score": f1_score(y_test,y_pred)
          })
 
 
