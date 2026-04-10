@@ -407,12 +407,8 @@ with tab4:
 
      results = []
 
-     for name, model_object in models_dict.items():
-         
-         y_probs=model_object_predict_proba(X_test_scaled)[:,1]
-
-         y_preds=(y_probs>=threshold).astype(int)
-         
+     for name, model in models_dict.items():
+        
          results.append({
          "Model": name,
          "Accuracy": accuracy_score(y_test,y_pred),
