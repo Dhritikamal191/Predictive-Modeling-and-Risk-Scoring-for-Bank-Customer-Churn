@@ -395,12 +395,7 @@ with tab4:
      elif threshold < 0.3:
           st.info("Lower threshold → more churn predictions (higher recall)")
 
-     st.table(df_metrics.style.format({"Accuracy":"{:.2f}","Recall":"{:.2f}","F1 Score":"{:.2f}"}))
-     def highlight_best(row):
-         if row["F1 Score"]==df_metrics["F1 Score"].max():
-            return ['background-color: lightgreen']*len(row)
-         return ['']*len(row)
-     st.dataframe(df_metrics.style.apply(highlight_best, axis=1))
+  
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
