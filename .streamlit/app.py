@@ -404,10 +404,10 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
-     models_dict={"LR": joblib.load("models/logistic_regression.pkl")
-"DT": joblib.load("models/decision_tree.pkl")
-"RF": joblib.load("models/random_forest.pkl")
-"GB": joblib.load("models/gradient_boosting.pkl")
+     models_dict={"LR": joblib.load("models/logistic_regression.pkl"),
+"DT": joblib.load("models/decision_tree.pkl"),
+"RF": joblib.load("models/random_forest.pkl"),
+"GB": joblib.load("models/gradient_boosting.pkl"),
 "XGB": joblib.load("models/xgboost.pkl")}
      results = []
 
