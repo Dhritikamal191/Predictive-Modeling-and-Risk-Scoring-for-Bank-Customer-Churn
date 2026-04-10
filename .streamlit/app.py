@@ -394,9 +394,6 @@ with tab4:
         st.info("Higher threshold → fewer churn predictions (higher precision)")
      elif threshold < 0.3:
           st.info("Lower threshold → more churn predictions (higher recall)")
- 
-     fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
-     st.plotly_chart(fig, use_container_width=True)
 
      def get_metrics(model, X, y, threshold):
          y_prob=model.predict_proba(X)[:,1]
@@ -414,6 +411,18 @@ with tab4:
          metrics_data.append({"Model": name,"Accuracy":acc,"Recall":rec,"F1 Score":f1})
      
      df_metrics=pd.DataFrame(metrics_data)
+
+     best_row=df_metrics.sort_values(by="F1 Score", ascending=false).iloc[0]
+     best_model_name=best_row["Model"]
+     best_accuracy=best_row["Accuracy"]
+     best_recall=best_row["Recall"]
+     best_f1=best_row["F1 Score"]
+
+     col1, col2, col3, col4=st.columns(4)
+     col1.metric("Best Model", best_model_name)
+     col2.metric("Accuracy",f"{best_accuracy:.2f}")
+     col3.metric("recall",f"{best_recall:.2f}")
+     col4.metric("F1 Score",f"{best_f1:.2f}")
      st.subheader("Model Comaprison Table")
      st.dataframe(df_metrics)
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
