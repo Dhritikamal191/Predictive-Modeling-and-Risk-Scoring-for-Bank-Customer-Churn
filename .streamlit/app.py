@@ -446,5 +446,5 @@ with tab4:
 
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
-
+     fig.update_traces(marker=dict(line=dict(width=1)))
      st.plotly_chart(fig, use_container_width=True)
