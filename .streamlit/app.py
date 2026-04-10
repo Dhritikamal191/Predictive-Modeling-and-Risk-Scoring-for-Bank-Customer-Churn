@@ -395,7 +395,8 @@ with tab4:
      elif threshold < 0.3:
           st.info("Lower threshold → more churn predictions (higher recall)")
 
-  
+ 
+ 
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
@@ -411,16 +412,16 @@ with tab4:
      for name,models in models_dict.items():
          y_prob=model.predict_proba(X_test_scaled)
          y_pred=(y_prob>=threshold).astype(int)
-
+         acc=accuracy_score(y_prob,y_pred)
+         rec=recall_score(y_prob,y_pred)
+         f1=f1_score(y_prob,y_pred)
          comp_results.append({
          "Model": name,
-         "Accuracy": round(accuracy_score(y_test,y_pred),3),
-         "Recall": round(recall_score(y_test,y_pred),3),
-         "F1 Score":round(f1_score(y_test,y_pred),3)
+         "Accuracy": round(acc,3),
+         "Recall": round(rec,3),
+         "F1 Score":round(f1,3)
          })
-
-
-     
+          
      df_results = pd.DataFrame(comp_results)
      st.table(df_results)
      df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
