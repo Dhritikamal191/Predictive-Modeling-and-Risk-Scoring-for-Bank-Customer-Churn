@@ -420,4 +420,4 @@ with tab4:
 
      fig= px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",text_auto="True", template="plotly_dark")
      fig.update_layout(title="Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
-     st.plotly_chart(df_metrics, use_container_width=True)
+     st.plotly_chart(fig, use_container_width=True)
