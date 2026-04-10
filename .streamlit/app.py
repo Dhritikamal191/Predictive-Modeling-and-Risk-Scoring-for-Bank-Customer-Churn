@@ -418,7 +418,7 @@ with tab4:
          })
 
 
-     
+     st.table(pd.DataFrame(results))
      df_results = pd.DataFrame(results)
      df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
