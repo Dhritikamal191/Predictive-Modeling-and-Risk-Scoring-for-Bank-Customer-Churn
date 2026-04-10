@@ -406,7 +406,7 @@ with tab4:
 "GB":joblib.load("models/gradient_boosting.pkl"),
 "XGB":joblib.load("models/xgboost.pkl")}
 
-     results = []
+     comp_results = []
 
      for name in models_dict.items():
 
@@ -419,7 +419,7 @@ with tab4:
 
 
      
-     df_results = pd.DataFrame(results)
+     df_results = pd.DataFrame(comp_results)
      st.table(df_results)
      df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
