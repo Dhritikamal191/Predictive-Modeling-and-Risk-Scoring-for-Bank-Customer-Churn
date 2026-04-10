@@ -360,41 +360,6 @@ with tab4:
      
      from sklearn.metrics import accuracy_score, recall_score, f1_score
 
-     lr_acc = accuracy_score(y_test, y_pred_lr)
-     dt_acc = accuracy_score(y_test, y_pred_dt)
-     rf_acc = accuracy_score(y_test, y_pred_rf)
-     gb_acc = accuracy_score(y_test, y_pred_gb)
-     xgb_acc = accuracy_score(y_test, y_pred_xgb)
-
-     lr_rec = recall_score(y_test, y_pred_lr)
-     dt_rec = recall_score(y_test, y_pred_dt)
-     rf_rec = recall_score(y_test, y_pred_rf)
-     gb_rec = recall_score(y_test, y_pred_gb)
-     xgb_rec = recall_score(y_test, y_pred_xgb)
-
-     lr_f1 = f1_score(y_test, y_pred_lr)
-     dt_f1 = f1_score(y_test, y_pred_dt)
-     rf_f1 = f1_score(y_test, y_pred_rf)
-     gb_f1 = f1_score(y_test, y_pred_gb)
-     xgb_f1 = f1_score(y_test, y_pred_xgb)
-
-     df_metrics = pd.DataFrame({
-     "Model": ["LR", "DT", "RF", "GB", "XGB"],"Accuracy": [lr_acc, dt_acc, rf_acc, gb_acc, xgb_acc],"Recall": [lr_rec, dt_rec, rf_rec, gb_rec, xgb_rec],"F1 Score": [lr_f1, dt_f1, rf_f1, gb_f1, xgb_f1]})
-     
-     best_model = df_metrics.loc[df_metrics["F1 Score"].idxmax()]
-
-     col1, col2, col3, col4 = st.columns(4)
-
-     col1.metric("Best Model", best_model["Model"])
-     col2.metric("Accuracy", f"{best_model['Accuracy']:.2f}")
-     col3.metric("Recall", f"{best_model['Recall']:.2f}")
-     col4.metric("F1 Score", f"{best_model['F1 Score']:.2f}")
-     
-     if threshold > 0.7:
-        st.info("Higher threshold → fewer churn predictions (higher precision)")
-     elif threshold < 0.3:
-          st.info("Lower threshold → more churn predictions (higher recall)")
-
      def get_metrics(model, X, y, threshold):
          y_prob=model.predict_proba(X)[:,1]
          y_pred=(y_prob>=threshold).astype(int)
