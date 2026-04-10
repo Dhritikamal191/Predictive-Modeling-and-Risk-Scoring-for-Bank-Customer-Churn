@@ -404,7 +404,11 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
-     models_dict, X_test_scaled, y_test= load_data()
+     models_dict={lr_model,feature_names= joblib.load("models/logistic_regression.pkl")
+dt_model,feature_names= joblib.load("models/decision_tree.pkl")
+rf_model,feature_names= joblib.load("models/random_forest.pkl")
+gb_model,feature_names= joblib.load("models/gradient_boosting.pkl")
+xgb_model,feature_names= joblib.load("models/xgboost.pkl")}
      results = []
 
      for name, model in models_dict.items():
