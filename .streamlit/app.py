@@ -394,8 +394,6 @@ with tab4:
         st.info("Higher threshold → fewer churn predictions (higher precision)")
      elif threshold < 0.3:
           st.info("Lower threshold → more churn predictions (higher recall)")
-
- 
  
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
@@ -422,4 +420,4 @@ with tab4:
 
      fig= px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",text_auto="True", template="plotly_dark")
      fig.update_layout(title="Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
-     st.plotly_chart(fig_comparison, use_container_width=True)
+     st.plotly_chart(df_melted, use_container_width=True)
