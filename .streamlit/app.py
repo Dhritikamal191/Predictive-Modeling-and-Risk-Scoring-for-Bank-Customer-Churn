@@ -350,14 +350,6 @@ with tab3:
          st.plotly_chart(fig, use_container_width=True)
 with tab4:
      
-     st.subheader("Model Comparison")
-    
-     y_pred_lr = lr_model.predict(X_test_scaled)
-     y_pred_dt = dt_model.predict(X_test_scaled)
-     y_pred_rf = rf_model.predict(X_test_scaled)
-     y_pred_gb = gb_model.predict(X_test_scaled)
-     y_pred_xgb = xgb_model.predict(X_test_scaled)
-     
      from sklearn.metrics import accuracy_score, recall_score, f1_score
 
      def get_metrics(model, X, y, threshold):
