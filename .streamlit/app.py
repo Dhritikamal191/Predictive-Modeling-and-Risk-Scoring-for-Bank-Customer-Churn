@@ -421,5 +421,5 @@ with tab4:
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      fig= px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",text_auto="True", template="plotly_dark")
-     fig.update_layout("Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
+     fig.update_layout(title="Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
      st.plotly_chart(fig_comparison, use_container_width=True)
