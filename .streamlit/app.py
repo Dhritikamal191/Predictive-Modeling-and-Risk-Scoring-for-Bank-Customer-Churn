@@ -400,51 +400,26 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
-    
-     models_dict={"LR": joblib.load("models/logistic_regression.pkl"),
-"DT": joblib.load("models/decision_tree.pkl"),
-"RF": joblib.load("models/random_forest.pkl"),
-"GB":joblib.load("models/gradient_boosting.pkl"),
-"XGB":joblib.load("models/xgboost.pkl")}
-
-     comp_results = []
-
-     for name,models in models_dict.items():
-         y_prob=model.predict_proba(X_test_scaled)[:,1]
+     def get_metrics(model, X, y, threshold):
+         y_prob=model.predict_proba()[:,1]
          y_pred=(y_prob>=threshold).astype(int)
-         acc=accuracy_score(y_test,y_pred)
-         rec=recall_score(y_test,y_pred)
-         f1=f1_score(y_test,y_pred)
-         comp_results.append({
-         "Model": name,
-         "Accuracy": round(acc,3),
-         "Recall": round(rec,3),
-         "F1 Score":round(f1,3)
-         })
-          
-     df_results = pd.DataFrame(comp_results)
-     df_results=df.round(3)
-     st.table(df_results)
-     df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-     fig_comparison = px.bar(
-     df_melted,
-     x="Metric",  
-     y="Score",  
-     color="Model",
-     barmode="group",
-     title=f"Comparison of Model Metrics (Threshold: {threshold})",
-     text="Score", 
-     height=500
-     )
+         acc= accuracy_score(y, y_pred)
+         rec=recall_score(y, y_pred)
+         f1= f1_score(y, y_pred)
+         return acc, rec, f1
+    
+     models={"Logistic Regression": lr_model","Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+     metrics_data=[]
+     for name, model in models.items():
+         acc, rec, f1= get_metrics(model, X_test_scaled, y_test, threshold)
+         metrics_data.append({"Model": name,"Accuracy":acc,"Recall":rec,"F1 Score":f1})
+     
+     df_metrics=pd.DataFrame(metrics_data)
+     st.subheader("Model Comaprison Table")
+     st.dataframe(df_metrics)
+     df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-     fig_comparison.update_layout(
-     xaxis_title="",
-     yaxis_title="Score (0.0 to 1.0)",
-     yaxis_range=[0, 1], 
-     template="plotly_white"
-     )
-     fig_comparison.update_traces(textposition="outside") 
-
-
+     fig= px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",text_auto="plotly_dark")
+     fig.update_layout("Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
      st.plotly_chart(fig_comparison, use_container_width=True)
