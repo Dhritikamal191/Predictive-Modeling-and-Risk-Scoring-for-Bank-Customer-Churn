@@ -384,6 +384,67 @@ with tab4:
      st.dataframe(df_metrics)
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-     fig= px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",text_auto="True", template="plotly_dark")
-     fig.update_layout(title="Model Performance Comparison", xaxis_title="Model", yaxis_title="Score",legend_title="Metric")
+     
+     color_map = {
+     "Accuracy": "#00D4FF",
+     "Recall": "#FF6B6B",
+     "F1 Score": "#FFD93D"
+     }
+
+     fig = px.bar(
+     df_melted,
+     x="Model",
+     y="Score",
+     color="Metric",
+     barmode="group",
+     color_discrete_map=color_map,
+     text="Score",
+     template="plotly_dark"
+     )
+
+
+     fig.update_traces(
+     texttemplate='%{text:.2f}',
+     textposition='outside',
+     marker_line_width=1.5
+     )
+
+
+     best_model = df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]["Model"]
+
+     fig.add_vrect(
+     x0=best_model,
+     x1=best_model,
+     fillcolor="rgba(255, 255, 255, 0.1)",
+     line_width=0,
+     layer="below"
+     )
+
+
+     fig.update_layout(
+     title="Model Performance Comparison",
+     xaxis_title="Model",
+     yaxis_title="Score",
+     height=550,
+ 
+     margin=dict(l=40, r=40, t=60, b=40),
+
+ 
+     legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=0.5,
+        title=""
+        ),
+
+    
+        hovermode="x unified"
+     )
+
+
+     fig.update_xaxes(showgrid=False)
+     fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+
      st.plotly_chart(fig, use_container_width=True)
