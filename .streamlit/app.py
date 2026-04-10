@@ -424,7 +424,7 @@ with tab4:
           
      df_results = pd.DataFrame(comp_results)
      df_results=df.round(3)
-     st.dataframe(df_results, use_container_width=True)
+     st.table(df_results)
      df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      fig_comparison = px.bar(
