@@ -406,8 +406,8 @@ with tab4:
 "XGB": joblib.load("models/xgboost.pkl")}
      results = []
 
-     for m_name, current_model in models_dict.items():
-         y_probabilities=current_model.predict_proba(X_test_scaled)[:,1]
+     for m_name, model in models_dict.items():
+         y_probabilities=model.predict_proba(X_test_scaled)[:,1]
          y_predictions = (y_probabilities >= threshold).astype(int)
     
     
