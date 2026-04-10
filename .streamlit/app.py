@@ -406,7 +406,7 @@ with tab4:
 "XGB": joblib.load("models/xgboost.pkl")}
      results = []
 
-     for m_name, model in models_dict.items():
+     for name, model in models_dict.items():
     
          acc = accuracy_score(y_test,y_pred)
          rec = recall_score(y_test,y_pred)
