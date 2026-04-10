@@ -408,10 +408,7 @@ with tab4:
 
      results = []
 
-     for m_name,m_obj in models_dict.items():
-
-         table_probs=m_obj.predict_proba(X_test_scaled)[:,1]
-         table_preds=(table_probs>=threshold).astype(int)
+     for name in models_dict.items():
 
          results.append({
          "Model": m_name,
