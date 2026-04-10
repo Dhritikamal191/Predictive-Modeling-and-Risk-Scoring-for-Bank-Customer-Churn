@@ -407,13 +407,10 @@ with tab4:
      results = []
 
      for m_name, model in models_dict.items():
-         y_probabilities=model.predict_proba(X_test_scaled)[:,1]
-         y_predictions = (y_probabilities >= threshold).astype(int)
     
-    
-         acc = accuracy_score(y_test,y_predictions)
-         rec = recall_score(y_test,y_predictions)
-         f1 = f1_score(y_test,y_predictions)
+         acc = accuracy_score(y_test,y_pred)
+         rec = recall_score(y_test,y_pred)
+         f1 = f1_score(y_test,y_pred)
     
          results.append({
          "Model": name,
