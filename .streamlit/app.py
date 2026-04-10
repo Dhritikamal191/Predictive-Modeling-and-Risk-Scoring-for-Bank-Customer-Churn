@@ -423,7 +423,7 @@ with tab4:
          })
           
      df_results = pd.DataFrame(comp_results)
-     st.table(df_results)
+     st.dataframe(df_results, use_container_width=True)
      df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      fig_comparison = px.bar(
