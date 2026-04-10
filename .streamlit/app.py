@@ -424,3 +424,27 @@ with tab4:
 
 
      st.table(pd.DataFrame(results))
+     df_results = pd.DataFrame(results)
+     df_melted = df_results.melt(id_vars="Model", var_name="Metric", value_name="Score")
+
+     fig_comparison = px.bar(
+     df_melted,
+     x="Metric",  
+     y="Score",  
+     color="Model",
+     barmode="group",
+     title=f"Comparison of Model Metrics (Threshold: {threshold})",
+     text="Score", 
+     height=500
+     )
+
+     fig_comparison.update_layout(
+     xaxis_title="",
+     yaxis_title="Score (0.0 to 1.0)",
+     yaxis_range=[0, 1], 
+     template="plotly_white"
+     )
+     fig_comparison.update_traces(textposition="outside") 
+
+
+     st.plotly_chart(fig_comparison, use_container_width=True)
