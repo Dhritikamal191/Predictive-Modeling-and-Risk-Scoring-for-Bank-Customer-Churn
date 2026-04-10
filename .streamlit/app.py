@@ -382,6 +382,30 @@ with tab4:
      col4.metric("F1 Score",f"{best_f1:.2f}")
      st.subheader("Model Comaprison Table")
      st.dataframe(df_metrics)
+
+
+     df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
+
+
+     df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
+
+
+     df_display = df_metrics.copy()
+     for col in ["Accuracy", "Recall", "F1 Score"]:
+         df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
+
+
+     styled_df = df_display.style \
+     .highlight_max(subset=["Accuracy"], color="#00D4FF") \
+     .highlight_max(subset=["Recall"], color="#FF6B6B") \
+     .highlight_max(subset=["F1 Score"], color="#FFD93D") \
+     .set_properties(**{
+        "text-align": "center",
+        "font-weight": "bold"
+     })
+
+     st.dataframe(styled_df, use_container_width=True)
+
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      
