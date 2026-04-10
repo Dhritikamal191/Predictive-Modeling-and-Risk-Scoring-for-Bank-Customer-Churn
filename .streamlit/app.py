@@ -411,7 +411,7 @@ with tab4:
          
          y_probs=model_object_predict_proba(X_test_scaled)[:,1]
 
-         y_preds=y_probs>=threshold).astype(int)
+         y_preds=(y_probs>=threshold).astype(int)
          
          results.append({
          "Model": name,
