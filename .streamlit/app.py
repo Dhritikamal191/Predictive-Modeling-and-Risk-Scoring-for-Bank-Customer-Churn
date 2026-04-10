@@ -399,7 +399,7 @@ with tab4:
      fig=px.bar(df_metrics, x="Model", y=["Accuracy","Recall","F1 Score"], barmode="group", title="Model Performance Comparison")
      st.plotly_chart(fig, use_container_width=True)
 
-    
+     comp_threshold = st.slider("Select Threshold", 0.0, 1.0, 0.12, 0.01, key="comp_slider")
      models_dict={"LR": joblib.load("models/logistic_regression.pkl"),
 "DT": joblib.load("models/decision_tree.pkl"),
 "RF": joblib.load("models/random_forest.pkl"),
@@ -408,7 +408,7 @@ with tab4:
 
      comp_results = []
 
-     for name in models_dict.items():
+     for name,models in models_dict.items():
 
          comp_results.append({
          "Model": name,
