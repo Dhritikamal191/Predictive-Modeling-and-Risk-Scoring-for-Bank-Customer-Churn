@@ -410,7 +410,7 @@ with tab4:
      comp_results = []
 
      for name,models in models_dict.items():
-         y_prob=model.predict_proba(X_test_scaled)
+         y_prob=model.predict_proba(X_test_scaled)[:,1]
          y_pred=(y_prob>=threshold).astype(int)
          acc=accuracy_score(y_prob,y_pred)
          rec=recall_score(y_prob,y_pred)
