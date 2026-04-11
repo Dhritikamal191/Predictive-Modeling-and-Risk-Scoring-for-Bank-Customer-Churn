@@ -531,7 +531,9 @@ with tab4:
      .highlight_max(subset=["F1 Score"], color="#FFD93D") \
      .set_properties(**{"text-align": "center","font-weight": "bold"})
 
-     st.dataframe(styled_df, use_container_width=True)
+     html_table=styled_table(df_metrics)
+     st.markdown(html_table, unsafe_allow_html=True)
+    
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
