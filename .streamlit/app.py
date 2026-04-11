@@ -452,7 +452,7 @@ with tab2:
      x=["Not Churned"],
      y=[np.median(df0["Age"])],
      mode="markers",
-     marker=dict(color="white", size=8),
+     marker=dict(color="black", size=8),
      name="Median (0)"
      )
 
@@ -507,7 +507,7 @@ with tab2:
      x=["Not Churned"],
      y=[np.median(df0["Balance"])],
      mode="markers",
-     marker=dict(color="white", size=8),
+     marker=dict(color="black", size=8),
      name="Median (0)"
      )
 
