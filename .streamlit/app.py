@@ -349,14 +349,15 @@ with tab2:
      col1,col2=st.columns(2)
 
      with col1:
-          fig.add_trace(go.Violin(x=df["Exited"], y=df["Age"],box_visible=True, meanline_visible=True, points="all", line_color="#00D4FF", fillcolor="rgba(0,212,255,0.3)", opacity=0.6))
-          fig.update_layout(title="Age Distribution by Churn", paper_bgcolor="#FF6B6B", plot_bgcolor="#0B132B", font=dict(color="white"), xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)"))
-          st.plotly_chart(fig, use_container_width=True)
+          fig_age= px.violin(df, x="Exited", y="Age", color="Exited", box=True, points="outliers")
+          fig_age.update_layout(template="plotly_dark", paper_bgcolor="#0B132B", plot_bgcolor="#0B132B", font=dict(color="white"), xaxis_title="Churn (0=No, 1=Yes)",yaxis_title="Age")
+          st.plotly_chart(fig_age, use_container_width=True)
+         
      with col2:
-          fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"], template="plotly_dark")
+          fig_balance = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"], template="plotly_dark")
      
-          fig.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-          st.plotly_chart(fig4)
+          fig_balance.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Balance",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B", template="plotly_dark")
+          st.plotly_chart(fig_balance, use_container_width=True)
 with tab3:
      from sklearn.metrics import roc_curve, auc
 
