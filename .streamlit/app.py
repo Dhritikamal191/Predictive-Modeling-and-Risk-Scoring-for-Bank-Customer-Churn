@@ -13,6 +13,69 @@ import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 
+st.markdown("""
+<style>
+
+/* 🔹 Main background */
+[data-testid="stAppViewContainer"] {
+    background-color: #0B132B;
+}
+
+/* 🔹 Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #1C2541;
+}
+
+/* 🔹 Headers (VERY IMPORTANT FIX) */
+h1, h2, h3, h4, h5, h6 {
+    color: #EAEAEA !important;
+}
+
+/* 🔹 General text */
+p, span, div {
+    color: #EAEAEA;
+}
+
+/* 🔹 Tabs (FIX INVISIBLE TAB NAMES) */
+button[data-baseweb="tab"] {
+    color: #A9BCD0;
+    font-weight: 600;
+}
+
+/* 🔹 Active tab */
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #FFFFFF;
+    border-bottom: 2px solid #00D4FF;
+}
+
+/* 🔹 KPI cards */
+[data-testid="stMetric"] {
+    background-color: #1C2541;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #3A506B;
+}
+
+/* 🔹 Buttons */
+.stButton > button {
+    background-color: #2563EB;
+    color: white;
+    border-radius: 8px;
+}
+
+/* 🔹 Labels (inputs, sliders) */
+label {
+    color: #EAEAEA !important;
+}
+
+/* 🔹 Fix dataframe text */
+[data-testid="stDataFrame"] {
+    color: black;  /* keep table readable */
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
