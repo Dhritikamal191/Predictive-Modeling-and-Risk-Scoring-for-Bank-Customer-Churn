@@ -590,7 +590,7 @@ with tab4:
      # Rows
      for _, row in df_display.iterrows():
 
-         html += "<tr>"
+            html += "<tr>"
 
          for col in df_display.columns:
 
