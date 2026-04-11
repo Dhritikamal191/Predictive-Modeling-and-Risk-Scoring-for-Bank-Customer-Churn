@@ -531,13 +531,12 @@ with tab4:
 
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
-     html_table=styled_table(df_display)
-     st.markdown(html_table, unsafe_allow_html=True)
+     html_table=styled_styled_table(df_display)
+     st.markdown(html_styled_table, unsafe_allow_html=True)
     
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-     
      color_map = {"Accuracy": "#00D4FF", "Recall": "#FF6B6B", "F1 Score": "#FFD93D"}
 
      fig = px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",color_discrete_map=color_map,text="Score",template="plotly_dark")
