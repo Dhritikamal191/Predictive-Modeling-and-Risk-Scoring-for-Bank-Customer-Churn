@@ -610,7 +610,7 @@ with tab4:
 
                 html += f"<td style='{style}'>{val}</td>"
 
-        html += "</tr>"
+     html += "</tr>"
 
      html += "</table>"
 
