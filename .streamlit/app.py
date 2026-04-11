@@ -435,7 +435,11 @@ with tab4:
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
          
-     styled_df = df_display.style \.highlight_max(subset=["Accuracy"], color="#00D4FF") \.highlight_max(subset=["Recall"], color="#FF6B6B") \.highlight_max(subset=["F1 Score"], color="#FFD93D") \.set_properties(**{"text-align": "center","font-weight": "bold"})
+     styled_df = df_display.style \
+     .highlight_max(subset=["Accuracy"], color="#00D4FF") \
+     .highlight_max(subset=["Recall"], color="#FF6B6B") \
+     .highlight_max(subset=["F1 Score"], color="#FFD93D") \
+     .set_properties(**{"text-align": "center","font-weight": "bold"})
 
      st.dataframe(styled_df, use_container_width=True)
      st.subheader ("Model Comparison Graph")
