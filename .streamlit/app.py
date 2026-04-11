@@ -16,39 +16,39 @@ import plotly.figure_factory as ff
 st.markdown("""
 <style>
 
-/* 🔹 Main background */
+/*  Main background */
 [data-testid="stAppViewContainer"] {
     background-color: #0B132B;
 }
 
-/* 🔹 Sidebar */
+/*  Sidebar */
 [data-testid="stSidebar"] {
     background-color: #1C2541;
 }
 
-/* 🔹 Headers (VERY IMPORTANT FIX) */
+/*  Headers (VERY IMPORTANT FIX) */
 h1, h2, h3, h4, h5, h6 {
     color: #EAEAEA !important;
 }
 
-/* 🔹 General text */
+/* General text */
 p, span, div {
     color: #EAEAEA;
 }
 
-/* 🔹 Tabs (FIX INVISIBLE TAB NAMES) */
+/*  Tabs (FIX INVISIBLE TAB NAMES) */
 button[data-baseweb="tab"] {
     color: #A9BCD0;
     font-weight: 600;
 }
 
-/* 🔹 Active tab */
+/*  Active tab */
 button[data-baseweb="tab"][aria-selected="true"] {
     color: #FFFFFF;
     border-bottom: 2px solid #00D4FF;
 }
 
-/* 🔹 KPI cards */
+/*  KPI cards */
 [data-testid="stMetric"] {
     background-color: #1C2541;
     padding: 15px;
@@ -57,19 +57,19 @@ button[data-baseweb="tab"][aria-selected="true"] {
     border: 1px solid #3A506B;
 }
 
-/* 🔹 Buttons */
+/*  Buttons */
 .stButton > button {
     background-color: #2563EB;
     color: white;
     border-radius: 8px;
 }
 
-/* 🔹 Labels (inputs, sliders) */
+/*  Labels (inputs, sliders) */
 label {
     color: #EAEAEA !important;
 }
 
-/* 🔹 Fix dataframe text */
+/*  Fix dataframe text */
 [data-testid="stDataFrame"] {
     color: black;  /* keep table readable */
 }
@@ -80,23 +80,74 @@ label {
 st.markdown("""
 <style>
 
-/* 🔹 Main background */
+/*  Main background */
 [data-testid="stAppViewContainer"] {
     background-color: #0B132B;
 }
 
-/* 🔹 Sidebar */
+/*  Sidebar */
 [data-testid="stSidebar"] {
     background-color: #1C2541;
 }
 
-/* 🔹 Block containers */
+/*  Block containers */
 [data-testid="stVerticalBlock"] {
     background-color: transparent;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+def styled_table(df):
+
+    html = """
+    <style>
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #1C2541;
+        color: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .custom-table th {
+        background-color: #3A506B;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .custom-table td {
+        padding: 10px;
+        text-align: center;
+        border-top: 1px solid #2D3748;
+    }
+
+    .custom-table tr:hover {
+        background-color: #2A3A5A;
+    }
+
+    </style>
+
+    <table class="custom-table">
+    <tr>
+    """
+
+    # Header
+    for col in df.columns:
+        html += f"<th>{col}</th>"
+    html += "</tr>"
+
+    # Rows
+    for _, row in df.iterrows():
+        html += "<tr>"
+        for val in row:
+            html += f"<td>{val}</td>"
+        html += "</tr>"
+
+    html += "</table>"
+
+    return html
 
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
