@@ -13,50 +13,6 @@ import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 
-st.markdown("""
-<style>
-
-/* 🔹 Page Background */
-[data-testid="stAppViewContainer"] {
-    background-color: #0B132B;  /* Deep navy */
-}
-[data-tested="stVerticalBlock"] {background-color: transparent;  /* FIX */
-}
-/* 🔹 KPI Cards */
-[data-testid="stMetric"] {
-    background-color: #1C2541;  /* Slightly lighter */
-    padding: 18px;
-    border-radius: 14px;
-    text-align: center;
-    border: 1px solid #3A506B;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
-}
-
-/* 🔹 KPI Label */
-[data-testid="stMetricLabel"] {
-    color: #A9BCD0;
-    font-size: 14px;
-}
-
-/* 🔹 KPI Value */
-[data-testid="stMetricValue"] {
-    color: #5BC0BE;  /* Highlight color */
-    font-size: 26px;
-    font-weight: bold;
-}
-
-/* 🔹 KPI Delta */
-[data-testid="stMetricDelta"] {
-    color: #FFD166;
-}
-
-/* 🔹 Headings */
-h1, h2, h3 {
-    color: #EAEAEA;
-}
-
-</style>
-""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
