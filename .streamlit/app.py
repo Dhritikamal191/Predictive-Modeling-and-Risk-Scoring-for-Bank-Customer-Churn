@@ -589,7 +589,7 @@ with tab4:
 
                for col in df_display.columns:
                    val = row[col]
-                   style = ""
+                style = ""
 
                    if col == "Accuracy" and val == best_acc:
                       style = "background-color:#00D4FF; color:black;"
