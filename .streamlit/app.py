@@ -368,12 +368,12 @@ with tab1:
      fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
-   
 
-     probs_0 = probs[df["Exited"] == 0]
-     probs_1 = probs[df["Exited"] == 1]
+     y_prob = model.predict_proba(X_test_scaled)[:, 1]
 
 
+     prob_0 = y_prob[df["Exited"] == 0]
+     prob_1 = y_prob[df["Exited"] == 1]
      fig = ff.create_distplot(
      [prob_0, prob_1],
      group_labels=["Not Churned", "Churned"],
