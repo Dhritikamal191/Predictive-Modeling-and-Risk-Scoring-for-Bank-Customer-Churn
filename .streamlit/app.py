@@ -519,14 +519,19 @@ with tab4:
     
      df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
      
-    
      df_display = df_metrics.copy()
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
          
-     styled_df = df_display.style.set_properties(**{"background-color":"#1C2541","color":"white","text-align":"center"}).set_table_styles([{"selector":"th","props":[("background-color","#3A506B"),("color","black"),("text-align","center")]}])
+     styled_df=df_display.style\
+     .highlight_max(subset=["Accuracy"], color="#00D4FF")\
+     .highlight_max(subset=["Recall"], color="#FF6B6B")\
+     .highlight_max(subset=["F1 Score"], color="FFD93D")\
+     .set_properties(**{"text-align":"center","font-weight":"bold"})
      
-     st.dataframe(styled_df, use_container_width=True)
+     html_table=styled_table(df_metrics)
+     st.markdown(html_table, unsafe_allow_html=True)
+     html_table=styled_table(df_display)
 
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
