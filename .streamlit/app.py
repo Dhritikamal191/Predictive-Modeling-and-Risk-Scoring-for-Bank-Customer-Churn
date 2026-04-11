@@ -514,9 +514,7 @@ with tab4:
      col3.metric("recall",f"{best_recall:.2f}")
      col4.metric("F1 Score",f"{best_f1:.2f}")
      st.subheader("Model Comaprison Table")
-     st.dataframe(df_metrics)
-
-     st.subheader("Model Comparison Table (Percentage wise)")
+     
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
     
      df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
@@ -532,6 +530,8 @@ with tab4:
      .set_properties(**{"text-align": "center","font-weight": "bold"})
 
      html_table=styled_table(df_metrics)
+     st.markdown(html_table, unsafe_allow_html=True)
+     html_table=styled_table(styled_df)
      st.markdown(html_table, unsafe_allow_html=True)
     
      st.subheader ("Model Comparison Graph")
