@@ -350,7 +350,7 @@ with tab2:
      with col1:
           fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn", color_discrete_sequence=["#3b82f6","#ef4444"])
      
-          fig.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,template="plotly_dark",paper_bgcolor="#0B132B)",plot_bgcolor="#0B132B")
+          fig.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B")
 
           st.plotly_chart(fig3)
 
