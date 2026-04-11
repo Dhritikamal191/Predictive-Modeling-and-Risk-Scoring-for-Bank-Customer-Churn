@@ -518,7 +518,7 @@ with tab4:
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
     
      df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
-     html_table=styled_html_table(df_metrics)
+     html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_table=True)
     
      df_display = df_metrics.copy()
