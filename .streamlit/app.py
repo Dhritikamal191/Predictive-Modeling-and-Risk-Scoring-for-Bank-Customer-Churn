@@ -531,7 +531,7 @@ with tab4:
 
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
-     html_table=styled_table(styled_df)
+     html_table=styled_table(df_display)
      st.markdown(html_table, unsafe_allow_html=True)
     
      st.subheader ("Model Comparison Graph")
