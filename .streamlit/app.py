@@ -16,47 +16,42 @@ import plotly.figure_factory as ff
 st.markdown("""
 <style>
 
-/* 🔹 Page background */
-body {
-    background-color: #0E1117;
+/* 🔹 Page Background */
+[data-testid="stAppViewContainer"] {
+    background-color: #0B132B;  /* Deep navy */
 }
 
 /* 🔹 KPI Cards */
 [data-testid="stMetric"] {
-    background-color: #111827;
-    padding: 15px;
-    border-radius: 12px;
+    background-color: #1C2541;  /* Slightly lighter */
+    padding: 18px;
+    border-radius: 14px;
     text-align: center;
-    border: 1px solid #2D3748;
+    border: 1px solid #3A506B;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
 }
 
-/* 🔹 Titles */
+/* 🔹 KPI Label */
+[data-testid="stMetricLabel"] {
+    color: #A9BCD0;
+    font-size: 14px;
+}
+
+/* 🔹 KPI Value */
+[data-testid="stMetricValue"] {
+    color: #5BC0BE;  /* Highlight color */
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* 🔹 KPI Delta */
+[data-testid="stMetricDelta"] {
+    color: #FFD166;
+}
+
+/* 🔹 Headings */
 h1, h2, h3 {
-    color: #E5E7EB;
-}
-
-/* 🔹 Table styling */
-[data-testid="stDataFrame"] {
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-/* 🔹 Button styling */
-.stButton > button {
-    background-color: #2563EB;
-    color: white;
-    border-radius: 8px;
-    padding: 8px 16px;
-}
-
-/* 🔹 Hover effect */
-.stButton > button:hover {
-    background-color: #1D4ED8;
-}
-
-/* 🔹 Slider */
-.stSlider {
-    color: #00D4FF;
+    color: #EAEAEA;
 }
 
 </style>
