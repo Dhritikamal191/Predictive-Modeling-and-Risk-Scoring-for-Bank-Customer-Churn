@@ -581,38 +581,34 @@ with tab4:
      <table class="custom-table">
      <tr>
      """
+           for col in df_display.columns:
+               html += f"<th>{col}</th>"
+               html += "</tr>"
+               for _, row in df_display.iterrows():
+                      html += "<tr>"
 
-     # Header
-     for col in df_display.columns:
-         html += f"<th>{col}</th>"
-     html += "</tr>"
-     for _, row in df_display.iterrows():
+               for col in df_display.columns:
+                   val = row[col]
+                   style = ""
 
-            html += "<tr>"
+                   if col == "Accuracy" and val == best_acc:
+                      style = "background-color:#00D4FF; color:black;"
 
-            for col in df_display.columns:
+                   elif col == "Recall" and val == best_rec:
+                        style = "background-color:#FF6B6B; color:white;"
 
-                val = row[col]
-                style = ""
-
-                if col == "Accuracy" and val == best_acc:
-                   style = "background-color:#00D4FF; color:black;"
-
-                elif col == "Recall" and val == best_rec:
-                     style = "background-color:#FF6B6B; color:white;"
-
-                elif col == "F1 Score" and val == best_f1:
-                     style = "background-color:#FFD93D; color:black;"
+                   elif col == "F1 Score" and val == best_f1:
+                        style = "background-color:#FFD93D; color:black;"
 
              
-                if col in ["Accuracy", "Recall", "F1 Score"]:
-                   val = f"{val:.2f}%"
+                   if col in ["Accuracy", "Recall", "F1 Score"]:
+                      val = f"{val:.2f}%"
 
-                html += f"<td style='{style}'>{val}</td>"
+                   html += f"<td style='{style}'>{val}</td>"
 
-     html += "</tr>"
+           html += "</tr>"
 
-     html += "</table>"
+           html += "</table>"
 
      return html
      html_table=styled_html_table(df_metrics)
