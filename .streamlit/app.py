@@ -348,8 +348,7 @@ with tab2:
      col1,col2=st.columns(2)
 
      with col1:
-          fig.add_trace(go.Violin(x=df["Exited"][df["Exited"]==0], y=df["Age"][df["Exited"]==0], name="Not Exited", line_color="#00D4FF", fillcolor="rgba(0,212,225,0.5)", opacity=0.7))
-          fig.add_trace(go.Violin(x=df["Exited"][df["Exited"]==1], y=df["Age"][df["Exited"]==1], name="Exited", line_color="#FF6B6B", fill_color="rgba(255,107,107,0.5)", opacity=0.7))
+          fig.add_trace(go.Violin(x=df["Exited"], y=df["Age"],box_visible=True, meanline_visible=True, points="all", line_color="#00D4FF", fillcolor="rgba(0,212,255,0.4)", opacity=0.7))
           fig.update_layout(title="Age Distribution by Churn", paper_bgcolor="#FF6B6B", plot_bgcolor="#0B132B", font=dict(color="white"), xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)"))
           st.plotly_chart(fig, use_container_width=True)
      with col2:
