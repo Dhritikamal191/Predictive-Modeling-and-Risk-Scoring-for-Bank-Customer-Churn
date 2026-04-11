@@ -369,48 +369,6 @@ with tab1:
      st.plotly_chart(fig, use_container_width=True)
 
 
-     y_prob = model.predict_proba(X_test_scaled)[:, 1]
-
-
-     prob_0 = y_prob[df["Exited"] == 0]
-     prob_1 = y_prob[df["Exited"] == 1]
-     fig = ff.create_distplot(
-     [prob_0, prob_1],
-     group_labels=["Not Churned", "Churned"],
-     show_hist=False,
-     show_rug=False
-     )
-
-
-     mean_0 = np.mean(prob_0)
-     median_0 = np.median(prob_0)
-
-     mean_1 = np.mean(prob_1)
-     median_1 = np.median(prob_1)
-
-
-     fig.add_vline(x=mean_0, line_dash="dash", line_color="cyan",
-              annotation_text="Mean (Not Churned)", annotation_position="top")
-
-     fig.add_vline(x=median_0, line_dash="dot", line_color="cyan")
-
-     fig.add_vline(x=mean_1, line_dash="dash", line_color="red",
-              annotation_text="Mean (Churned)", annotation_position="top")
-
-     fig.add_vline(x=median_1, line_dash="dot", line_color="red")
-
-
-     fig.update_layout(
-     template="plotly_dark",
-     paper_bgcolor="#0B132B",
-     plot_bgcolor="#0B132B",
-     title="Churn Probability Distribution",
-     xaxis_title="Predicted Probability",
-     yaxis_title="Density"
-     )
-
-     st.plotly_chart(fig, use_container_width=True)
-
 with tab2:
      # --------------------------------------------------
      # Feature Importance Dashboard
