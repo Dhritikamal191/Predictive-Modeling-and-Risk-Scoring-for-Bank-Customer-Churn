@@ -57,6 +57,27 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+
+/* 🔹 Main background */
+[data-testid="stAppViewContainer"] {
+    background-color: #0B132B;
+}
+
+/* 🔹 Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #1C2541;
+}
+
+/* 🔹 Block containers */
+[data-testid="stVerticalBlock"] {
+    background-color: transparent;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
 col1,col2=st.columns([0.5,6])
