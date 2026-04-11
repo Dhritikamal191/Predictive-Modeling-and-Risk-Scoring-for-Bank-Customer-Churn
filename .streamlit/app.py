@@ -240,7 +240,7 @@ with tab1:
      
           fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)",'font': {'size': 20}}, delta={'reference': risk_score, 'increasing': {'color': "red"}},gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color':"#2563eb", 'thickness': 0.25},'bgcolor':"#111827",'borderwidth':2,'bordercolor':"#374151",'steps': [{'range': [0, 40], 'color': "#16a34a"},{'range': [40, 70],'color':"#ca8a04"},{'range': [70, 100], 'color':"#dc2626"}],'threshold': {'line': {'color':"black", 'width':4},'thickness':0.75,'value':new_risk}}))
 
-          fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20))
+          fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig1)
 
@@ -248,7 +248,7 @@ with tab1:
           compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
           fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison",color_discrete_sequence=["#6366f1","#f43f5e"])
           fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
-          fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_white")
+          fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig2)
 
      y_prob=model.predict_proba(X_test_scaled)[:,1]
@@ -260,8 +260,7 @@ with tab1:
      labels = ["Churn", "No Churn"]
      fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
 
-     fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual")
-
+     fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
      st.plotly_chart(fig)
 
@@ -274,7 +273,7 @@ with tab1:
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
      fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", title="Distribution of Customer Churn Probability (Test Set)", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay")
      fig.update_traces(opacity=0.7)
-     fig.update_layout(template="plotly_white",bargap=0.1, legend_title_text="Customer Status")
+     fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
      
 with tab2:
@@ -290,7 +289,7 @@ with tab2:
      max_val=importance_df["Importance"].max()
      fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", title="Feature Importance", color="Importance", color_discrete_sequence=px.colors.qualitative.Set3)
      fig2.update_traces(text=importance_df["Importance"],textposition="outside")
-     fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500)
+     fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig2, use_container_width=True)
 
      explainer=shap.Explainer(model)
@@ -308,7 +307,7 @@ with tab2:
 
      fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df), increasing=dict(marker=dict(color="#22c55e")), decreasing=dict(marker=dict(color="#ef4444")), totals=dict(marker=dict(color="#3b82f6"))))
 
-     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500)
+     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      colors = shap_df["SHAP Value"]
@@ -330,14 +329,14 @@ with tab2:
      with col1:
           fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn", color_discrete_sequence=["#3b82f6","#ef4444"])
      
-          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
+          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig3)
 
      with col2:
           fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"])
      
-          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500)
+          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig4)
 with tab3:
      from sklearn.metrics import roc_curve, auc
@@ -354,7 +353,7 @@ with tab3:
 
      fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
 
-     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
      fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
      
@@ -370,7 +369,7 @@ with tab3:
      fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
 
      fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
-
+     fig.update_layout(template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      from sklearn.inspection import partial_dependence
@@ -388,7 +387,7 @@ with tab3:
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
-         fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+         fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
@@ -429,90 +428,36 @@ with tab4:
 
      st.subheader("Model Comparison Table (Percentage wise)")
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
-
-
+    
      df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
-
-
+    
      df_display = df_metrics.copy()
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
-
-
-     styled_df = df_display.style \
-     .highlight_max(subset=["Accuracy"], color="#00D4FF") \
-     .highlight_max(subset=["Recall"], color="#FF6B6B") \
-     .highlight_max(subset=["F1 Score"], color="#FFD93D") \
-     .set_properties(**{
-        "text-align": "center",
-        "font-weight": "bold"
-     })
+         
+     styled_df = df_display.style \.highlight_max(subset=["Accuracy"], color="#00D4FF") \.highlight_max(subset=["Recall"], color="#FF6B6B") \.highlight_max(subset=["F1 Score"], color="#FFD93D") \.set_properties(**{"text-align": "center","font-weight": "bold"})
 
      st.dataframe(styled_df, use_container_width=True)
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      
-     color_map = {
-     "Accuracy": "#00D4FF",
-     "Recall": "#FF6B6B",
-     "F1 Score": "#FFD93D"
-     }
+     color_map = {"Accuracy": "#00D4FF", "Recall": "#FF6B6B", "F1 Score": "#FFD93D"}
 
-     fig = px.bar(
-     df_melted,
-     x="Model",
-     y="Score",
-     color="Metric",
-     barmode="group",
-     color_discrete_map=color_map,
-     text="Score",
-     template="plotly_dark"
-     )
+     fig = px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",color_discrete_map=color_map,text="Score",template="plotly_dark")
 
-
-     fig.update_traces(
-     texttemplate='%{text:.2f}',
-     textposition='outside',
-     marker_line_width=1.5
-     )
-
+     fig.update_traces(texttemplate='%{text:.2f}',textposition='outside',marker_line_width=1.5)
 
      best_model = df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]["Model"]
 
-     fig.add_vrect(
-     x0=best_model,
-     x1=best_model,
-     fillcolor="rgba(255, 255, 255, 0.1)",
-     line_width=0,
-     layer="below"
-     )
+     fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
 
-
-     fig.update_layout(
-     title="Model Performance Comparison",
-     xaxis_title="Model",
-     yaxis_title="Score",
-     height=550,
- 
-     margin=dict(l=40, r=40, t=60, b=40),
-
- 
-     legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="center",
-        x=0.5,
-        title=""
-        ),
-
-    
-        hovermode="x unified"
-     )
-
+     fig.update_layout(title="Model Performance Comparison",xaxis_title="Model",yaxis_title="Score",height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title=""),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
 
      fig.update_xaxes(showgrid=False)
+    
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+    
      fig.update_traces(marker=dict(line=dict(width=1)))
+    
      st.plotly_chart(fig, use_container_width=True)
