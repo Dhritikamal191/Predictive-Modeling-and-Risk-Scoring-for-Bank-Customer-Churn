@@ -592,28 +592,27 @@ with tab4:
 
             html += "<tr>"
 
-         for col in df_display.columns:
+            for col in df_display.columns:
 
-             val = row[col]
-             style = ""
+                val = row[col]
+                style = ""
 
-             #  Highlight logic
-             if col == "Accuracy" and val == best_acc:
-                style = "background-color:#00D4FF; color:black;"
+                if col == "Accuracy" and val == best_acc:
+                   style = "background-color:#00D4FF; color:black;"
 
-             elif col == "Recall" and val == best_rec:
-                  style = "background-color:#FF6B6B; color:white;"
+                elif col == "Recall" and val == best_rec:
+                     style = "background-color:#FF6B6B; color:white;"
 
-             elif col == "F1 Score" and val == best_f1:
-                  style = "background-color:#FFD93D; color:black;"
+                elif col == "F1 Score" and val == best_f1:
+                     style = "background-color:#FFD93D; color:black;"
 
-             #  Format %
-             if col in ["Accuracy", "Recall", "F1 Score"]:
-                val = f"{val:.2f}%"
+             
+                if col in ["Accuracy", "Recall", "F1 Score"]:
+                   val = f"{val:.2f}%"
 
-             html += f"<td style='{style}'>{val}</td>"
+                html += f"<td style='{style}'>{val}</td>"
 
-        html += "</tr>"
+               html += "</tr>"
 
      html += "</table>"
 
