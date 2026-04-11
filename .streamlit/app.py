@@ -417,20 +417,6 @@ with tab2:
      # --------------------------------------------------
      st.subheader("Customer Data Exploration")
 
-     col1,col2=st.columns(2)
-
-     with col1:
-          fig_age= px.violin(df, x="Exited", y="Age", color="Exited", box=True, points="outliers")
-          fig_age.update_layout(template="plotly_dark", paper_bgcolor="#0B132B", plot_bgcolor="#0B132B", font=dict(color="white"), xaxis_title="Churn (0=No, 1=Yes)",yaxis_title="Age")
-          st.plotly_chart(fig_age, use_container_width=True)
-         
-     with col2:
-          fig_balance = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"], template="plotly_dark")
-     
-          fig_balance.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Balance",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B", template="plotly_dark")
-          st.plotly_chart(fig_balance, use_container_width=True)
-
-
      st.subheader("Age Distribution by Churn")
 
 
