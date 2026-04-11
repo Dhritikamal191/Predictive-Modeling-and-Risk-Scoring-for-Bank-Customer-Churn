@@ -524,7 +524,7 @@ with tab4:
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
          
-     styled_df = df_display.style.set_properties(**{"background-color":"#1C2541","color":"black","text-align":"center"}).set_table_styles([{"selector":"th","props":[("background-color","#3A506B"),("color","white"),("text-align","center")]}])
+     styled_df = df_display.style.set_properties(**{"background-color":"black","color":"white","text-align":"center"}).set_table_styles([{"selector":"th","props":[("background-color","#3A506B"),("color","white"),("text-align","center")]}])
      
      st.dataframe(styled_df, use_container_width=True)
 
