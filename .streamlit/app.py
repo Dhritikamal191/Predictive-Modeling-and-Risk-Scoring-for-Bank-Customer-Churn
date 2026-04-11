@@ -329,14 +329,14 @@ with tab2:
      with col1:
           fig3 = px.violin(df, x="Exited", y="Age",color="Exited", points="outliers",box=True,title="Age Distribution by Churn", color_discrete_sequence=["#3b82f6","#ef4444"])
      
-          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig3)
 
      with col2:
           fig4 = px.violin(df, x="Exited", y="Balance",color="Exited",points="outliers",box=True,title="Balance Distribution by Churn", color_discrete_sequence=["#22c55e","#f97316"])
      
-          fig.update_layout( template="plotly_dark",xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(xaxis_title="Churn (0=No, 1=Yes)", yaxis_title="Age", height=500,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig4)
 with tab3:
      from sklearn.metrics import roc_curve, auc
