@@ -13,6 +13,55 @@ import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 
+st.markdown("""
+<style>
+
+/* 🔹 Page background */
+body {
+    background-color: #0E1117;
+}
+
+/* 🔹 KPI Cards */
+[data-testid="stMetric"] {
+    background-color: #111827;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #2D3748;
+}
+
+/* 🔹 Titles */
+h1, h2, h3 {
+    color: #E5E7EB;
+}
+
+/* 🔹 Table styling */
+[data-testid="stDataFrame"] {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 🔹 Button styling */
+.stButton > button {
+    background-color: #2563EB;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+}
+
+/* 🔹 Hover effect */
+.stButton > button:hover {
+    background-color: #1D4ED8;
+}
+
+/* 🔹 Slider */
+.stSlider {
+    color: #00D4FF;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
 col1,col2=st.columns([0.5,6])
