@@ -525,8 +525,7 @@ with tab4:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
          
      styled_df = df_display.style.set_properties(**{"background-color":"#1C2541","color":"white","text-align":"center"}).set_table_styles([{"selector":"th","props":[("background-color","#3A506B"),("color","white"),("text-align","center")]}])
-     html_table=styled_table(df_metrics)
-     st.markdown(html_table, unsafe_allow_table=True)
+     
      st.dataframe(styled_df, use_container_width=True)
 
      st.subheader ("Model Comparison Graph")
