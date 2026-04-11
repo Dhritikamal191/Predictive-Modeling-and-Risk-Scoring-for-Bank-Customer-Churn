@@ -370,8 +370,8 @@ with tab1:
 
    
 
-     prob_0 = y_prob[df["Exited"] == 0]
-     prob_1 = y_prob[df["Exited"] == 1]
+     probs_0 = y_prob[df["Exited"] == 0]
+     probs_1 = y_prob[df["Exited"] == 1]
 
 
      fig = ff.create_distplot(
