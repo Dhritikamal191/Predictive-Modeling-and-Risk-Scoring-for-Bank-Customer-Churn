@@ -536,7 +536,7 @@ with tab4:
     
      def styled_html_table(df):
 
-     df_display = df.copy()
+         df_display = df.copy()
 
      #  Convert to percentage
      for col in ["Accuracy", "Recall", "F1 Score"]:
