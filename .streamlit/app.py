@@ -518,15 +518,15 @@ with tab4:
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
     
      df_metrics.insert(0, "Rank", range(1, len(df_metrics) + 1))
-     html_table=styled_table(df_metrics)
-     st.markdown(html_table, unsafe_allow_table=True)
+     
     
      df_display = df_metrics.copy()
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
          
      styled_df = df_display.style.set_properties(**{"background-color":"#1C2541","color":"white","text-align":"center"}).set_table_styles([{"selector":"th","props":[("background-color","#3A506B"),("color","white"),("text-align","center")]}])
-
+     html_table=styled_table(df_metrics)
+     st.markdown(html_table, unsafe_allow_table=True)
      st.dataframe(styled_df, use_container_width=True)
 
      st.subheader ("Model Comparison Graph")
