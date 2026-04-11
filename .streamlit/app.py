@@ -586,8 +586,6 @@ with tab4:
      for col in df_display.columns:
          html += f"<th>{col}</th>"
      html += "</tr>"
-
-     # Rows
      for _, row in df_display.iterrows():
 
             html += "<tr>"
@@ -612,7 +610,7 @@ with tab4:
 
                 html += f"<td style='{style}'>{val}</td>"
 
-               html += "</tr>"
+        html += "</tr>"
 
      html += "</table>"
 
