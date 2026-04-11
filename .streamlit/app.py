@@ -534,6 +534,91 @@ with tab4:
      html_table=styled_styled_table(df_display)
      st.markdown(html_styled_table, unsafe_allow_html=True)
     
+     def styled_html_table(df):
+
+    df_display = df.copy()
+
+    # 🔹 Convert to percentage
+    for col in ["Accuracy", "Recall", "F1 Score"]:
+        df_display[col] = df_display[col] * 100
+
+    # 🔹 Find best values
+    best_acc = df_display["Accuracy"].max()
+    best_rec = df_display["Recall"].max()
+    best_f1 = df_display["F1 Score"].max()
+
+    html = """
+    <style>
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #1C2541;
+        color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 15px;
+    }
+
+    .custom-table th {
+        background-color: #3A506B;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .custom-table td {
+        padding: 10px;
+        text-align: center;
+        border-top: 1px solid #2D3748;
+        font-weight: bold;
+    }
+
+    .custom-table tr:hover {
+        background-color: #2A3A5A;
+    }
+
+    </style>
+
+    <table class="custom-table">
+    <tr>
+    """
+
+    # 🔹 Header
+    for col in df_display.columns:
+        html += f"<th>{col}</th>"
+    html += "</tr>"
+
+    # 🔹 Rows
+    for _, row in df_display.iterrows():
+
+        html += "<tr>"
+
+        for col in df_display.columns:
+
+            val = row[col]
+            style = ""
+
+            # 🎯 Highlight logic
+            if col == "Accuracy" and val == best_acc:
+                style = "background-color:#00D4FF; color:black;"
+
+            elif col == "Recall" and val == best_rec:
+                style = "background-color:#FF6B6B; color:white;"
+
+            elif col == "F1 Score" and val == best_f1:
+                style = "background-color:#FFD93D; color:black;"
+
+            # 🔹 Format %
+            if col in ["Accuracy", "Recall", "F1 Score"]:
+                val = f"{val:.2f}%"
+
+            html += f"<td style='{style}'>{val}</td>"
+
+        html += "</tr>"
+
+    html += "</table>"
+
+    return html
+
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
