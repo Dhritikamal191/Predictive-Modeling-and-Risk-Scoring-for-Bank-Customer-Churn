@@ -407,7 +407,7 @@ with tab1:
 
          return fig
 
-             st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
+         st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
 
 
 with tab2:
