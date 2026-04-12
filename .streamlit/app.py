@@ -223,6 +223,15 @@ def styled_table(df):
 
     return html
 
+def kpi_card(title, value, icon):
+    return f"""
+    <div class="kpi-card">
+        <div class="kpi-icon">{icon}</div>
+        <div class="kpi-title">{title}</div>
+        <div class="kpi-value">{value}</div>
+    </div>
+    """
+
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
 col1,col2=st.columns([0.5,6])
@@ -341,6 +350,8 @@ else:
      st.success("Customer is NOT likely to churn")
 risk_score = prob * 100
 
+probs= model.predict_proba(X_test_scaled)[:,1]
+
 # --------------------------------------------------
 # Risk Category
 # --------------------------------------------------
@@ -367,7 +378,7 @@ with col2:
 with col3:
      st.metric("🚦 Risk Category", risk)
 
-probs= model.predict_proba(X_test_scaled)[:,1]
+
 col1,col2=st.columns(2)
 
 with col1:
@@ -375,6 +386,23 @@ with col1:
 
 with col2:
      st.metric("📈 Max Risk Score",f"{round(probs.max()*100,1)}%")
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col1:
+    st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
+
+with col2:
+    st.markdown(kpi_card("Risk Score", f"{risk_score}/100", "⚡"), unsafe_allow_html=True)
+
+with col3:
+    st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
+
+with col4:
+    st.markdown(kpi_card("Average Churn Probability", f"{probs:.2f}", "📈"), unsafe_allow_html=True)
+
+with col5:
+     st.markdown(kpi_card("Max Risk Score", f"{probs:.2f}","📈", html_allow_html=True)
 
 st.divider()
 
