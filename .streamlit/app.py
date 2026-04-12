@@ -595,7 +595,7 @@ with tab4:
      best_f1=best_row["F1 Score"]
 
      col1, col2, col3, col4=st.columns(4)
-     col1.metric("Best Model", best_model_name)
+     col1.metric("🏆 Best Model", best_model_name)
      col2.metric("Accuracy",f"{best_accuracy:.2f}")
      col3.metric("recall",f"{best_recall:.2f}")
      col4.metric("F1 Score",f"{best_f1:.2f}")
