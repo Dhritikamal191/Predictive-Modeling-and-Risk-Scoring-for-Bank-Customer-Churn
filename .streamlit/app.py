@@ -399,10 +399,10 @@ with col3:
     st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
 
 with col4:
-    st.markdown(kpi_card("Average Churn Probability", f"{probs.mean:.2f}", "📈"), unsafe_allow_html=True)
+    st.markdown(kpi_card("Average Churn Probability", round(probs.mean(),3, "📈"), unsafe_allow_html=True)
 
 with col5:
-     st.markdown(kpi_card("Max Risk Score", f"{probs.max:.2f}","📈"), html_allow_html=True)
+     st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), html_allow_html=True)
 
 st.divider()
 
