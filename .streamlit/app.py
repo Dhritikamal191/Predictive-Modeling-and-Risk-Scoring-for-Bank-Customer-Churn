@@ -405,7 +405,7 @@ with tab1:
          fig.update_xaxes(range=[0, 1])
 
          return fig
-     st.plotly_chart(render_plotly_kde(model, X_test_scaled,label), use_container_width=True)
+     st.plotly_chart(render_plotly_kde(model, X_test_scaled,model_choice), use_container_width=True)
 
 
 with tab2:
