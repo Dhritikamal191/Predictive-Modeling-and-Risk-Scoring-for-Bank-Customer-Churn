@@ -455,7 +455,7 @@ with tab2:
 
      fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",title="Age Distribution by Churn",yaxis_title="Age",showlegend=True)
+     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -471,7 +471,7 @@ with tab2:
 
      fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",title="Balance Distribution by Churn",yaxis_title="Balance")
+     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -497,6 +497,7 @@ with tab3:
      
      st.plotly_chart(fig, use_container_width=True)
 
+     st.subheader("ROC with respect to Random Line")
      fig = go.Figure()
      models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
      for name, m in models.items():
