@@ -366,34 +366,13 @@ else:
 # Display Risk Calculator
 # --------------------------------------------------
 
-col1, col2, col3 = st.columns(3)
-
-with col1:  
-
-     st.metric("📶 Churn Probability", round(prob,3))
-
-with col2:
-     st.metric("⚠️ Risk Score", f"{risk_score:.0f}/100")
-
-with col3:
-     st.metric("🚦 Risk Category", risk)
-
-
-col1,col2=st.columns(2)
-
-with col1:
-     st.metric("📊 Average Churn Probability",round(probs.mean(),3))
-
-with col2:
-     st.metric("📈 Max Risk Score",f"{round(probs.max()*100,1)}%")
-
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
+    st.markdown(kpi_card("Churn Probability", f"{round(prob,3)}", "📉"), unsafe_allow_html=True)
 
 with col2:
-    st.markdown(kpi_card("Risk Score", f"{risk_score}/100", "⚡"), unsafe_allow_html=True)
+    st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚡"), unsafe_allow_html=True)
 
 with col3:
     st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
@@ -402,7 +381,7 @@ with col4:
     st.markdown(kpi_card("Average Churn Probability", round(probs.mean(),3), "📈"), unsafe_allow_html=True)
 
 with col5:
-     st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), html_allow_html=True)
+     st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
 
 st.divider()
 
