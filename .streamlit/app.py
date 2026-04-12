@@ -394,7 +394,7 @@ with tab1:
                 fill='tozeroy',  line=dict(color=color, width=2),
                 fillcolor=color,
                 opacity=0.5))
-         m_val = np.mean(plot_probs)
+         m_val = np.mean(kde_probs)
          fig.add_vline(x=m_val,   line_dash="dash", line_color="red")
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
 
