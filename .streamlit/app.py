@@ -74,6 +74,7 @@ label {
 [data-testid="stDataFrame"] {
     color: black;  /* keep table readable */
 }
+
 /*  TOP HEADER FIX */
 header {
     background-color: #0B132B !important;
@@ -84,10 +85,14 @@ header {
     background-color: #0B132B !important;
 }
 
+/*  SIDEBAR CONTENT */
+[data-testid="stSidebar"] * {
+    color: white !important;
 /*  REMOVE WHITE MENU BUTTON AREA */
 [data-testid="stDecoration"] {
     background-color: #0B132B !important;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
