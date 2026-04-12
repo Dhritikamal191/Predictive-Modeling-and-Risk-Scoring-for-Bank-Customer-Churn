@@ -408,9 +408,9 @@ with tab1:
          xaxis_title="Predicted Probability of Churn",
          yaxis_title="Density",
          template="plotly_white",
-         fillarea='toself', # This creates the shaded area effect
+         fillarea='toself',
          legend_title="Outcome",
-         xaxis=dict(range=[0, 1]) # Probabilities stay between 0 and 1
+         xaxis=dict(range=[0, 1]) 
          )
 
          return fig
