@@ -47,16 +47,7 @@ button[data-baseweb="tab"] {
 button[data-baseweb="tab"][aria-selected="true"] {
     color: #FFFFFF;
     border-bottom: 2px solid #00D4FF;
-}
-
-/*  KPI cards */
-[data-testid="stMetric"] {
-    background-color: #1C2541;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    border: 1px solid #3A506B;
-}
+}
 
 /*  Buttons */
 .stButton > button {
@@ -82,6 +73,43 @@ header {
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+
+.kpi-card {
+    background: linear-gradient(135deg, #1C2541, #3A506B);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+}
+
+.kpi-title {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.kpi-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown("""
     <style>
