@@ -381,10 +381,10 @@ with tab1:
          for data, label, color in zip([group_stayed,group_churned], ["Stayed", "Churned"], ["#3498db", "#e67e22"]):
              if len(data) > 1:
            
-             x_range = np.linspace(0, 1, 500)
-             y_range = kde(x_range)
+                x_range = np.linspace(0, 1, 500)
+                y_range = kde(x_range)
          
-             fig.add_trace(go.Scatter(
+                fig.add_trace(go.Scatter(
                 x=x_range, 
                 y=y_range,
                 mode='lines',
