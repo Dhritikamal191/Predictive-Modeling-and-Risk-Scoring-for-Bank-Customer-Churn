@@ -397,15 +397,15 @@ with tab1:
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
 
          fig.update_layout(
-        title="Probability Distribution (Churned vs. Stayed)",
-        xaxis_title="Probability",
-        yaxis_title="Density",
-        template="plotly_white",
-        xaxis=dict(range=[0, 1]),
-        legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99)
-        )
+         title="Probability Distribution (Churned vs. Stayed)",
+         xaxis_title="Probability",
+         yaxis_title="Density",
+         template="plotly_white",
+         xaxis=dict(range=[0, 1]),
+         legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99)
+         )
 
-        return fig
+         return fig
 
              st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
 
