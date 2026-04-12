@@ -82,6 +82,49 @@ header {
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+    <style>
+    /* 1. Remove the white background from the container and the input area */
+    div[data-baseweb="input"], 
+    div[data-baseweb="base-input"], 
+    div[data-baseweb="select"] > div {
+        background-color: transparent !important;
+        background: transparent !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* 2. Make the text visible (White) */
+    input, select, textarea {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+    }
+
+    /* 3. Specifically target the inner div that Streamlit uses for Selectboxes */
+    div[data-testid="stSelectbox"] > div:nth-child(1) > div {
+        background-color: transparent !important;
+        color: white !important;
+    }
+
+    /* 4. Fix Number Input buttons and spacing */
+    div[data-testid="stNumberInput"] button {
+        background-color: transparent !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    /* 5. Ensure labels and placeholder text are visible */
+    label p {
+        color: white !important;
+    }
+    
+    ::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 st.markdown("""
 <style>
 
