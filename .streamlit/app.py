@@ -395,7 +395,7 @@ with tab1:
          title=f"Probability Distribution: {label}",
          xaxis_title="Predicted Probability",
          yaxis_title="Density",
-         template="plotly_white",
+         template="plotly_dark",  paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",
          height=450,
          margin=dict(l=20, r=20, t=50, b=20),
          showlegend=False
