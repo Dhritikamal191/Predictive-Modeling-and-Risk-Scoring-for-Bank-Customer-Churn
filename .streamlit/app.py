@@ -608,11 +608,15 @@ with tab4:
      df_display = df_metrics.copy()
      for col in ["Accuracy", "Recall", "F1 Score"]:
          df_display[col] = df_display[col].apply(lambda x: f"{x:.2%}")
-         
+     styled_df=df_display.style \
+     .highlight_max(subset=["Accuracy"], color="#00D4FF")\
+     .highlight_max(subset=["Recall"], color="#FF6B6B")\
+     .highlight_max(subset=["F1 Score"], color="#FFD93D")\
+     .set_properties(**{"text-align":"center","font-weight":"bold"})
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
      st.subheader("Model Comparison Table (Percentage Based)")
-     html_table=styled_table(df_display)
+     html_table=styled_table(styled_df)
      st.markdown(html_table, unsafe_allow_html=True)
     
      st.subheader ("Model Comparison Graph")
