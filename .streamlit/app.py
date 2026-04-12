@@ -599,6 +599,7 @@ with tab4:
      col2.metric("Accuracy",f"{best_accuracy:.2f}")
      col3.metric("recall",f"{best_recall:.2f}")
      col4.metric("F1 Score",f"{best_f1:.2f}")
+
      st.subheader("Model Comaprison Table")
      
      df_metrics = df_metrics.sort_values(by="F1 Score", ascending=False).reset_index(drop=True)
@@ -613,9 +614,12 @@ with tab4:
      .highlight_max(subset=["Recall"], color="#FF6B6B")\
      .highlight_max(subset=["F1 Score"], color="#FFD93D")\
      .set_properties(**{"text-align":"center","font-weight":"bold"})
+
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
+
      st.subheader("Model Comparison Table (Percentage Based)")
+
      html_table=styled_df.to_html()
      st.markdown(html_table, unsafe_allow_html=True)
     
