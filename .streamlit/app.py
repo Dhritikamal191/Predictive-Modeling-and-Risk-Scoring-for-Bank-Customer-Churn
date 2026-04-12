@@ -401,11 +401,12 @@ with tab2:
 
      importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
      max_val=importance_df["Importance"].max()
-     fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", title="Feature Importance", color="Importance", color_discrete_sequence=px.colors.qualitative.Set3)
+     fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", color="Importance", color_discrete_sequence=px.colors.qualitative.Set3)
      fig2.update_traces(text=importance_df["Importance"],textposition="outside")
      fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig2, use_container_width=True)
-
+    
+     st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
      explainer=shap.Explainer(model)
      shap_values=explainer(X_test_scaled)
 
@@ -424,6 +425,7 @@ with tab2:
      fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
+     st.subheader("Feature Impact on Churn Prediction")
      colors = shap_df["SHAP Value"]
 
      fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=10,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
