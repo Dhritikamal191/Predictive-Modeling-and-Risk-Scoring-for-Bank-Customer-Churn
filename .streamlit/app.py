@@ -374,13 +374,14 @@ with tab1:
          kde_probs = model.predict_proba(X_test_scaled)[:, 1]
          kde_mean = np.mean(kde_probs)
 
-         group_stayed =kde_probs[y_test == 0]
-         group_churned =kde_probs[y_test == 1]
-         hist_data = [group_stayed, group_churned]
+         data_0 =kde_probs[y_test == 0]
+         data_1 =kde_probs[y_test == 1]
+         
+         fig=go.Figure()
           
-         for data, label, color in zip([group_stayed,group_churned], ["Stayed", "Churned"], ["#3498db", "#e67e22"]):
+         for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"], ["#3498db", "#e67e22"]):
              if len(data) > 1:
-           
+                kde=gaussian_kde(data)
                 x_range = np.linspace(0, 1, 500)
                 y_range = kde(x_range)
          
