@@ -399,7 +399,7 @@ with tab1:
          x=kde_mean, 
          line_dash="dash", 
          line_color="red", 
-         annotation_text=f"Mean:     {kde_mean:.3f}", 
+         annotation_text=f"Mean:{kde_mean:.3f}", 
          annotation_position="top right"
          )
 
