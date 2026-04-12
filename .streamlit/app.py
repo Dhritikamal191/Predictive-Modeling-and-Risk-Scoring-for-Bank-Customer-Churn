@@ -83,41 +83,6 @@ header {
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <style>
-    /* 1. Target the main input container boxes */
-    div[data-baseweb="input"], 
-    div[data-baseweb="select"], 
-    div[data-baseweb="number-input"] {
-        background-color: transparent !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    }
-
-    /* 2. Target the actual text inside the boxes */
-    input {
-        color: white !important;
-        -webkit-text-fill-color: white !important;
-    }
-
-    /* 3. Target the text inside dropdowns (Gender/Geography) */
-    div[data-testid="stSelectbox"] div {
-        color: white !important;
-    }
-
-    /* 4. Fix the Plus/Minus buttons on the sides */
-    button[data-testid="stNumberInputStepDown"], 
-    button[data-testid="stNumberInputStepUp"] {
-        background-color: transparent !important;
-        color: white !important;
-    }
-    
-    /* 5. Remove the white background from the dropdown labels */
-    .stSelectbox label, .stNumberInput label {
-        color: white !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-st.markdown("""
 <style>
 
 /*  Block containers */
