@@ -87,7 +87,7 @@ st.markdown("""
 
 /*  Block containers */
 [data-testid="stVerticalBlock"] {
-    background-color: black;
+    background-color: transparent;
 }
 </style>
 """, unsafe_allow_html=True)
