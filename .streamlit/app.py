@@ -377,45 +377,37 @@ with tab1:
          group_stayed =kde_probs[y_test == 0]
          group_churned =kde_probs[y_test == 1]
          hist_data = [group_stayed, group_churned]
-         group_labels = ['Stayed (0)', 'Churned (1)']
-         colors = ['#3498db', '#e67e22']
-         fig = ff.create_distplot(hist_data, 
-         group_labels, 
-         show_hist=False, 
-         show_rug=False,
-         colors=colors
-         )
+          
+         for data, label, color in zip([group_stayed,group_churned], ["Stayed", "Churned"], ["#3498db", "#e67e22"]):
+             if len(data) > 1:
+           
+             x_range = np.linspace(0, 1, 500)
+             y_range = kde(x_range)
          
-         overall_mean = np.mean(kde_probs)
-         fig.add_vline(
-         x=overall_mean, 
-         line_dash="dash", 
-         line_color="red",
-         annotation_text=f"Mean: {overall_mean:.2f}",
-         annotation_position="top right"
-         )
-
-         fig.add_vline(
-         x=kde_mean, 
-         line_dash="dash", 
-         line_color="red", 
-         annotation_text=f"Mean:{kde_mean:.3f}", 
-         annotation_position="top right"
-         )
+             fig.add_trace(go.Scatter(
+                x=x_range, 
+                y=y_range,
+                mode='lines',
+                name=label,
+                fill='tozeroy',  line=dict(color=color, width=2),
+                fillcolor=color,
+                opacity=0.5))
+         m_val = np.mean(plot_probs)
+         fig.add_vline(x=m_val,   line_dash="dash", line_color="red")
+         fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
 
          fig.update_layout(
-         title="Probability Distribution: Churned vs. Stayed",
-         xaxis_title="Predicted Probability of Churn",
-         yaxis_title="Density",
-         template="plotly_white",
-         fillarea='toself',
-         legend_title="Outcome",
-         xaxis=dict(range=[0, 1]) 
-         )
+        title="Probability Distribution (Churned vs. Stayed)",
+        xaxis_title="Probability",
+        yaxis_title="Density",
+        template="plotly_white",
+        xaxis=dict(range=[0, 1]),
+        legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99)
+        )
 
-         return fig
-         
-     st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
+        return fig
+
+             st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
 
 
 with tab2:
