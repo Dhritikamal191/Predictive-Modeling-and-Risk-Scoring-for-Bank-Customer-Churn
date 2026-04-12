@@ -355,12 +355,12 @@ with tab1:
      st.subheader("Probability Distribution Visualization")
      plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
-     fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", title="Distribution of Customer Churn Probability (Test Set)", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
-     fig.update_traces(marker_line_width=1)
+     fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
+     fig.update_traces(marker_line_width=0)
      fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
-    
+     st.subheader("Churn Probability Density Distribution")  
      def render_comparison_kde(model, X_test_scaled, y_test):
     
          kde_probs = model.predict_proba(X_test_scaled)[:, 1]
@@ -438,61 +438,21 @@ with tab2:
      st.subheader("Customer Data Exploration")
 
      st.subheader("Age Distribution by Churn")
-
-
+    
      df0 = df[df["Exited"] == 0]
      df1 = df[df["Exited"] == 1]
 
      fig = go.Figure()
 
+     fig.add_trace(go.Violin(y=df0["Age"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
 
-     fig.add_trace(go.Violin(
-     y=df0["Age"],
-     name="Not Churned",
-     box_visible=True,
-     meanline_visible=True,
-     line_color="#00D4FF",
-     fillcolor="rgba(0,212,255,0.4)",
-     opacity=0.7
-     ))
+     fig.add_trace(go.Violin(y=df1["Age"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
 
+     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
 
-     fig.add_trace(go.Violin(
-     y=df1["Age"],
-     name="Churned",
-     box_visible=True,
-     meanline_visible=True,
-     line_color="#FF6B6B",
-     fillcolor="rgba(255,107,107,0.4)",
-     opacity=0.7
-     ))
+     fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-
-     fig.add_scatter(
-     x=["Not Churned"],
-     y=[np.median(df0["Age"])],
-     mode="markers",
-     marker=dict(color="black", size=8),
-     name="Median (0)"
-     )
-
-     fig.add_scatter(
-     x=["Churned"],
-     y=[np.median(df1["Age"])],
-     mode="markers",
-     marker=dict(color="white", size=8),
-     name="Median (1)"
-     )
-
-
-     fig.update_layout(
-     template="plotly_dark",
-     paper_bgcolor="#0B132B",
-     plot_bgcolor="#0B132B",
-     title="Age Distribution by Churn",
-     yaxis_title="Age",
-     showlegend=True
-     )
+     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",title="Age Distribution by Churn",yaxis_title="Age",showlegend=True)
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -500,52 +460,15 @@ with tab2:
 
      fig = go.Figure()
 
+     fig.add_trace(go.Violin(y=df0["Balance"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
 
-     fig.add_trace(go.Violin(
-     y=df0["Balance"],
-     name="Not Churned",
-     box_visible=True,
-     meanline_visible=True,
-     line_color="#00D4FF",
-     fillcolor="rgba(0,212,255,0.4)",
-     opacity=0.7
-     ))
+     fig.add_trace(go.Violin(y=df1["Balance"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
 
+     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Balance"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
 
-     fig.add_trace(go.Violin(
-     y=df1["Balance"],
-     name="Churned",
-     box_visible=True,
-     meanline_visible=True,
-     line_color="#FF6B6B",
-     fillcolor="rgba(255,107,107,0.4)",
-     opacity=0.7
-     ))
+     fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-
-     fig.add_scatter(
-     x=["Not Churned"],
-     y=[np.median(df0["Balance"])],
-     mode="markers",
-     marker=dict(color="black", size=8),
-     name="Median (0)"
-     )
-
-     fig.add_scatter(
-     x=["Churned"],
-     y=[np.median(df1["Balance"])],
-     mode="markers",
-     marker=dict(color="white", size=8),
-     name="Median (1)"
-     )
-
-     fig.update_layout(
-     template="plotly_dark",
-     paper_bgcolor="#0B132B",
-     plot_bgcolor="#0B132B",
-     title="Balance Distribution by Churn",
-     yaxis_title="Balance"
-     )
+     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",title="Balance Distribution by Churn",yaxis_title="Balance")
 
      st.plotly_chart(fig, use_container_width=True)
 
