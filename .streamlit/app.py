@@ -616,7 +616,8 @@ with tab4:
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
      st.subheader("Model Comparison Table (Percentage Based)")
-     st.dataframe(styled_df, use_container_width=True)
+     html_table=styled_df.to_html()
+     st.markdown(html_table, unsafe_allow_html=True)
     
      st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
