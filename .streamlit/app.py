@@ -80,7 +80,30 @@ header {
     background-color: #0B132B !important;
 }
 
+.form-container {
+    background-color: #0b111e;
+    padding: 20px;
+    color:white:
+    font-family: sans-serif;
+}
 
+.input-field{
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #ffffff !important;
+    padding: 10px;
+    width: 100%;
+    margin-top: 5px;
+    appearance: none;
+}
+
+.label-text{
+    display: block;
+    font-size:14px;
+    font-weight: bold;
+    color: #cbd5e0;
+    margin-bottom: 5px;
+}
 </style>
 """, unsafe_allow_html=True)
 
