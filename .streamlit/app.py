@@ -285,13 +285,13 @@ else:
 col1, col2, col3 = st.columns(3)
 
 with col1:  
-     st.metric("Churn Probability", round(prob,3))
+     st.metric("🧑‍🧑‍🧒‍🧒 Churn Probability", round(prob,3))
 
 with col2:
-     st.metric("Risk Score", f"{risk_score:.0f}/100")
+     st.metric("⚠️ Risk Score", f"{risk_score:.0f}/100")
 
 with col3:
-     st.metric("Risk Category", risk)
+     st.metric("⚠️ Risk Category", risk)
 
 probs= model.predict_proba(X_test_scaled)[:,1]
 col1,col2=st.columns(2)
