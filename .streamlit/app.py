@@ -284,24 +284,14 @@ else:
 
 col1, col2, col3 = st.columns(3)
 
-with col1:  
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("Images/churn.jpg",width=70)   
-     with metric:
-          st.metric("Churn Probability",round(prob,3))
+with col1:  
+     st.metric("Churn Probability", round(prob,3))
+
 with col2:
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("Images/risk.png",width=70)   
-     with metric:
-          st.metric("Risk Score", f"{risk_score:.0f}/100")
+     st.metric("Risk Score", f"{risk_score:.0f}/100")
+
 with col3:
-     icon,metric=st.columns([1,3])
-     with icon:
-          st.image("Images/category.png",width=70)   
-     with metric:
-          st.metric("Risk Category", risk)
+     st.metric("Risk Category", risk)
 
 probs= model.predict_proba(X_test_scaled)[:,1]
 col1,col2=st.columns(2)
