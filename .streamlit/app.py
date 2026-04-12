@@ -88,7 +88,7 @@ st.markdown("""
 .form-container {
     background-color: #0b111e;
     padding: 20px;
-    color:white:
+    color:black:
     font-family: sans-serif;
 }
 
