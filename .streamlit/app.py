@@ -371,7 +371,7 @@ with tab1:
     
      def render_plotly_kde(model, X_test_scaled, label):
     
-         kde_probs = active_model.predict_proba(X_test_scaled)[:, 1]
+         kde_probs = model.predict_proba(X_test_scaled)[:, 1]
          kde_mean = np.mean(kde_probs)
 
          fig = ff.create_distplot(
