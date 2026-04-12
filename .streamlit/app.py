@@ -334,7 +334,8 @@ with tab1:
           fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
           fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,height=400,template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig2)
-
+         
+     st.subheader("Confusion Matrix")
      y_prob=model.predict_proba(X_test_scaled)[:,1]
      y_pred=(y_prob> threshold).astype(int)
 
@@ -344,7 +345,7 @@ with tab1:
      labels = ["Churn", "No Churn"]
      fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
 
-     fig.update_layout(title="ConfusionMatrix", xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
      st.plotly_chart(fig)
 
@@ -353,7 +354,7 @@ with tab1:
      # --------------------------------------------------
 
      st.subheader("Probability Distribution Visualization")
-     plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
+     plot_results=pd.DataFrame({"Probability":probability, "Actual_Status": y_test})
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
      fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
      fig.update_traces(marker_line_width=0)
