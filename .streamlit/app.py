@@ -12,6 +12,7 @@ import seaborn as sns
 import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
+from scipy.stats import gaussian_kde
 
 st.markdown("""
 <style>
