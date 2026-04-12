@@ -368,6 +368,45 @@ with tab1:
      fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
+    
+     def render_plotly_kde(model, X_test_scaled, label):
+    
+         kde_probs = active_model.predict_proba(X_test_scaled)[:, 1]
+         kde_mean = np.mean(kde_probs)
+
+         fig = ff.create_distplot(
+         [kde_probs], 
+         group_labels=[label], 
+         show_hist=False, 
+         show_rug=False,
+         colors=['#2ecc71']
+         )
+
+         fig.add_vline(
+         x=kde_mean, 
+         line_dash="dash", 
+         line_color="red", 
+         annotation_text=f"Mean:     {kde_mean:.3f}", 
+         annotation_position="top right"
+         )
+
+    
+         fig.update_layout(
+         title=f"Probability Distribution: {label}",
+         xaxis_title="Predicted Probability",
+         yaxis_title="Density",
+         template="plotly_white",
+         height=450,
+         margin=dict(l=20, r=20, t=50, b=20),
+         showlegend=False
+         )
+    
+    
+         fig.update_xaxes(range=[0, 1])
+
+     return fig
+     st.plotly_chart(fig,use_container_width=True)
+
 
 with tab2:
      # --------------------------------------------------
