@@ -85,46 +85,6 @@ header {
 st.markdown("""
 <style>
 
-.form-container {
-    background-color: #0b111e;
-    padding: 20px;
-    color:black:
-    font-family: sans-serif;
-}
-
-.input-field{
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    color: #ffffff !important;
-    padding: 10px;
-    width: 100%;
-    margin-top: 5px;
-    appearance: none;
-}
-
-.label-text{
-    display: block;
-    font-size:14px;
-    font-weight: bold;
-    color: #cbd5e0;
-    margin-bottom: 5px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-
-/*  Main background */
-[data-testid="stAppViewContainer"] {
-    background-color: #0B132B;
-}
-
-/*  Sidebar */
-[data-testid="stSidebar"] {
-    background-color: #1C2541;
-}
-
 /*  Block containers */
 [data-testid="stVerticalBlock"] {
     background-color: transparent;
