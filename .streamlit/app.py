@@ -405,7 +405,7 @@ with tab1:
          legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99)
          )
 
-         return fig
+     return fig
 
      st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
 
