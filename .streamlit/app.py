@@ -49,6 +49,15 @@ button[data-baseweb="tab"][aria-selected="true"] {
     border-bottom: 2px solid #00D4FF;
 }
 
+/*  KPI cards */
+[data-testid="stMetric"] {
+    background-color: #1C2541;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #3A506B;
+}
+
 /*  Buttons */
 .stButton > button {
     background-color: #2563EB;
