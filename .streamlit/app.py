@@ -88,6 +88,8 @@ header {
 /*  SIDEBAR CONTENT */
 [data-testid="stSidebar"] * {
     color: white !important;
+}
+
 /*  REMOVE WHITE MENU BUTTON AREA */
 [data-testid="stDecoration"] {
     background-color: #0B132B !important;
