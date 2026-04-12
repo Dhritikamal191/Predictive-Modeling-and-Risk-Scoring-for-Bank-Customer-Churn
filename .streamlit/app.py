@@ -387,7 +387,7 @@ with tab1:
          )
          
          overall_mean = np.mean(kde_probs)
-    fig.add_vline(
+         fig.add_vline(
          x=overall_mean, 
          line_dash="dash", 
          line_color="red",
