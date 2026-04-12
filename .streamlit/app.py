@@ -354,7 +354,7 @@ with tab1:
      # --------------------------------------------------
 
      st.subheader("Probability Distribution Visualization")
-     plot_results=pd.DataFrame({"Probability":probability, "Actual_Status": y_test})
+     plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
      fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
      fig.update_traces(marker_line_width=0)
@@ -407,7 +407,7 @@ with tab2:
      st.plotly_chart(fig2, use_container_width=True)
 
      explainer=shap.Explainer(model)
-     shap_values=explainer(input_scaled)
+     shap_values=explainer(X_test_scaled)
 
      values=np.array(shap_values.values).reshape(-1)
      features=list(input_encoded.columns)
