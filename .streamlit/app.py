@@ -24,7 +24,7 @@ st.markdown("""
 
 /*  Sidebar */
 [data-testid="stSidebar"] {
-    background-color: #1C2541 !important;
+    background-color: #0B132B !important;
 }
 
 /*  Headers (VERY IMPORTANT FIX) */
