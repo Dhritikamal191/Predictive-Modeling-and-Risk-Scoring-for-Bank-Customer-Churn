@@ -380,7 +380,7 @@ with tab1:
          
          fig=go.Figure()
           
-         for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"], ["#3498db", "#e67e22"]):
+         for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"], ["#2ecc71", "#9b59b6"]):
              if len(data) > 1:
                 kde=gaussian_kde(data)
                 x_range = np.linspace(0, 1, 500)
