@@ -46,8 +46,8 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Accuracy: Overall correctness
 - Precision: Correct churn customers
 - F1 Score: Balance between precison and recall
-  ![Confusion Matrix]("Images/0.3.jpeg")
-  ![Confusion_Matrix]("Images/0.4.jpeg")
+  ![Confusion Matrix](0.3.jpeg)
+  ![Confusion_Matrix](0.4.jpeg)
   - Choosing thresholds between 0.3 and 0.4 gives the best results.
 ### Model Explainability
 ### SHAP Analysis
@@ -92,7 +92,7 @@ Each model was evaluated using performance metrics such as Accuracy, Precision, 
 - Number of products and activity status strongly impact churn prediction.
 - Geographic location, particularly Germany, plays an important role
 - Other features like salary, tenure and credit score contribute less to predictions
-  ![Feature Importance]("Images/gitimage.png")
+  ![Feature Importance](gitimage.png)
 
 ### Future Work
 - Improve recall for churn detection
