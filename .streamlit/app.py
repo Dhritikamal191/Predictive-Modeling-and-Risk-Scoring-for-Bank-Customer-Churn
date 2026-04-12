@@ -79,6 +79,11 @@ label {
 header {
     background-color: #0B132B !important;
 }
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
 
 .form-container {
     background-color: #0b111e;
