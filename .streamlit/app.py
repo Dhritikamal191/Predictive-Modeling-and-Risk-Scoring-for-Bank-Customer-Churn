@@ -422,7 +422,7 @@ with tab2:
 
      fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df), increasing=dict(marker=dict(color="#22c55e")), decreasing=dict(marker=dict(color="#ef4444")), totals=dict(marker=dict(color="#3b82f6"))))
 
-     fig.update_layout(title="Feature Contribution to Prediction (SHAP Waterfall)", xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      st.subheader("Feature Impact on Churn Prediction")
@@ -430,7 +430,7 @@ with tab2:
 
      fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=10,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
 
-     fig.update_layout(title="Feature Impact on Churn Prediction",xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
+     fig.update_layout(xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
 
      fig.update_yaxes(autorange="reversed")
 
@@ -476,6 +476,7 @@ with tab2:
      st.plotly_chart(fig, use_container_width=True)
 
 with tab3:
+     st.subheader("ROC Curve")
      from sklearn.metrics import roc_curve, auc
 
      y= df["Exited"]
@@ -490,7 +491,7 @@ with tab3:
 
      fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
 
-     fig.update_layout(title="ROC Curve", xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+     fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
      fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
      
@@ -517,6 +518,7 @@ with tab3:
 
      colors=["#00D4FF","#FF6B6B","#FFD93D","#6BCB77"]
 
+     st.subheader("Partial Dependence Plots (Key Features)")
      for i, feature in enumerate(features):
          feature_index=X.columns.get_loc(feature)
 
@@ -524,7 +526,7 @@ with tab3:
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
-         fig.update_layout(title="Partial Dependence Plot (Key Features)",xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+         fig.update_layout(xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
