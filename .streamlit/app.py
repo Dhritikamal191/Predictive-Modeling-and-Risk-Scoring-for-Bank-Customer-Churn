@@ -369,17 +369,30 @@ with tab1:
      st.plotly_chart(fig, use_container_width=True)
 
     
-     def render_plotly_kde(model, X_test_scaled, label):
+     def render_plotly_kde(model, X_test_scaled, y_test):
     
          kde_probs = model.predict_proba(X_test_scaled)[:, 1]
          kde_mean = np.mean(kde_probs)
 
-         fig = ff.create_distplot(
-         [kde_probs], 
-         group_labels=[label], 
+         group_stayed =kde_probs[y_test == 0]
+         group_churned =kde_probs[y_test == 1]
+         hist_data = [group_stayed, group_churned]
+         group_labels = ['Stayed (0)', 'Churned (1)']
+         colors = ['#3498db', '#e67e22']
+         fig = ff.create_distplot(hist_data, 
+         group_labels, 
          show_hist=False, 
          show_rug=False,
-         colors=['#2ecc71']
+         colors=colors
+         )
+         
+         overall_mean = np.mean(kde_probs)
+    fig.add_vline(
+         x=overall_mean, 
+         line_dash="dash", 
+         line_color="red",
+         annotation_text=f"Mean: {overall_mean:.2f}",
+         annotation_position="top right"
          )
 
          fig.add_vline(
@@ -390,22 +403,19 @@ with tab1:
          annotation_position="top right"
          )
 
-    
          fig.update_layout(
-         title=f"Probability Distribution: {label}",
-         xaxis_title="Predicted Probability",
+         title="Probability Distribution: Churned vs. Stayed",
+         xaxis_title="Predicted Probability of Churn",
          yaxis_title="Density",
-         template="plotly_dark",  paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",
-         height=450,
-         margin=dict(l=20, r=20, t=50, b=20),
-         showlegend=False
+         template="plotly_white",
+         fillarea='toself', # This creates the shaded area effect
+         legend_title="Outcome",
+         xaxis=dict(range=[0, 1]) # Probabilities stay between 0 and 1
          )
-    
-    
-         fig.update_xaxes(range=[0, 1])
 
          return fig
-     st.plotly_chart(render_plotly_kde(model, X_test_scaled,model_choice), use_container_width=True)
+         
+     st.plotly_chart(render_plotly_kde(model, X_test_scaled,y_test), use_container_width=True)
 
 
 with tab2:
