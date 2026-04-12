@@ -404,7 +404,7 @@ with tab1:
     
          fig.update_xaxes(range=[0, 1])
 
-     return fig
+         return fig
      st.plotly_chart(fig,use_container_width=True)
 
 
