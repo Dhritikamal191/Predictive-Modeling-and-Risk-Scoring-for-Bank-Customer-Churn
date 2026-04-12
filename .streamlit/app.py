@@ -369,7 +369,7 @@ with tab1:
      st.plotly_chart(fig, use_container_width=True)
 
     
-     def render_plotly_kde(model, X_test_scaled, y_test):
+     def render_comparison_kde(model, X_test_scaled, y_test):
     
          kde_probs = model.predict_proba(X_test_scaled)[:, 1]
          kde_mean = np.mean(kde_probs)
@@ -415,7 +415,7 @@ with tab1:
 
          return fig
          
-     st.plotly_chart(render_plotly_kde(model, X_test_scaled,y_test), use_container_width=True)
+     st.plotly_chart(render_comparison_kde(model, X_test_scaled,y_test), use_container_width=True)
 
 
 with tab2:
