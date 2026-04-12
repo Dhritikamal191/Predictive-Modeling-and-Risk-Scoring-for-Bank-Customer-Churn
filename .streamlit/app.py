@@ -74,7 +74,20 @@ label {
 [data-testid="stDataFrame"] {
     color: black;  /* keep table readable */
 }
+/*  TOP HEADER FIX */
+header {
+    background-color: #0B132B !important;
+}
 
+/*  REMOVE WHITE TOOLBAR GAP */
+[data-testid="stToolbar"] {
+    background-color: #0B132B !important;
+}
+
+/*  REMOVE WHITE MENU BUTTON AREA */
+[data-testid="stDecoration"] {
+    background-color: #0B132B !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
