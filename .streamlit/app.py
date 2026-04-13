@@ -396,7 +396,7 @@ with col1:
     st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
 
 with col2:
-    st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚡"), unsafe_allow_html=True)
+    st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚠️"), unsafe_allow_html=True)
 
 with col3:
     st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
