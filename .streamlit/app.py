@@ -462,7 +462,7 @@ with tab1:
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
      fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
      fig.update_traces(marker_line_width=0)
-     fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
      st.subheader("Churn Probability Density Distribution")  
@@ -487,12 +487,11 @@ with tab1:
          fig.add_vline(x=m_val, line_dash="dash", line_color="red")
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
 
-         fig.update_layout(title="Probability Distribution (Churned vs. Stayed)", xaxis_title="Probability", yaxis_title="Density", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99))
+         fig.update_layout(title="Probability Distribution (Churned vs. Stayed)", xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), legend=dict(font=dict(color="white")), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99))
 
          return fig
 
      st.plotly_chart(render_comparison_kde(model, X_test_scaled, y_test), use_container_width=True)
-
 
 with tab2:
      # --------------------------------------------------
@@ -507,7 +506,7 @@ with tab2:
      max_val=importance_df["Importance"].max()
      fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", color="Importance", color_discrete_sequence=px.colors.qualitative.Set3)
      fig2.update_traces(text=importance_df["Importance"],textposition="outside")
-     fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,font=dict(color="white"), legend=dict(font=dict(color="white")), paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig2, use_container_width=True)
     
      st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
@@ -559,7 +558,7 @@ with tab2:
 
      fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
+     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -575,7 +574,7 @@ with tab2:
 
      fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
 
-     fig.update_layout(template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
+     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -595,7 +594,7 @@ with tab3:
 
      fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
 
-     fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+     fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate",font=dict(color="white"), legend=dict(font=dict(color="white")), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
      fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
      fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
      
@@ -612,7 +611,7 @@ with tab3:
      fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
 
      fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
-     fig.update_layout(template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      from sklearn.inspection import partial_dependence
@@ -631,7 +630,7 @@ with tab3:
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
-         fig.update_layout(xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
+         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), hovermode="x unified")
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
@@ -704,7 +703,7 @@ with tab4:
 
      fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
 
-     fig.update_layout(title="Model Performance Comparison",xaxis_title="Model",yaxis_title="Score",height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title=""),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
+     fig.update_layout(title="Model Performance Comparison",xaxis_title="Model",yaxis_title="Score",font=dict(color="white"), legend=dict(font=dict(color="white")),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title=""),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
 
      fig.update_xaxes(showgrid=False)
     
