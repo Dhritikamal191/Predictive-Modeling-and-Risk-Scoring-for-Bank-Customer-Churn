@@ -487,7 +487,7 @@ with tab1:
          fig.add_vline(x=m_val, line_dash="dash", line_color="red")
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
 
-         fig.update_layout(title="Probability Distribution (Churned vs. Stayed)", xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), legend=dict(font=dict(color="white")), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99))
+         fig.update_layout(title="Probability Distribution (Churned vs. Stayed)", xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
 
          return fig
 
