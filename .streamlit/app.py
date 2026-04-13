@@ -385,6 +385,13 @@ elif risk_score < 70:
 else:
     risk = "High Risk"
 
+def get_color(risk):
+    if risk == "High Risk":
+       return "#FF4B4B"
+    elif risk == "Medium Risk":
+         return "#FFD93D"
+    else:
+         return "#00C897"
 # --------------------------------------------------
 # Display Risk Calculator
 # --------------------------------------------------
