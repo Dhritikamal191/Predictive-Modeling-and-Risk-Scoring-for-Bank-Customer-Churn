@@ -532,7 +532,7 @@ with tab2:
      st.subheader("Feature Impact on Churn Prediction")
      colors = shap_df["SHAP Value"]
 
-     fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=100,color=colors, colorscale ="Plasma", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
+     fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=40,color=colors, colorscale ="Plasma", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
 
      fig.update_layout(xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
 
