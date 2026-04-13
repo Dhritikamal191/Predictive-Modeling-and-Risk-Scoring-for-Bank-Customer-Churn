@@ -47,7 +47,8 @@ button[data-baseweb="tab"] {
 button[data-baseweb="tab"][aria-selected="true"] {
     color: #FFFFFF;
     border-bottom: 2px solid #00D4FF;
-}
+}
+
 
 /*  KPI cards */
 [data-testid="stMetric"] {
@@ -401,7 +402,7 @@ with col3:
     st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
 
 with col4:
-    st.markdown(kpi_card("Average Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
+    st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
 
 with col5:
      st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
