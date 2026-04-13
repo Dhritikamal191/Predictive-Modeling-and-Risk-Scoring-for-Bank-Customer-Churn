@@ -186,33 +186,6 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 st.markdown("""
-</style>
-
-/* 1. Make the top header bar transparent to merge with the background */
-header[data-testid="stHeader"] {
-    background-color: transparent !important;
-}
-
-/* 2. Target the icons (GitHub, Search, Menu) to make them white */
-header[data-testid="stHeader"] svg {
-    fill: white !important;
-}
-
-/* 3. If you have the 'Deploy' button or other buttons in the header */
-header[data-testid="stHeader"] button {
-    background-color: transparent !important;
-    color: white !important;
-}
-
-/* 4. Fix the "Manage App" or "Made with Streamlit" footer bar if it appears white */
-footer {
-    visibility: hidden; /* This hides the 'Made with Streamlit' text entirely */
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
 <style>
 
 /*  Block containers */
