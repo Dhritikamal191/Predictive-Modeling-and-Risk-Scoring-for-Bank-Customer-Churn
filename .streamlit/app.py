@@ -385,33 +385,6 @@ elif risk_score < 70:
 else:
     risk = "High Risk"
 
-def get_gradient(risk):
-    if risk == "High Risk":
-       return "#3A0CA3", "#F72585"   
-    elif risk == "Medium Risk":
-         return "#3A506B", "#FFD93D"   
-    else:
-         return "#1C2541", "#00C897"  
-
-def kpi_card(title, value, icon, risk):
-
-    color1, color2 = get_gradient(risk)
-
-    return f"""
-    <div style="
-        background: linear-gradient(135deg, {color1}, {color2});
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        color: white;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        transition: 0.3s;
-    ">
-        <div style="font-size:30px;">{icon}</div>
-        <div style="font-size:14px; opacity:0.8;">{title}</div>
-        <div style="font-size:28px; font-weight:bold;">{value}</div>
-    </div>
-    """
 # --------------------------------------------------
 # Display Risk Calculator
 # --------------------------------------------------
