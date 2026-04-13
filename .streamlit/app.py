@@ -393,9 +393,9 @@ def get_gradient(category):
     else:
          return "#1C2541", "#00C897"  
 
-def kpi_card(title, value, icon, category):
+def kpi_card(title, value, icon, risk):
 
-    color1, color2 = get_gradient(category)
+    color1, color2 = get_gradient(risk)
 
     return f"""
     <div style="
