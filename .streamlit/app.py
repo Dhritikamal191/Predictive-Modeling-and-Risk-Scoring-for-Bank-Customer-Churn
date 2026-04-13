@@ -117,6 +117,29 @@ st.markdown("""
     margin-bottom: 10px;
 }
 
+/* 1. Fix the background of the dropdown menu popup */
+div[data-baseweb="popover"] ul {
+    background-color: #1a1c24 !important; /* Dark background for the list */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 2. Fix the individual items inside the dropdown */
+div[data-baseweb="popover"] li {
+    background-color: transparent !important;
+    color: white !important; /* Makes '0' and '1' visible */
+}
+
+/* 3. Style the item when you hover over it */
+div[data-baseweb="popover"] li:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 4. Fix selected item color */
+div[data-baseweb="popover"] li[aria-selected="true"] {
+    background-color: #00D4FF !important; /* Highlight color for selected */
+    color: black !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
