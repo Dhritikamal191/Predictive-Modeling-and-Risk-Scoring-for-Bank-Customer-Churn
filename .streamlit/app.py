@@ -553,9 +553,9 @@ with tab2:
 
      fig.add_trace(go.Violin(y=df1["Age"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
 
-     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="red", size=8),name="Median (0)")
+     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="grey", size=8),name="Median (0)")
 
-     fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="blue", size=8),name="Median (1)")
+     fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="black", size=8),name="Median (1)")
 
      fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
 
@@ -571,7 +571,7 @@ with tab2:
 
      fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Balance"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
 
-     fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="white", size=8),name="Median (1)")
+     fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="grey", size=8),name="Median (1)")
 
      fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
 
