@@ -385,7 +385,7 @@ elif risk_score < 70:
 else:
     risk = "High Risk"
 
-def get_gradient(category):
+def get_gradient(risk):
     if risk == "High Risk":
        return "#3A0CA3", "#F72585"   
     elif risk == "Medium Risk":
