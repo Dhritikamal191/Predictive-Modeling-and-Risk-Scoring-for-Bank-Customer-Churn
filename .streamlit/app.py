@@ -255,6 +255,26 @@ def kpi_card(title, value, icon):
     </div>
     """
 
+def kpi_card(label, value, icon):
+    st.markdown(f"""
+        <div style="
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 10px;">
+            <div style="font-size: 25px; margin-bottom: 10px;">{icon}</div>
+            <p style="color: #cbd5e0; margin: 0; font-size: 14px; text-transform: uppercase;">{label}</p>
+            <h2 style="
+                color: #39FF14; 
+                margin: 0; 
+                font-size: 30px; 
+                text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+                ">{value}</h2>
+        </div>
+    """, unsafe_allow_html=True)
+
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
 col1,col2=st.columns([0.5,6])
