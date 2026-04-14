@@ -267,13 +267,14 @@ def kpi_card(label, value, icon):
             <div style="font-size: 25px; margin-bottom: 10px;">{icon}</div>
             <p style="color: #cbd5e0; margin: 0; font-size: 14px; text-transform: uppercase;">{label}</p>
             <h2 style="
-                color: #39FF14; 
+                color: #00FF00; 
                 margin: 0; 
                 font-size: 30px; 
-                text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+                text-shadow: none;
                 ">{value}</h2>
         </div>
     """, unsafe_allow_html=True)
+
 
 st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 
