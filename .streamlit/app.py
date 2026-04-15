@@ -141,20 +141,26 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
     color: black !important;
 }
 
-/*  Style the Radio Button Dots (The selected dot) */
-div[data-testid="stRadio"] label div[role="radiogroup"] div[data-bv="true"] > div:nth-child(2) {
+/* 1. The Slider Handle (The dot you move) */
+div[data-testid="stSlider"] [role="slider"] {
     background-color: #00FF00 !important;
+    box-shadow: none !important;
 }
 
-/*  Style the Slider Handle (The dot you slide) */
-div[data-testid="stSlider"] div[role="slider"] {
-    background-color: #00FF00 !important;
-    border-color: #00FF00 !important;
-}
-
-/*  Style the Slider Track (The part that fills up as you slide) */
-div[data-testid="stSlider"] div[data-baseweb="slider"] div > div {
+/* 2. The Slider Track (The line itself) */
+div[data-testid="stSlider"] [data-baseweb="slider"] > div > div {
     background: #00FF00 !important;
+}
+
+/* 3. RESET the Value Bubble (The "0.23" box) back to transparent/dark */
+div[data-testid="stSlider"] [data-baseweb="tooltip"] > div {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+/* 4. Radio Button Dot (Kept from before) */
+div[data-testid="stRadio"] [data-baseweb="radio"] div[data-bv="true"] > div:nth-child(2) {
+    background-color: #00FF00 !important;
 }
 
 </style>
