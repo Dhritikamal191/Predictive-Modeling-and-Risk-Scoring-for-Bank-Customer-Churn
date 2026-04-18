@@ -373,7 +373,9 @@ df["probability"]=model.predict_proba(input_encoded)[0][1]
 
 prob = model.predict_proba(input_scaled)[0][1]
 
-# 🔹 Check if prediction exists
+risk_score = prob * 100
+
+# Check if prediction exists
 if pred is None:
     st.warning("Please click Predict first")
 
@@ -396,7 +398,6 @@ elif pred == 0:
 else:
     st.warning("Unexpected case encountered")
 
-risk_score = prob * 100
 
 probs= model.predict_proba(X_test_scaled)[:,1]
 
