@@ -364,8 +364,8 @@ X=X.reindex(columns=columns,fill_value=0)
 # Churn Prediction
 # --------------------------------------------------
 
-if credit_score <= 0 or age <= 0 or balance < 0:
-    st.error(" Invalid input values. Please check inputs.")
+if credit_score <= 0 or age <= 0 or balance < 0 or salary < 0 :
+   st.error(" Invalid input values. Please check inputs.")
     st.stop()
 
 pred=model.predict(input_scaled)[0]
