@@ -369,9 +369,14 @@ df["probability"]=model.predict_proba(input_encoded)[0][1]
 prob = model.predict_proba(input_scaled)[0][1]
 
 if pred==1:
-           st.error("Customer is likely to CHURN")
+   st.error("Customer is likely to CHURN")
+
+elif input_encoded <= 0:
+     st.warning("Invalid input")
+
 else:
      st.success("Customer is NOT likely to churn")
+
 risk_score = prob * 100
 
 probs= model.predict_proba(X_test_scaled)[:,1]
