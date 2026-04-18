@@ -363,16 +363,38 @@ X=X.reindex(columns=columns,fill_value=0)
 # --------------------------------------------------
 # Churn Prediction
 # --------------------------------------------------
+
+if credit_score <= 0 or age <= 0 or balance < 0:
+    st.error(" Invalid input values. Please check inputs.")
+    st.stop()
+
 pred=model.predict(input_scaled)[0]
 df["probability"]=model.predict_proba(input_encoded)[0][1]
 
 prob = model.predict_proba(input_scaled)[0][1]
 
-if pred==1:
-   st.error("Customer is likely to CHURN")
+# 🔹 Check if prediction exists
+if pred is None:
+    st.warning("Please click Predict first")
 
+# Check for invalid prediction values
+elif pred not in [0, 1]:
+    st.error("Invalid prediction output")
+
+# Check probability range (important)
+elif prob < 0 or prob > 1:
+    st.error("Probability out of range")
+
+# Handle prediction cases
+elif pred == 1:
+    st.error("Customer is likely to CHURN")
+
+elif pred == 0:
+    st.success("Customer is NOT likely to churn")
+
+# Final fallback (safety)
 else:
-     st.success("Customer is NOT likely to churn")
+    st.warning("Unexpected case encountered")
 
 risk_score = prob * 100
 
