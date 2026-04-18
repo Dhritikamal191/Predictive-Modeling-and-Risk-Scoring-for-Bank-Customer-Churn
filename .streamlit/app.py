@@ -366,7 +366,7 @@ X=X.reindex(columns=columns,fill_value=0)
 
 if credit_score <= 0 or age <= 0 or balance < 0 or salary < 0 :
    st.error(" Invalid input values. Please check inputs.")
-    st.stop()
+   st.stop()
 
 pred=model.predict(input_scaled)[0]
 df["probability"]=model.predict_proba(input_encoded)[0][1]
