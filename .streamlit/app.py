@@ -371,7 +371,7 @@ prob = model.predict_proba(input_scaled)[0][1]
 if pred==1:
    st.error("Customer is likely to CHURN")
 
-elif input_encoded <= 0:
+elif input_df <= 0:
      st.warning("Invalid input")
 
 else:
