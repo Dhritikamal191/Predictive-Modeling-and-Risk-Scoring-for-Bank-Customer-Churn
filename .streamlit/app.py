@@ -677,10 +677,7 @@ with tab3:
          roc_auc = roc_auc_score(y_test, y_prob)
 
          results.append({"Model": name,"Accuracy": accuracy,"Recall": recall,"F1 Score": f1,"ROC-AUC": roc_auc})
-
-         html_table=styled_table(results)
-         st.markdown(html_table, unsafe_allow_html=True)
-
+
          df_results = pd.DataFrame(results)
 
      st.subheader("Model Comparison (with ROC-AUC)")
