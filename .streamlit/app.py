@@ -682,9 +682,66 @@ with tab3:
      fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
+     results = []
+
+     for name, model in models.items():
+         model.fit(X_train, y_train)
+    
+    
+         accuracy = accuracy_score(y_test, y_pred)
+         recall = recall_score(y_test, y_pred)
+         f1 = f1_score(y_test, y_pred)
+         roc_auc = roc_auc_score(y_test, y_prob)
+
+         results.append({
+         "Model": name,
+         "Accuracy": accuracy,
+         "Recall": recall,
+         "F1 Score": f1,
+         "ROC-AUC": roc_auc
+         })
+
+     df_results = pd.DataFrame(results)
+
+     st.subheader("📊 Model Comparison (with ROC-AUC)")
+     st.dataframe(df_results.style.format({
+     "Accuracy": "{:.2%}",
+     "Recall": "{:.2%}",
+     "F1 Score": "{:.2%}",
+     "ROC-AUC": "{:.2f}"
+     }))
+
+
+     fig = go.Figure()
+
+     for name, model in models.items():
+    
+         fpr, tpr, _ = roc_curve(y_test, y_prob)
+
+         fig.add_trace(go.Scatter(
+         x=fpr, y=tpr,
+         mode='lines',
+         name=name
+         ))
+
+         fig.add_shape(
+         type='line',
+         line=dict(dash='dash'),
+         x0=0, x1=1, y0=0, y1=1
+         )
+
+         fig.update_layout(
+         title="ROC Curve Comparison",
+         xaxis_title="False Positive Rate",
+         yaxis_title="True Positive Rate",
+         template="plotly_dark"
+         )
+
+     st.plotly_chart(fig, use_container_width=True)
+
      from sklearn.inspection import partial_dependence
 
-     features = ["Age", "Balance", "NumOfProducts", "EstimatedSalary"]
+     features = ["Age", "Geography", "NumOfProducts", "EstimatedSalary"]
 
      fig = go.Figure()
 
@@ -697,7 +754,7 @@ with tab3:
          pdp=partial_dependence(model,X_test_scaled,features=[feature_index])
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
-         fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
+              fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
          fig.update_layout(font=dict(color="white"),xaxis_title="Feature Value", yaxis_title="Churn Probability", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, margin=dict(l=40, r=40, t=60, b=40),legend=dict(title="Feature", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5,font=dict(color="white")), hovermode="x unified")
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
