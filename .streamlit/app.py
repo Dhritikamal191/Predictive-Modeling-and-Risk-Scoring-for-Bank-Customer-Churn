@@ -510,11 +510,7 @@ with tab1:
          text=[f"{v:.3f}" for v in y],
          ))
 
-         fig.update_layout(
-         title="SHAP Waterfall Plot (Feature Impact)",
-         template="plotly_dark",
-         height=400
-         )
+         fig.update_layout(title="SHAP Waterfall Plot (Feature Impact)",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=400)
 
          st.plotly_chart(fig, use_container_width=True)
 
@@ -699,7 +695,7 @@ with tab3:
 
          df_results = pd.DataFrame(results)
 
-     st.subheader("📊 Model Comparison (with ROC-AUC)")
+     st.subheader("Model Comparison (with ROC-AUC)")
      st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
 
      for name, model in models.items():
