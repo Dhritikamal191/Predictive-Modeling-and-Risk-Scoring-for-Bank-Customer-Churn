@@ -478,9 +478,58 @@ with tab1:
 
      st.plotly_chart(fig)
 
-     st.subheader("🔍 Model Explainability (SHAP)")
-    
-     
+     st.subheader("🔍 Model Explainability (SHAP)")   
+
+try:
+    input_df = pd.DataFrame([input_data])
+
+    # -------- Choose correct explainer --------
+    if "Forest" in str(type(model)) or "Tree" in str(type(model)) or "XGB" in str(type(model)):
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(input_df)
+
+        # For classification → take class 1 (churn)
+        if isinstance(shap_values, list):
+            shap_values = shap_values[1]
+
+    elif "Logistic" in str(type(model)):
+        explainer = shap.LinearExplainer(model, input_df)
+        shap_values = explainer.shap_values(input_df)
+
+    else:
+        explainer = shap.Explainer(model, input_df)
+        shap_values = explainer(input_df).values
+
+    # -------- Convert to DataFrame --------
+    shap_df = pd.DataFrame({
+        "Feature": input_df.columns,
+        "SHAP Value": shap_values[0]
+    })
+
+    # Sort by importance
+    shap_df = shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
+
+    # -------- Plotly Bar Chart --------
+    fig = px.bar(
+        shap_df,
+        x="SHAP Value",
+        y="Feature",
+        orientation="h",
+        color="SHAP Value",
+        color_continuous_scale="RdBu",
+        title="Feature Impact on Prediction"
+    )
+
+    fig.update_layout(
+        height=400,
+        template="plotly_dark"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+except Exception as e:
+    st.warning(f"SHAP not supported: {e}")
+
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
