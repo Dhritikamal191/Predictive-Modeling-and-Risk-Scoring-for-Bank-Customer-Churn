@@ -685,7 +685,7 @@ with tab3:
      results = []
 
      for name, model in models.items():
-         model.fit(X_test, y_train)
+         model.fit(X_test_scaled, y_train)
          accuracy = accuracy_score(y_test, y_pred)
          recall = recall_score(y_test, y_pred)
          f1 = f1_score(y_test, y_pred)
