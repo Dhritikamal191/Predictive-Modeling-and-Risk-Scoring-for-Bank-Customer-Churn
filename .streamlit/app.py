@@ -481,8 +481,6 @@ with tab1:
      st.subheader("🔍 Model Explainability (SHAP)")
     
      try:
-         input_df = pd.DataFrame([input_data])
-
          if "Forest" in str(type(model)) or "Tree" in str(type(model)) or "XGB" in str(type(model)):
             explainer = shap.TreeExplainer(model)
             shap_values = explainer.shap_values(input_df)
