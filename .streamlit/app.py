@@ -685,7 +685,8 @@ with tab3:
      results = []
 
      for name, model in models.items():
-         model.fit(X_train, y_train)
+         y_pred=model.predict(X_test_scaled)
+         y_prob=model.predict_proba(X_test)[:,1]
          accuracy = accuracy_score(y_test, y_pred)
          recall = recall_score(y_test, y_pred)
          f1 = f1_score(y_test, y_pred)
@@ -699,7 +700,8 @@ with tab3:
      st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
 
      for name, model in models.items():
-    
+         y_pred=model.predict(X_test_scaled)
+         y_prob=model.predict_proba(X_test)[:,1]
          fpr, tpr, _ = roc_curve(y_test, y_prob)
 
          fig.add_trace(go.Scatter(x=fpr, y=tpr,mode='lines',name=name))
