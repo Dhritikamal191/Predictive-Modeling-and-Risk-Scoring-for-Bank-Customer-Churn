@@ -480,51 +480,7 @@ with tab1:
 
      st.subheader("🔍 Model Explainability (SHAP)")
     
-     try:
-         if hasattr(model, "predict_proba") and "Forest" in str(type(model)) or "Tree" in str(type(model)) or "XGB" in str(type(model)):
-            explainer = shap.TreeExplainer(model)
-            shap_values = explainer.shap_values(input_df)
-
-         elif "Logistic" in str(type(model)):
-              explainer = shap.LinearExplainer(model, input_df)
-              shap_values = explainer.shap_values(input_df)
-
-         else:
-              explainer = shap.Explainer(model, input_df)
-              shap_values = explainer(input_df)
-
-     except Exception as e:
-             st.warning(f"SHAP error: {e}")
-
-        # Extract values
-         values = shap_values.values[0]
-         features = input_df.columns
-         base_value = shap_values.base_values[0]
-
-         # Create waterfall components
-         x = list(features) + ["Final Prediction"]
-         y = list(values) + [sum(values)]
-
-         # Measure type (relative + total)
-         measure = ["relative"] * len(values) + ["total"]
-
-         # Plotly Waterfall
-         fig = go.Figure(go.Waterfall(
-         x=x,
-         y=y,
-         measure=measure,
-         text=[f"{v:.3f}" for v in y],
-         ))
-
-         fig.update_layout(title="SHAP Waterfall Plot (Feature Impact)",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=400)
-
-         st.plotly_chart(fig, use_container_width=True)
-
-     except Exception as e:
-            st.warning("SHAP not supported for this model")
-         
-     importance=pd.DataFrame({"Feature": input_df.columns,"SHAP":abs(shap_values.values[0])}).sort_values(by="SHAP", ascending=False)
-     st.dataframe(importance)
+     
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
