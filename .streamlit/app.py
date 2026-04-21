@@ -480,6 +480,60 @@ with tab1:
 
      st.subheader("🔍 Model Explainability (SHAP)")
 
+import shap
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+import numpy as np
+
+st.subheader("🔍 Model Explainability (SHAP - Plotly)")
+
+try:
+    input_df = pd.DataFrame([input_data])
+
+    # -------- Explainer --------
+    explainer = shap.Explainer(model)
+    shap_values = explainer(input_df)
+
+    # -------- Extract correct values --------
+    values = shap_values.values
+
+    # Handle different shapes
+    if len(values.shape) == 3:
+        # (samples, features, classes)
+        values = values[0, :, 1]   # take class 1 (churn)
+    elif len(values.shape) == 2:
+        # (samples, features)
+        values = values[0]
+    else:
+        raise ValueError("Unexpected SHAP shape")
+
+    # -------- Create DataFrame --------
+    shap_df = pd.DataFrame({
+        "Feature": input_df.columns,
+        "SHAP Value": values
+    })
+
+    shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=True)
+
+    # -------- Plot --------
+    fig = px.bar(
+        shap_df,
+        x="SHAP Value",
+        y="Feature",
+        orientation="h",
+        color="SHAP Value",
+        color_continuous_scale="RdBu",
+        title="Feature Impact on Prediction"
+    )
+
+    fig.update_layout(template="plotly_dark", height=400)
+
+    st.plotly_chart(fig, use_container_width=True)
+
+except Exception as e:
+    st.error(f"SHAP Error: {e}")
+
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
