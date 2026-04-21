@@ -478,6 +478,49 @@ with tab1:
 
      st.plotly_chart(fig)
 
+     
+
+     st.subheader("🔍 Model Explainability (SHAP)")
+
+     try:
+         # Create explainer
+         explainer = shap.Explainer(model)
+
+   
+         # SHAP values
+         shap_values = explainer(input_df)
+
+        # Extract values
+         values = shap_values.values[0]
+         features = input_df.columns
+         base_value = shap_values.base_values[0]
+
+         # Create waterfall components
+         x = list(features) + ["Final Prediction"]
+         y = list(values) + [sum(values)]
+
+         # Measure type (relative + total)
+         measure = ["relative"] * len(values) + ["total"]
+
+         # Plotly Waterfall
+         fig = go.Figure(go.Waterfall(
+         x=x,
+         y=y,
+         measure=measure,
+         text=[f"{v:.3f}" for v in y],
+         ))
+
+         fig.update_layout(
+         title="SHAP Waterfall Plot (Feature Impact)",
+         template="plotly_dark",
+         height=400
+         )
+
+         st.plotly_chart(fig, use_container_width=True)
+
+     except Exception as e:
+            st.warning("SHAP not supported for this model")
+
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
