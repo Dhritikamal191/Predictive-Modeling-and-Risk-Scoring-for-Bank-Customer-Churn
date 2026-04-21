@@ -697,19 +697,17 @@ with tab3:
      st.subheader("📊 Model Comparison (with ROC-AUC)")
      st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
 
-     fig = go.Figure()
-
      for name, model in models.items():
     
          fpr, tpr, _ = roc_curve(y_test, y_prob)
 
          fig.add_trace(go.Scatter(x=fpr, y=tpr,mode='lines',name=name))
 
-         fig.add_shape(type='line',line=dict(dash='dash'),x0=0, x1=1, y0=0, y1=1)
+     fig.add_shape(type='line',line=dict(dash='dash'),x0=0, x1=1, y0=0, y1=1)
 
-         fig.update_layout(title="ROC Curve Comparison",xaxis_title="False Positive Rate",yaxis_title="True Positive Rate",template="plotly_dark")
+     fig.update_layout(title="ROC Curve Comparison",xaxis_title="False Positive Rate",yaxis_title="True Positive Rate",template="plotly_dark")
 
-         st.plotly_chart(fig, use_container_width=True)
+     st.plotly_chart(fig, use_container_width=True)
 
      from sklearn.inspection import partial_dependence
 
