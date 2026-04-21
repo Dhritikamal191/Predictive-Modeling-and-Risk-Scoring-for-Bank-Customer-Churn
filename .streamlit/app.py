@@ -478,31 +478,23 @@ with tab1:
 
      st.plotly_chart(fig)
 
-     
-
      st.subheader("🔍 Model Explainability (SHAP)")
-
+    
      try:
-         # Create explainer
-         import shap
+         if hasattr(model, "predict_proba") and "Forest" in str(type(model)) or "Tree" in str(type(model)) or "XGB" in str(type(model)):
+            explainer = shap.TreeExplainer(model)
+            shap_values = explainer.shap_values(input_df)
 
-input_df = pd.DataFrame([input_data])
+         elif "Logistic" in str(type(model)):
+              explainer = shap.LinearExplainer(model, input_df)
+              shap_values = explainer.shap_values(input_df)
 
-try:
-    if hasattr(model, "predict_proba") and "Forest" in str(type(model)) or "Tree" in str(type(model)) or "XGB" in str(type(model)):
-        explainer = shap.TreeExplainer(model)
-        shap_values = explainer.shap_values(input_df)
+         else:
+              explainer = shap.Explainer(model, input_df)
+              shap_values = explainer(input_df)
 
-    elif "Logistic" in str(type(model)):
-        explainer = shap.LinearExplainer(model, input_df)
-        shap_values = explainer.shap_values(input_df)
-
-    else:
-        explainer = shap.Explainer(model, input_df)
-        shap_values = explainer(input_df)
-
-except Exception as e:
-    st.warning(f"SHAP error: {e}")
+     except Exception as e:
+             st.warning(f"SHAP error: {e}")
 
         # Extract values
          values = shap_values.values[0]
