@@ -502,8 +502,8 @@ with tab1:
 
          st.plotly_chart(fig, use_container_width=True)
 
-    except Exception as e:
-           st.error(f"SHAP Error: {e}")
+     except Exception as e:
+            st.error(f"SHAP Error: {e}")
 
      # --------------------------------------------------
      # Probability Distribution Visualization
