@@ -686,7 +686,7 @@ with tab3:
 
      for name, model in models.items():
          y_pred=model.predict(X_test_scaled)
-         y_prob=model.predict_proba(X_test)[:,1]
+         y_prob=model.predict_proba(X_test_scaled)[:,1]
          accuracy = accuracy_score(y_test, y_pred)
          recall = recall_score(y_test, y_pred)
          f1 = f1_score(y_test, y_pred)
@@ -701,7 +701,7 @@ with tab3:
 
      for name, model in models.items():
          y_pred=model.predict(X_test_scaled)
-         y_prob=model.predict_proba(X_test)[:,1]
+         y_prob=model.predict_proba(X_test_scaled)[:,1]
          fpr, tpr, _ = roc_curve(y_test, y_prob)
 
          fig.add_trace(go.Scatter(x=fpr, y=tpr,mode='lines',name=name))
