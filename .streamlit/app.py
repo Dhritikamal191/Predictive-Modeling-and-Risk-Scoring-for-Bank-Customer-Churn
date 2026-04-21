@@ -516,7 +516,9 @@ with tab1:
 
      except Exception as e:
             st.warning("SHAP not supported for this model")
-
+         
+     importance=pd.DataFrame({"Feature": input_df.columns,"SHAP":abs(shap_values.values[0])}).sort_values(by="SHAP", ascending=False)
+     st.dataframe(importance)
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
