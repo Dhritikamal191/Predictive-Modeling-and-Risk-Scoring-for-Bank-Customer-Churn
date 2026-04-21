@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 from scipy.stats import gaussian_kde
-
+from sklearn.metrics import (accuracy_score, recall_score, f1_score, roc_auc_score, roc_curve, confusion_matrix)
 st.markdown("""
 <style>
 
@@ -682,7 +682,6 @@ with tab3:
      fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
-     from sklearn.metrics import accuracy_score, recall_score, f1_score
      results = []
 
      for name, model in models.items():
