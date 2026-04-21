@@ -579,7 +579,7 @@ with tab2:
     
      st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
      explainer=shap.Explainer(model)
-     shap_values=explainer(input_scaled)
+     shap_values=explainer(X_test_scaled)
 
      values=np.array(shap_values.values).reshape(-1)
      features=list(input_encoded.columns)
