@@ -682,6 +682,7 @@ with tab3:
      fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
+     from sklearn.metrics import accuracy_score, recall_score, f1_score
      results = []
 
      for name, model in models.items():
@@ -730,8 +731,6 @@ with tab3:
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
 with tab4:
-     
-     from sklearn.metrics import accuracy_score, recall_score, f1_score
 
      def get_metrics(model, X, y, threshold):
          y_prob=model.predict_proba(X)[:,1]
