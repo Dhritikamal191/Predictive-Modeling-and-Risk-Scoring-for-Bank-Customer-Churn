@@ -711,7 +711,7 @@ with tab3:
 
      from sklearn.inspection import partial_dependence
 
-     features = ["Age", "Geography", "NumOfProducts", "EstimatedSalary"]
+     features = ["Age", "Balance", "NumOfProducts", "EstimatedSalary"]
 
      fig = go.Figure()
 
