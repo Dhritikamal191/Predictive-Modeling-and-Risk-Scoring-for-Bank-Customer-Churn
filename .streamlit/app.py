@@ -491,15 +491,16 @@ with tab1:
               values = values[0]
          else:
               raise ValueError("Unexpected SHAP shape")
-    shap_df = pd.DataFrame({"Feature": input_df.columns,"SHAP Value": values})
+             
+         shap_df = pd.DataFrame({"Feature": input_df.columns,"SHAP Value": values})
 
-    shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=True)
+         shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=True)
 
-    fig = px.bar(shap_df,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
+         fig = px.bar(shap_df,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
 
-    fig.update_layout(template="plotly_dark", height=400)
+         fig.update_layout(template="plotly_dark", height=400)
 
-    st.plotly_chart(fig, use_container_width=True)
+         st.plotly_chart(fig, use_container_width=True)
 
     except Exception as e:
            st.error(f"SHAP Error: {e}")
