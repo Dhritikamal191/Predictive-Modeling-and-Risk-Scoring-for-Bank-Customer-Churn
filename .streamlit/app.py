@@ -669,7 +669,6 @@ with tab3:
      df_results=pd.DataFrame(results)
      html_table=styled_table(df_results)
      st.markdown(html_table, unsafe_allow_html=True)
-     
          
      st.subheader("Model Comparison (with ROC-AUC)")
      st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
