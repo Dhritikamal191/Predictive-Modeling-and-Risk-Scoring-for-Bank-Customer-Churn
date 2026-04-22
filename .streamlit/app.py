@@ -664,19 +664,17 @@ with tab3:
          recall = recall_score(y_test, y_pred)
          f1 = f1_score(y_test, y_pred)
          roc_auc = roc_auc_score(y_test, y_prob)
-
          results.append({"Model": name,"Accuracy": accuracy,"Recall": recall,"F1 Score": f1,"ROC-AUC": roc_auc})
 
-
-styled_df = model_df.style\
-    .background_gradient(subset=["Accuracy","Precision","Recall","F1 Score","ROC-AUC"], cmap="Blues")\
-    .set_properties(**{
+     styled_df = model_df.style\
+     .background_gradient(subset=["Accuracy","Precision","Recall","F1 Score","ROC-AUC"], cmap="Blues")\
+     .set_properties(**{
         'background-color': '#e6f0ff',
         'color': 'black',
         'border-color': '#3399ff',
         'text-align': 'center'
-    })\
-    .set_table_styles([
+      })\
+      .set_table_styles([
         {
             'selector': 'th',
             'props': [
@@ -685,20 +683,18 @@ styled_df = model_df.style\
                 ('font-size', '14px'),
                 ('text-align', 'center')
             ]
-        },
-        {
+         },
+         {
             'selector': 'td',
             'props': [
                 ('padding', '8px'),
                 ('border', '1px solid #3399ff')
             ]
-        }
-    ])
+          }
+     ])
 
-st.subheader("📊 Model Comparison (with ROC-AUC)")
-st.dataframe(styled_df, use_container_width=True)
+     st.dataframe(styled_df, use_container_width=True)
          
-
      st.subheader("Model Comparison (with ROC-AUC)")
      st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
 
