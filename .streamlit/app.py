@@ -554,9 +554,10 @@ with tab2:
      fig2.update_traces(text=importance_df["Importance"],textposition="outside")
      fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,font=dict(color="white"), legend=dict(font=dict(color="white")), paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig2, use_container_width=True)
+
+     st.subheader("Feature Contribution and Feature Impact on Churn Prediction")
      col1,col2=st.columns(2)
      with col1:
-          st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
           explainer=shap.Explainer(model)
           shap_values=explainer(X_test_scaled)
           values=np.array(shap_values.values).reshape(-1)
@@ -573,7 +574,6 @@ with tab2:
           st.plotly_chart(fig)
 
      with col2:
-          st.subheader("Feature Impact on Churn Prediction")
           colors = shap_df["SHAP Value"]
           fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=20,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
           fig.update_layout(xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
