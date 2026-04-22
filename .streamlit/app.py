@@ -588,41 +588,42 @@ with tab2:
      # Customer Feature Visualization
      # --------------------------------------------------
      st.subheader("Customer Data Exploration")
-
-     st.subheader("Age Distribution by Churn")
+     col1,col2=st.columns(2)
+     with col1:
+          st.subheader("Age Distribution by Churn")
     
-     df0 = df[df["Exited"] == 0]
-     df1 = df[df["Exited"] == 1]
+          df0 = df[df["Exited"] == 0]
+          df1 = df[df["Exited"] == 1]
 
-     fig = go.Figure()
+          fig = go.Figure()
 
-     fig.add_trace(go.Violin(y=df0["Age"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
+          fig.add_trace(go.Violin(y=df0["Age"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
 
-     fig.add_trace(go.Violin(y=df1["Age"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
+          fig.add_trace(go.Violin(y=df1["Age"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
 
-     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="grey", size=8),name="Median (0)")
+          fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="grey", size=8),name="Median (0)")
 
-     fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="black", size=8),name="Median (1)")
+          fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="black", size=8),name="Median (1)")
 
-     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
+          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
 
-     st.plotly_chart(fig, use_container_width=True)
+          st.plotly_chart(fig, use_container_width=True)
+     with col2:
+          st.subheader("Balance Distribution by Churn")
 
-     st.subheader("Balance Distribution by Churn")
+          fig = go.Figure()
 
-     fig = go.Figure()
+          fig.add_trace(go.Violin(y=df0["Balance"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
 
-     fig.add_trace(go.Violin(y=df0["Balance"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
+          fig.add_trace(go.Violin(y=df1["Balance"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
 
-     fig.add_trace(go.Violin(y=df1["Balance"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
+          fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Balance"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
 
-     fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Balance"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
+          fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="grey", size=8),name="Median (1)")
 
-     fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="grey", size=8),name="Median (1)")
+          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
 
-     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
-
-     st.plotly_chart(fig, use_container_width=True)
+          st.plotly_chart(fig, use_container_width=True)
 
 with tab3:
      col1, col2=st.columns(2)
