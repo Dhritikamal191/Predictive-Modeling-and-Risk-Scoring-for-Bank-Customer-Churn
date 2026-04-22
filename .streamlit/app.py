@@ -495,8 +495,8 @@ with tab1:
               fig = px.bar(shap_df,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
               fig.update_layout(template="plotly_dark", height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
               st.plotly_chart(fig, use_container_width=True)
-              except Exception as e:
-                     st.error(f"SHAP Error: {e}")
+          except Exception as e:
+                 st.error(f"SHAP Error: {e}")
 
      # --------------------------------------------------
      # Probability Distribution Visualization
