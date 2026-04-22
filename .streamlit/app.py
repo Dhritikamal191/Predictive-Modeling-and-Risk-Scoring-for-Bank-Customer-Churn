@@ -446,7 +446,6 @@ new_risk = new_probability * 100
 tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
 
 with tab1:
-     st.subheader("Customer Churn Risk Calculator")
      col1,col2,col3=st.columns(3)
 
      with col1:
@@ -465,7 +464,6 @@ with tab1:
           st.plotly_chart(fig2)
          
      with col3:
-          st.subheader("Confusion Matrix")
           y_prob=model.predict_proba(X_test_scaled)[:,1]
           y_pred=(y_prob> threshold).astype(int)
           cm =confusion_matrix(y_test, y_pred)
