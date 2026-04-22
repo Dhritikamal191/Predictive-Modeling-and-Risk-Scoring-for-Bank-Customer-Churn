@@ -666,12 +666,10 @@ with tab3:
          roc_auc = roc_auc_score(y_test, y_prob)
          results.append({"Model": name,"Accuracy": accuracy,"Recall": recall,"F1 Score": f1,"ROC-AUC": roc_auc})
          
+     st.subheader("Model Comparison (with ROC-AUC)") 
      df_results=pd.DataFrame(results)
      html_table=styled_table(df_results)
      st.markdown(html_table, unsafe_allow_html=True)
-         
-     st.subheader("Model Comparison (with ROC-AUC)")
-     st.dataframe(df_results.style.format({"Accuracy": "{:.2%}","Recall": "{:.2%}","F1 Score": "{:.2%}","ROC-AUC": "{:.2f}"}))
 
      for name, model in models.items():
          y_pred=model.predict(X_test_scaled)
