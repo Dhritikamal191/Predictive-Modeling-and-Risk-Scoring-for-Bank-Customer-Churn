@@ -489,7 +489,8 @@ with tab1:
                    values = values[0]
               else:
                    raise ValueError("Unexpected SHAP shape")
-             
+
+              shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
               shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
               top_n=10
               shap_df_top=shap_df.head(top_n)
