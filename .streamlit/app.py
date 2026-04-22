@@ -447,7 +447,7 @@ tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance"
 
 with tab1:
      st.subheader("Customer Churn Risk Calculator")
-     col1,col2=st.columns(2)
+     col1,col2,col3=st.columns(3)
 
      with col1:
      
@@ -463,8 +463,8 @@ with tab1:
           fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
           fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,font=dict(color="white"), legend=dict(font=dict(color="white")),height=400,template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig2)
-     col1, col2=st.columns(2)
-     with col1:
+         
+     with col3:
           st.subheader("Confusion Matrix")
           y_prob=model.predict_proba(X_test_scaled)[:,1]
           y_pred=(y_prob> threshold).astype(int)
@@ -475,32 +475,31 @@ with tab1:
           fig.update_layout(xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig)
 
-     with col2:
-          st.subheader("🔍 Model Explainability (SHAP)")
+    
+    st.subheader("🔍 Model Explainability (SHAP)")
 
-          try:
-              explainer = shap.Explainer(model)
-              shap_values = explainer(input_df)
-              values = shap_values.values
+    try:
+        explainer = shap.Explainer(model)
+        shap_values = explainer(input_df)
+        values = shap_values.values
 
-              if len(values.shape) == 3:
-                 values = values[0, :, 1]   # take class 1 (churn)
-              elif len(values.shape) == 2:
-                   values = values[0]
-              else:
-                   raise ValueError("Unexpected SHAP shape")
+        if len(values.shape) == 3:
+            values = values[0, :, 1]   # take class 1 (churn)
+        elif len(values.shape) == 2:
+             values = values[0]
+        else:
+             raise ValueError("Unexpected SHAP shape")
 
-              shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
-              shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
-              top_n=10
-              shap_df_top=shap_df.head(top_n)
-              
-              fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
-              fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-              fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
-              st.plotly_chart(fig, use_container_width=True)
-          except Exception as e:
-                 st.error(f"SHAP Error: {e}")
+        shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
+        shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
+        top_n=10
+        shap_df_top=shap_df.head(top_n)
+        fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
+        fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+        fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
+        st.plotly_chart(fig, use_container_width=True)
+        except Exception as e:
+               st.error(f"SHAP Error: {e}")
 
      # --------------------------------------------------
      # Probability Distribution Visualization
