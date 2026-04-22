@@ -554,36 +554,31 @@ with tab2:
      fig2.update_traces(text=importance_df["Importance"],textposition="outside")
      fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,font=dict(color="white"), legend=dict(font=dict(color="white")), paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig2, use_container_width=True)
-    
-     st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
-     explainer=shap.Explainer(model)
-     shap_values=explainer(X_test_scaled)
+     col1,col2=st.columns(2)
+     with col1:
+          st.subheader("Feature Contribution to Prediction (SHAP Waterfall)")
+          explainer=shap.Explainer(model)
+          shap_values=explainer(X_test_scaled)
+          values=np.array(shap_values.values).reshape(-1)
+          features=list(input_encoded.columns)
+          min_len=min(len(values), len(features))
+          values=values[:min_len]
+          features=features[:min_len]
+          base_value=shap_values.base_values[0]
+          shap_df=pd.DataFrame({"Feature": features, "SHAP Value": values})
+          shap_df=shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
 
-     values=np.array(shap_values.values).reshape(-1)
-     features=list(input_encoded.columns)
-     min_len=min(len(values), len(features))
-     values=values[:min_len]
-     features=features[:min_len]
-     base_value=shap_values.base_values[0]
+          fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df), increasing=dict(marker=dict(color="#22c55e")), decreasing=dict(marker=dict(color="#ef4444")), totals=dict(marker=dict(color="#3b82f6"))))
+          fig.update_layout(xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          st.plotly_chart(fig)
 
-     shap_df=pd.DataFrame({"Feature": features, "SHAP Value": values})
-     shap_df=shap_df.sort_values(by="SHAP Value", key=abs, ascending=True)
-
-     fig=go.Figure(go.Waterfall(name="SHAP", orientation="h", y=shap_df["Feature"],x=shap_df["SHAP Value"], text=shap_df["SHAP Value"].round(3), measure=["relative"]*len(shap_df), increasing=dict(marker=dict(color="#22c55e")), decreasing=dict(marker=dict(color="#ef4444")), totals=dict(marker=dict(color="#3b82f6"))))
-
-     fig.update_layout(xaxis_title="Impact on Prediction", yaxis_title="Features", template="plotly_dark", height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-     st.plotly_chart(fig)
-
-     st.subheader("Feature Impact on Churn Prediction")
-     colors = shap_df["SHAP Value"]
-
-     fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=20,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
-
-     fig.update_layout(xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
-
-     fig.update_yaxes(autorange="reversed")
-
-     st.plotly_chart(fig, use_container_width=True)
+     with col2:
+          st.subheader("Feature Impact on Churn Prediction")
+          colors = shap_df["SHAP Value"]
+          fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"], y=shap_df["Feature"], mode="markers", marker=dict(size=20,color=colors, colorscale ="Viridis", showscale=True,colorbar=dict(title="Impact")), text=[f"{v:.3f}" for v in shap_df["SHAP Value"]], hovertemplate="<b>%{y}</b><br>" +"Impact: %{x:.3f}<br>" +"<extra></extra>"))
+          fig.update_layout(xaxis_title="Impact on Prediction (SHAP Value)", yaxis_title="Features",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",height=550)
+          fig.update_yaxes(autorange="reversed")
+          st.plotly_chart(fig, use_container_width=True)
      # --------------------------------------------------
      # Customer Feature Visualization
      # --------------------------------------------------
