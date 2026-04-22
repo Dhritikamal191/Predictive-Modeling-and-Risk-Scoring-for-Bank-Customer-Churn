@@ -666,7 +666,7 @@ with tab3:
          roc_auc = roc_auc_score(y_test, y_prob)
          results.append({"Model": name,"Accuracy": accuracy,"Recall": recall,"F1 Score": f1,"ROC-AUC": roc_auc})
 
-     styled_df = model_df.style\
+     styled_df = model.style\
      .background_gradient(subset=["Accuracy","Precision","Recall","F1 Score","ROC-AUC"], cmap="Blues")\
      .set_properties(**{
         'background-color': '#e6f0ff',
