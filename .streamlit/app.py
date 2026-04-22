@@ -625,40 +625,35 @@ with tab2:
      st.plotly_chart(fig, use_container_width=True)
 
 with tab3:
-     st.subheader("ROC Curve")
-     from sklearn.metrics import roc_curve, auc
+     col1, col2=st.columns(2)
+     with col1:
+          st.subheader("ROC Curve")
+          from sklearn.metrics import roc_curve, auc
+          y= df["Exited"]
+          y_true = df["Exited"].to_numpy().ravel()
+          y_prob = model.predict_proba(X_test_scaled)[:, 1]
+          fpr, tpr, _ = roc_curve(y_test, y_prob)
+          roc_auc = auc(fpr, tpr)   
+          fig = go.Figure()  
+          fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
+          fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
+          fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5,font=dict(color="white")), hovermode="x unified")
+          fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
+          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+          st.plotly_chart(fig, use_container_width=True)
+     with col2:
+          st.subheader("ROC with respect to Random Line")
+          fig = go.Figure()
+          models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
+          for name, m in models.items():
+              y_prob = m.predict_proba(X_test_scaled)[:, 1]
+              fpr, tpr, _ = roc_curve(y_test, y_prob)
+              roc_auc = auc(fpr, tpr)
 
-     y= df["Exited"]
-     y_true = df["Exited"].to_numpy().ravel()
-     y_prob = model.predict_proba(X_test_scaled)[:, 1]
-
-     fpr, tpr, _ = roc_curve(y_test, y_prob)
-     roc_auc = auc(fpr, tpr)   
-
-     fig = go.Figure()  
-     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
-
-     fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
-
-     fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5,font=dict(color="white")), hovermode="x unified")
-     fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
-     fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
-     
-     st.plotly_chart(fig, use_container_width=True)
-
-     st.subheader("ROC with respect to Random Line")
-     fig = go.Figure()
-     models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
-     for name, m in models.items():
-         y_prob = m.predict_proba(X_test_scaled)[:, 1]
-         fpr, tpr, _ = roc_curve(y_test, y_prob)
-         roc_auc = auc(fpr, tpr)
-
-     fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
-
-     fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
-     fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-     st.plotly_chart(fig)
+          fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
+          fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
+          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          st.plotly_chart(fig)
 
      results = []
 
