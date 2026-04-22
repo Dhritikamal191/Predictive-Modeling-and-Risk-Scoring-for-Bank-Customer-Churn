@@ -665,8 +665,8 @@ with tab3:
          f1 = f1_score(y_test, y_pred)
          roc_auc = roc_auc_score(y_test, y_prob)
          results.append({"Model": name,"Accuracy": accuracy,"Recall": recall,"F1 Score": f1,"ROC-AUC": roc_auc})
-
-         html_table=styled_table(results)
+         df_results=pd.DataFrame(results)
+         html_table=styled_table(df_results)
          st.markdown(html_table, unsafe_allow_html=True)
      
          
