@@ -476,9 +476,9 @@ with tab1:
           st.plotly_chart(fig)
 
     
-    st.subheader("🔍 Model Explainability (SHAP)")
+     st.subheader("🔍 Model Explainability (SHAP)")
 
-    try:
+     try:
         explainer = shap.Explainer(model)
         shap_values = explainer(input_df)
         values = shap_values.values
