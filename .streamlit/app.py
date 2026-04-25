@@ -342,7 +342,7 @@ if st.button("Predict"):
 pred = model.predict(input_df)[0]
 prob = model.predict_proba(input_df)[0][1]
 risk_score = prob * 100
-
+probs= model.predict_proba(X)[:,1]
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
       st.error(" Invalid input values. Please check inputs.")
       st.stop()
@@ -379,8 +379,6 @@ with col4:
 
 with col5:
      st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
-
-probs= model.predict_proba(X)[:,1]
 
 st.divider()
 
