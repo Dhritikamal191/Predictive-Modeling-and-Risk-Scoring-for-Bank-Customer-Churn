@@ -325,8 +325,8 @@ df=df.drop(["RowNumber","CustomerId","Surname"],axis=1,errors="ignore")
 X=df.drop("Exited",axis=1)
 y_test=df["Exited"]
 X=df.copy()
-print("Model features:",columns)
-print("input features:",columns)
+print("Model features:",input_df)
+print("input features:",input_df)
 # --------------------------------------------------
 # Churn Prediction
 # --------------------------------------------------
