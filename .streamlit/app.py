@@ -337,8 +337,8 @@ if st.button("Predict"):
        else:
             st.success(f"Customer NOT likely to churn (Prob: {prob:.2f})")
 
-    except Exception as e:
-           st.error(f"Prediction Error: {e}")
+   except Exception as e:
+          st.error(f"Prediction Error: {e}")
 
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
    st.error(" Invalid input values. Please check inputs.")
