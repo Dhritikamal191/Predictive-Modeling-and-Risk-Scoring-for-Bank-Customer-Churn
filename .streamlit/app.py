@@ -360,27 +360,24 @@ if st.button("Predict"):
    elif prob < 0 or prob > 1:
         st.error("Probability out of range")
 
+   col1, col2, col3, col4, col5 = st.columns(5)
+
+   with col1:
+        st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
+
+   with col2:
+        st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚠️"), unsafe_allow_html=True)
+
+   with col3:
+        st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
+
+   with col4:
+        st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
+
+    with col5:
+         st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
+
 probs= model.predict_proba(X)[:,1]
-# --------------------------------------------------
-# Display Risk Calculator
-# --------------------------------------------------
-
-col1, col2, col3, col4, col5 = st.columns(5)
-
-with col1:
-    st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
-
-with col2:
-    st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚠️"), unsafe_allow_html=True)
-
-with col3:
-    st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
-
-with col4:
-    st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
-
-with col5:
-     st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
 
 st.divider()
 
