@@ -311,15 +311,6 @@ input_df =pd.DataFrame({
     "Geography":[geography],
     "Gender":[gender]
 })
-
-if model_choice=="Logisitc Regression":
-   model=lr_model
-elif model_choice=="Decision Tree": 
-     model=dt_model
-elif model_choice=="Gradient Boosting":
-     model=gb_model
-elif model_choice=="XGBoost":
-     model=xgb_model
    
 X=df.copy()
 # --------------------------------------------------
