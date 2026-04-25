@@ -14,6 +14,8 @@ from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 from scipy.stats import gaussian_kde
 from sklearn.metrics import (accuracy_score, recall_score, f1_score, roc_auc_score, roc_curve, confusion_matrix)
+from imblearn.pipeline import Pipeline
+from imblearn.over_sampling import SMOTE
 st.markdown("""
 <style>
 
