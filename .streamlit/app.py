@@ -328,20 +328,17 @@ X=df.copy()
 # --------------------------------------------------
 
 if st.button("Predict"):
-
-    try:
-        pred = model.predict(input_df)[0]
-        prob = model.predict_proba(input_df)[0][1]
-
-        risk_score = prob * 100
-
-        if pred == 1:
-            st.error(f"Customer likely to CHURN (Prob: {prob:.2f})")
-        else:
+   try:
+       pred = model.predict(input_df)[0]
+       prob = model.predict_proba(input_df)[0][1]
+       risk_score = prob * 100
+       if pred == 1:
+          st.error(f"Customer likely to CHURN (Prob: {prob:.2f})")
+       else:
             st.success(f"Customer NOT likely to churn (Prob: {prob:.2f})")
 
     except Exception as e:
-        st.error(f"Prediction Error: {e}")
+           st.error(f"Prediction Error: {e}")
 
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
    st.error(" Invalid input values. Please check inputs.")
