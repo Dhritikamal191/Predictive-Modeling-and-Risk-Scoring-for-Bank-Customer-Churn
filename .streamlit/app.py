@@ -483,7 +483,17 @@ with tab2:
      # --------------------------------------------------
      st.subheader("Feature Importance Dashboard")
 
-     importance = model.feature_importances_
+     
+if hasattr(model, "feature_importances_"):
+    importance = model.feature_importances_
+
+elif hasattr(model, "coef_"):
+    # For Logistic Regression
+    importance = np.abs(model.coef_[0])
+
+else:
+    st.warning("Feature importance not available for this model")
+    importance = None
      features =df.drop("Exited", axis=1).columns
 
      importance_df = pd.DataFrame({"Feature": columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
