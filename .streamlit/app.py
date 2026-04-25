@@ -321,7 +321,6 @@ elif model_choice=="Gradient Boosting":
 elif model_choice=="XGBoost":
      model=xgb_model
    
-input_df = input_df.reindex(columns=columns,fill_value=0)
 df=df.drop(["RowNumber","CustomerId","Surname"],axis=1,errors="ignore")
 X=df.drop("Exited",axis=1)
 y_test=df["Exited"]
