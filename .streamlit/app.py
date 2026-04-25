@@ -422,11 +422,23 @@ with tab1:
          actual_model = pipeline.named_steps["model"]
 
          X_transformed = preprocessor.transform(input_df)
+         if hasattr(actual_model, "feature_importances_"):
+            explainer = shap.TreeExplainer(actual_model)
+            shap_values = explainer(X_transformed)
+            values = shap_values.values[0]
 
-         explainer = shap.LinearExplainer(actual_model, X_transformed)
-         shap_values = explainer(X_transformed)
+         else:
+              explainer = shap.LinearExplainer(actual_model, X_transformed)
+              shap_values = explainer(X_transformed)
+              values = shap_values.values[0]
 
-         shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":shap_values})
+              feature_names = preprocessor.get_feature_names_out()
+
+         shap_df = pd.DataFrame({
+         "Feature": feature_names,
+         "SHAP Value": values
+         })     
+         shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
          shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
          top_n=10
          shap_df_top=shap_df.head(top_n)
