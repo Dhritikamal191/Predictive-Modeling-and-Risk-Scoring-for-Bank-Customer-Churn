@@ -275,7 +275,8 @@ models=joblib.load("models/all_models_pipeline.pkl")
 # Load dataset for visualization
 
 df=pd.read_csv("Data/European_Bank.csv")
-
+X=df.drop(["Exited","CustomerId","Surname"], axis=1, errors="ignore")
+y_test=df["Exited"]
 st.sidebar.image("Images/mentor.png",width=150)
 
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
@@ -321,12 +322,9 @@ elif model_choice=="Gradient Boosting":
 elif model_choice=="XGBoost":
      model=xgb_model
    
-df=df.drop(["RowNumber","CustomerId","Surname"],axis=1,errors="ignore")
-X=df.drop("Exited",axis=1)
-y_test=df["Exited"]
 X=df.copy()
-print("Model features:",input_df)
-print("input features:",input_df)
+print("Model features:",X)
+print("input features:",X)
 # --------------------------------------------------
 # Churn Prediction
 # --------------------------------------------------
