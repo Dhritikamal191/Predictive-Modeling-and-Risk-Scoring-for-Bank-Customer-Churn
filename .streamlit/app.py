@@ -339,42 +339,46 @@ if st.button("Predict"):
    except Exception as e:
           st.error(f"Prediction Error: {e}")
 
+pred = model.predict(input_df)[0]
+prob = model.predict_proba(input_df)[0][1]
+risk_score = prob * 100
+
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
-   st.error(" Invalid input values. Please check inputs.")
-   st.stop()
+      st.error(" Invalid input values. Please check inputs.")
+      st.stop()
 
-   if risk_score < 30:
-      risk = "Low Risk"
-   elif risk_score < 70:
-        risk = "Medium Risk"
-   else:
-        risk = "High Risk"
+if risk_score < 30:
+   risk = "Low Risk"
+elif risk_score < 70:
+     risk = "Medium Risk"
+else:
+     risk = "High Risk"
        
-   if pred is None:
-      st.warning("Please click Predict first")
+if pred is None:
+   st.warning("Please click Predict first")
  
-   elif pred not in [0, 1]:
-        st.error("Invalid prediction output")
+elif pred not in [0, 1]:
+     st.error("Invalid prediction output")
 
-   elif prob < 0 or prob > 1:
-        st.error("Probability out of range")
+elif prob < 0 or prob > 1:
+     st.error("Probability out of range")
 
-   col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5 = st.columns(5)
 
-   with col1:
-        st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
+with col1:
+     st.markdown(kpi_card("Churn Probability", f"{prob:.3f}", "📉"), unsafe_allow_html=True)
 
-   with col2:
-        st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚠️"), unsafe_allow_html=True)
+with col2:
+     st.markdown(kpi_card("Risk Score", f"{risk_score:.0f}/100", "⚠️"), unsafe_allow_html=True)
 
-   with col3:
-        st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
+with col3:
+     st.markdown(kpi_card("Risk Category", risk, "🚦"), unsafe_allow_html=True)
 
-   with col4:
-        st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
+with col4:
+     st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
 
-   with col5:
-         st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
+with col5:
+     st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
 
 probs= model.predict_proba(X)[:,1]
 
