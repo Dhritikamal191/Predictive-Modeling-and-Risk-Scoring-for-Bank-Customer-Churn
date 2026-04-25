@@ -356,8 +356,8 @@ elif pred not in [0, 1]:
     st.error("Invalid prediction output")
 
 # Check probability range (important)
-else prob < 0 or prob > 1:
-    st.error("Probability out of range")
+elif prob < 0 or prob > 1:
+     st.error("Probability out of range")
 
 probs= model.predict_proba(X)[:,1]
 
