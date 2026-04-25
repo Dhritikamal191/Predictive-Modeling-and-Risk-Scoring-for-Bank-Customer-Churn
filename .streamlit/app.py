@@ -374,7 +374,7 @@ if st.button("Predict"):
    with col4:
         st.markdown(kpi_card("Avg. Churn Probability", round(probs.mean(),3), "📊"), unsafe_allow_html=True)
 
-    with col5:
+   with col5:
          st.markdown(kpi_card("Max Risk Score", f"{round(probs.max()*100,1)}%","📈"), unsafe_allow_html=True)
 
 probs= model.predict_proba(X)[:,1]
