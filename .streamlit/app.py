@@ -270,15 +270,8 @@ st.divider()
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
-lr_model,feature_names= joblib.load("models/logistic_regression.pkl")
-dt_model,feature_names= joblib.load("models/decision_tree.pkl")
-rf_model,feature_names= joblib.load("models/random_forest.pkl")
-gb_model,feature_names= joblib.load("models/gradient_boosting.pkl")
-xgb_model,feature_names= joblib.load("models/xgboost.pkl")
-scaler= joblib.load("models/scaler.pkl")
-columns= joblib.load("models/columns.pkl")
-X_test_scaled=joblib.load("models/X_test_scaled.pkl")
-y_test=joblib.load("models/y_test.pkl")
+models=joblib.load("models/all_models_pipeline.pkl")
+
 # Load dataset for visualization
 
 df=pd.read_csv("Data/European_Bank.csv")
@@ -286,7 +279,7 @@ df=pd.read_csv("Data/European_Bank.csv")
 st.sidebar.image("Images/mentor.png",width=150)
 
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
-
+model=models[model_choice]
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
 
 st.sidebar.header("Customer Feature Inputs")
@@ -318,10 +311,6 @@ input_df =pd.DataFrame({
     "Geography":[geography],
     "Gender":[gender]
 })
-input_encoded = pd.get_dummies(input_df)
-input_encoded= input_encoded.reindex(columns=columns,fill_value=0)
-
-input_scaled= scaler.transform(input_encoded)
 
 model= rf_model
 
@@ -333,46 +322,29 @@ elif model_choice=="Gradient Boosting":
      model=gb_model
 elif model_choice=="XGBoost":
      model=xgb_model
-
-if st.button("Predict"):
-   prediction= model.predict(input_encoded)[0]
-
-   y_prob=model.predict_proba(X_test_scaled)[:,1]
-   y_pred=(y_prob>threshold).astype(int)
    
-   st.write("Prediction:", y_pred[0])
-   st.write("Max Probability:", y_prob.max())
-   st.write("Min Probability:", y_prob.min())
-   st.write("Churn Probability:", y_prob[0])
-
-   st.success(f"Prediction:{y_pred[0]}")
-
-probability = model.predict_proba(input_encoded)[0][1]
-risk_score = probability * 100
-
-X = df.drop(["Exited","CustomerId","Surname"],axis=1,errors="ignore")
 input_df = input_df.reindex(columns=columns,fill_value=0)
 df=df.drop(["RowNumber","CustomerId","Surname"],axis=1,errors="ignore")
-X=pd.get_dummies(X,columns=["Geography","Gender"],drop_first=True)
+X=df.drop("Exited",axis=1)
+y_test=df["Exited"]
 X=df.copy()
 print("Model features:",columns)
 print("input features:",columns)
-X=X.drop(columns=["Exited","probability"],errors="ignore")
-X=X.reindex(columns=columns,fill_value=0)
-
 # --------------------------------------------------
 # Churn Prediction
 # --------------------------------------------------
-
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
    st.error(" Invalid input values. Please check inputs.")
    st.stop()
-
-pred=model.predict(input_scaled)[0]
-df["probability"]=model.predict_proba(input_encoded)[0][1]
-
-prob = model.predict_proba(input_scaled)[0][1]
-
+if st.button("Predict"):
+   prob=model.predict_proba(input_df)[0][1]
+   pred=int(prob>=threshold)
+   st.write("Prediction:",pred)
+   st.write("Churn Probability:",round(prob,3))
+   if pred==1:
+      st.error("Customer is likely to CHURN")
+   else:
+        st.success("Customer is NOT likely to churn")
 risk_score = prob * 100
 
 # Check if prediction exists
@@ -384,22 +356,10 @@ elif pred not in [0, 1]:
     st.error("Invalid prediction output")
 
 # Check probability range (important)
-elif prob < 0 or prob > 1:
+else prob < 0 or prob > 1:
     st.error("Probability out of range")
 
-# Handle prediction cases
-elif pred == 1:
-    st.error("Customer is likely to CHURN")
-
-elif pred == 0:
-    st.success("Customer is NOT likely to churn")
-
-# Final fallback (safety)
-else:
-    st.warning("Unexpected case encountered")
-
-
-probs= model.predict_proba(X_test_scaled)[:,1]
+probs= model.predict_proba(X)[:,1]
 
 # --------------------------------------------------
 # Risk Category
@@ -464,8 +424,8 @@ with tab1:
           st.plotly_chart(fig2)
          
      with col3:
-          y_prob=model.predict_proba(X_test_scaled)[:,1]
-          y_pred=(y_prob> threshold).astype(int)
+          y_prob=model.predict_proba(X)[:,1]
+          y_pred=(y_prob>=threshold).astype(int)
           cm =confusion_matrix(y_test, y_pred)
           cm=cm[::-1]
           labels = ["Churn", "No Churn"]
@@ -512,9 +472,9 @@ with tab1:
      st.plotly_chart(fig, use_container_width=True)
 
      st.subheader("Churn Probability Density Distribution")  
-     def render_comparison_kde(model, X_test_scaled, y_test):
+     def render_comparison_kde(model, X, y_test):
     
-         kde_probs = model.predict_proba(X_test_scaled)[:, 1]
+         kde_probs = model.predict_proba(X)[:, 1]
          kde_mean = np.mean(kde_probs)
 
          data_0 =kde_probs[y_test == 0]
@@ -559,7 +519,7 @@ with tab2:
      col1,col2=st.columns(2)
      with col1:
           explainer=shap.Explainer(model)
-          shap_values=explainer(X_test_scaled)
+          shap_values=explainer(X)
           values=np.array(shap_values.values).reshape(-1)
           features=list(input_encoded.columns)
           min_len=min(len(values), len(features))
@@ -627,7 +587,7 @@ with tab3:
           from sklearn.metrics import roc_curve, auc
           y= df["Exited"]
           y_true = df["Exited"].to_numpy().ravel()
-          y_prob = model.predict_proba(X_test_scaled)[:, 1]
+          y_prob = model.predict_proba(X)[:, 1]
           fpr, tpr, _ = roc_curve(y_test, y_prob)
           roc_auc = auc(fpr, tpr)   
           fig = go.Figure()  
@@ -642,7 +602,7 @@ with tab3:
           fig = go.Figure()
           models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
           for name, m in models.items():
-              y_prob = m.predict_proba(X_test_scaled)[:, 1]
+              y_prob = m.predict_proba(X)[:, 1]
               fpr, tpr, _ = roc_curve(y_test, y_prob)
               roc_auc = auc(fpr, tpr)
 
@@ -654,8 +614,8 @@ with tab3:
      results = []
 
      for name, model in models.items():
-         y_pred=model.predict(X_test_scaled)
-         y_prob=model.predict_proba(X_test_scaled)[:,1]
+         y_pred=model.predict(X)
+         y_prob=model.predict_proba(X)[:,1]
          accuracy = accuracy_score(y_test, y_pred)
          recall = recall_score(y_test, y_pred)
          f1 = f1_score(y_test, y_pred)
@@ -668,8 +628,8 @@ with tab3:
      st.markdown(html_table, unsafe_allow_html=True)
 
      for name, model in models.items():
-         y_pred=model.predict(X_test_scaled)
-         y_prob=model.predict_proba(X_test_scaled)[:,1]
+         y_pred=model.predict(X)
+         y_prob=model.predict_proba(X)[:,1]
          fpr, tpr, _ = roc_curve(y_test, y_prob)
 
          fig.add_trace(go.Scatter(x=fpr, y=tpr,mode='lines',name=name))
@@ -692,7 +652,7 @@ with tab3:
      for i, feature in enumerate(features):
          feature_index=X.columns.get_loc(feature)
 
-         pdp=partial_dependence(model,X_test_scaled,features=[feature_index])
+         pdp=partial_dependence(model,X,features=[feature_index])
          x_vals=pdp["grid_values"][0]
          y_vals=pdp["average"][0].flatten()
          fig.add_trace(go.Scatter(x=x_vals,y=y_vals,mode="lines+markers",name=feature,line=dict(width=3,color=colors[i]), marker=dict(size=5),hovertemplate=f"<b>{feature}</b><br>Value:%{{x}}<br>Churn Prob: %{{y:.3f}}<extra></extra>"))
@@ -714,7 +674,7 @@ with tab4:
      models={"Logistic Regression": lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
      metrics_data=[]
      for name, model in models.items():
-         acc, rec, f1= get_metrics(model, X_test_scaled, y_test, threshold)
+         acc, rec, f1= get_metrics(model, X, y_test, threshold)
          metrics_data.append({"Model": name,"Accuracy":acc,"Recall":rec,"F1 Score":f1})
      
      df_metrics=pd.DataFrame(metrics_data)
