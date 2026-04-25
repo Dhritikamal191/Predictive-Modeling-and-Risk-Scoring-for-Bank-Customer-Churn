@@ -426,7 +426,7 @@ with tab1:
          explainer = shap.LinearExplainer(actual_model, X_transformed)
          shap_values = explainer(X_transformed)
 
-         shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
+         shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":shap_values})
          shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
          top_n=10
          shap_df_top=shap_df.head(top_n)
