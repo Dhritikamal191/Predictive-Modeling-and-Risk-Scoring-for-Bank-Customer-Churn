@@ -345,17 +345,14 @@ if st.button("Predict"):
        
    risk_score = prob * 100
 
-# Check if prediction exists
-if pred is None:
-    st.warning("Please click Predict first")
+   if pred is None:
+      st.warning("Please click Predict first")
+ 
+   elif pred not in [0, 1]:
+        st.error("Invalid prediction output")
 
-# Check for invalid prediction values
-elif pred not in [0, 1]:
-    st.error("Invalid prediction output")
-
-# Check probability range (important)
-elif prob < 0 or prob > 1:
-     st.error("Probability out of range")
+   elif prob < 0 or prob > 1:
+        st.error("Probability out of range")
 
 probs= model.predict_proba(X)[:,1]
 
