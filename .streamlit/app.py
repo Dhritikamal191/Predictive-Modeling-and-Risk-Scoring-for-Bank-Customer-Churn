@@ -312,8 +312,6 @@ input_df =pd.DataFrame({
     "Gender":[gender]
 })
 
-model= rf_model
-
 if model_choice=="Logisitc Regression":
    model=lr_model
 elif model_choice=="Decision Tree": 
