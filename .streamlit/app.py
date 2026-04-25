@@ -426,16 +426,16 @@ with tab1:
          explainer = shap.LinearExplainer(actual_model, X_transformed)
          shap_values = explainer(X_transformed)
 
-          shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
-        shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
-        top_n=10
-        shap_df_top=shap_df.head(top_n)
-        fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
-        fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-        fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
-        st.plotly_chart(fig, use_container_width=True)
-     except Exception as e:
-               st.error(f"SHAP Error: {e}")
+         shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
+         shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
+         top_n=10
+         shap_df_top=shap_df.head(top_n)
+         fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
+         fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+         fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
+         st.plotly_chart(fig, use_container_width=True)
+      except Exception as e:
+             st.error(f"SHAP Error: {e}")
 
      # --------------------------------------------------
      # Probability Distribution Visualization
