@@ -344,7 +344,13 @@ if st.button("Predict"):
         st.success("Customer is NOT likely to churn")
        
    risk_score = prob * 100
-
+   if risk_score < 30:
+      risk = "Low Risk"
+   elif risk_score < 70:
+        risk = "Medium Risk"
+   else:
+        risk = "High Risk"
+       
    if pred is None:
       st.warning("Please click Predict first")
  
@@ -355,17 +361,6 @@ if st.button("Predict"):
         st.error("Probability out of range")
 
 probs= model.predict_proba(X)[:,1]
-
-# --------------------------------------------------
-# Risk Category
-# --------------------------------------------------
-if risk_score < 30:
-    risk = "Low Risk"
-elif risk_score < 70:
-    risk = "Medium Risk"
-else:
-    risk = "High Risk"
-
 # --------------------------------------------------
 # Display Risk Calculator
 # --------------------------------------------------
