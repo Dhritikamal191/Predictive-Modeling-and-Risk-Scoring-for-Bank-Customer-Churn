@@ -342,7 +342,8 @@ if st.button("Predict"):
       st.error("Customer is likely to CHURN")
    else:
         st.success("Customer is NOT likely to churn")
-risk_score = prob * 100
+       
+   risk_score = prob * 100
 
 # Check if prediction exists
 if pred is None:
