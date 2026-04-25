@@ -586,7 +586,6 @@ with tab3:
      with col2:
           st.subheader("ROC with respect to Random Line")
           fig = go.Figure()
-          models = {"Logistic Regression":lr_model,"Decision Tree": dt_model,"Random Forest": rf_model,"Gradient Boosting": gb_model,"XGBoost": xgb_model}
           for name, m in models.items():
               y_prob = m.predict_proba(X)[:, 1]
               fpr, tpr, _ = roc_curve(y_test, y_prob)
