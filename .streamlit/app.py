@@ -387,8 +387,7 @@ with tab1:
      col1,col2,col3=st.columns(3)
 
      with col1:
-          y_prob=model.predict_proba(X)[:,1]
-          y_pred=(y_prob>=threshold).astype(int)
+          
           fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)",'font': {'size': 20}}, delta={'reference': risk_score, 'increasing': {'color': "red"}},gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color':"#2563eb", 'thickness': 0.25},'bgcolor':"#111827",'borderwidth':2,'bordercolor':"#374151",'steps': [{'range': [0, 40], 'color': "#16a34a"},{'range': [40, 70],'color':"#ca8a04"},{'range': [70, 100], 'color':"#dc2626"}],'threshold': {'line': {'color':"black", 'width':4},'thickness':0.75,'value':new_risk}}))
 
           fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
@@ -396,8 +395,7 @@ with tab1:
           st.plotly_chart(fig1)
 
      with col2:
-          y_prob=model.predict_proba(X)[:,1]
-          y_pred=(y_prob>=threshold).astype(int)
+          
           compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
           fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison",color_discrete_sequence=["#6366f1","#f43f5e"])
           fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
