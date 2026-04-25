@@ -295,7 +295,6 @@ has_card = st.sidebar.selectbox("Has Credit Card", [0,1])
 salary = st.sidebar.slider("Estimated Salary", 0,1000, 200000, 50000)
 gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
 geography = st.sidebar.selectbox("Geography", ["France", "Germany", "Spain"])
-
 # --------------------------------------------------
 # Prediction Input
 # --------------------------------------------------
