@@ -329,17 +329,7 @@ X=df.copy()
 if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
    st.error(" Invalid input values. Please check inputs.")
    st.stop()
-if st.button("Predict"):
-   prob=model.predict_proba(input_df)[0][1]
-   pred=int(prob>=threshold)
-   st.write("Prediction:",pred)
-   st.write("Churn Probability:",round(prob,3))
-   if pred==1:
-      st.error("Customer is likely to CHURN")
-   else:
-        st.success("Customer is NOT likely to churn")
-       
-   risk_score = prob * 100
+
    if risk_score < 30:
       risk = "Low Risk"
    elif risk_score < 70:
