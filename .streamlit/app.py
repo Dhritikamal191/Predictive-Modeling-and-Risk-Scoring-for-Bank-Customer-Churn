@@ -323,8 +323,6 @@ elif model_choice=="XGBoost":
      model=xgb_model
    
 X=df.copy()
-print("Model features:",X)
-print("input features:",X)
 # --------------------------------------------------
 # Churn Prediction
 # --------------------------------------------------
