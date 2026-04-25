@@ -416,18 +416,17 @@ with tab1:
      st.subheader("🔍 Model Explainability (SHAP)")
 
      try:
-        explainer = shap.Explainer(model)
-        shap_values = explainer(input_df)
-        values = shap_values.values
+         pipeline = model
 
-        if len(values.shape) == 3:
-            values = values[0, :, 1]   # take class 1 (churn)
-        elif len(values.shape) == 2:
-             values = values[0]
-        else:
-             raise ValueError("Unexpected SHAP shape")
+         preprocessor = pipeline.named_steps["preprocessor"]
+         actual_model = pipeline.named_steps["model"]
 
-        shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
+         X_transformed = preprocessor.transform(input_df)
+
+         explainer = shap.LinearExplainer(actual_model, X_transformed)
+         shap_values = explainer(X_transformed)
+
+          shap_df=pd.DataFrame({"Feature":input_df.columns,"SHAP Value":values})
         shap_df = shap_df.sort_values(by="SHAP Value", key=np.abs, ascending=False)
         top_n=10
         shap_df_top=shap_df.head(top_n)
