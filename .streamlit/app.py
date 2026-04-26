@@ -541,49 +541,26 @@ with tab2:
 
      col1, col2 = st.columns(2)
 
-     try:
-  
-         preprocessor = model.named_steps["preprocessor"]
-         actual_model = list(model.named_steps.values())[-1]
+     min_len = min(len(feature_names), len(mean_shap))
+     feature_names = feature_names[:min_len]
+     mean_shap = mean_shap[:min_len]
+
+     shap_df = pd.DataFrame({
+     "Feature": feature_names,
+     "SHAP Value": mean_shap
+     }).sort_values(by="SHAP Value", ascending=True)
 
     
-         X_transformed = preprocessor.transform(X)
-
-         explainer = shap.Explainer(actual_model.predict_proba, X_transformed)
-
-         shap_values = explainer(X_transformed)
-
-         values = shap_values.values
-
-         if len(values.shape) == 3:
-            values = values[:, :, 1]
-
-         mean_shap = np.abs(values).mean(axis=0)
-
-    
-         feature_names = preprocessor.get_feature_names_out()
-
-    
-         min_len = min(len(feature_names), len(mean_shap))
-         feature_names = feature_names[:min_len]
-         mean_shap = mean_shap[:min_len]
-
-         shap_df = pd.DataFrame({
-         "Feature": feature_names,
-         "SHAP Value": mean_shap
-         }).sort_values(by="SHAP Value", ascending=True)
-
-    
-         with col1:
-              fig = go.Figure(go.Bar(
-              x=shap_df["SHAP Value"],
-              y=shap_df["Feature"],
-              orientation="h",
-              marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")
+     with col1:
+          fig = go.Figure(go.Bar(
+          x=shap_df["SHAP Value"],
+          y=shap_df["Feature"],
+          orientation="h",
+          marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")
               ))
 
-              fig.update_layout(
-              title="Global Feature Contribution",
+          fig.update_layout(
+          title="Global Feature Contribution",
               xaxis_title="Mean Impact on Prediction",
               yaxis_title="Features",
               template="plotly_dark",
@@ -592,11 +569,11 @@ with tab2:
               plot_bgcolor="rgba(0,0,0,0)"
               )
 
-              st.plotly_chart(fig, use_container_width=True)
+           st.plotly_chart(fig, use_container_width=True)
 
     
-         with col2:
-              fig = go.Figure(go.Scatter(
+      with col2:
+           fig = go.Figure(go.Scatter(
               x=shap_df["SHAP Value"],
               y=shap_df["Feature"],
               mode="markers",
@@ -611,7 +588,7 @@ with tab2:
               hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"
               ))
 
-              fig.update_layout(
+           fig.update_layout(
               title="Feature Impact Distribution",
               xaxis_title="SHAP Value",
               yaxis_title="Features",
@@ -623,11 +600,9 @@ with tab2:
 
               fig.update_yaxes(autorange="reversed")
 
-              st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True)
 
-     except Exception as e:
-            st.error(f"SHAP Error: {e}")
-   
+     
      # --------------------------------------------------
      # Customer Feature Visualization
      # --------------------------------------------------
