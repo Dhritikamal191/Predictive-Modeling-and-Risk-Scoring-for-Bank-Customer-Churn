@@ -540,8 +540,20 @@ with tab2:
      st.subheader("Feature Contribution and Feature Impact on Churn Prediction")
 
      col1, col2 = st.columns(2)
+     
+     X_transformed = preprocessor.transform(X)
+
+     explainer = shap.Explainer(actual_model.predict_proba, X_transformed)
+
+     shap_values = explainer(X_transformed)
+
+     values = shap_values.values
+
+     if len(values.shape) == 3:
+        values = values[:, :, 1]
 
      min_len = min(len(feature_names), len(mean_shap))
+
      feature_names = feature_names[:min_len]
      mean_shap = mean_shap[:min_len]
 
