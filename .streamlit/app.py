@@ -420,7 +420,7 @@ with tab1:
          actual_model = model.named_steps["model"]
 
          X_input_transformed = preprocessor.transform(input_df)
-         X_background=preprocessor.transform(X_test_scaled[:100])
+         X_background=preprocessor.transform(X_test[:100])
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
          else:
