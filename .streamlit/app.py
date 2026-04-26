@@ -423,33 +423,18 @@ with tab1:
         
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
+             
          elif hasattr(actual_model, "coef_"):
-    coef = actual_model.coef_[0]
-    feature_names = preprocessor.get_feature_names_out()
-
-    coef_df = pd.DataFrame({
-        "Feature": feature_names,
-        "Impact": coef
-    }).sort_values(by="Impact", key=np.abs, ascending=False)
-
-    fig = px.bar(
-        coef_df.head(10),
-        x="Impact",
-        y="Feature",
-        orientation="h",
-        color="Impact"
-    )
-
-    fig.update_layout(template="plotly_dark")
-    fig.update_yaxes(autorange="reversed")
-
-    st.plotly_chart(fig)
-   
+              coef = actual_model.coef_[0]
+              feature_names = preprocessor.get_feature_names_out()
+              coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
+              fig = px.bar(coef_df.head(10),x="Impact",y="Feature",orientation="h",color="Impact")
+              fig.update_layout(template="plotly_dark")
+              fig.update_yaxes(autorange="reversed")
+              st.plotly_chart(fig)
          else:
               explainer = shap.LinearExplainer(actual_model, X_transformed)
 
-         if "LogisitcRegression" in str(type(actual_model)):
-            st.info("SHAP visualization is not meaningful for Logistic Regression in this setup. Please select another model.")
          shap_values = explainer(X_transformed)
          values = shap_values.values
 
