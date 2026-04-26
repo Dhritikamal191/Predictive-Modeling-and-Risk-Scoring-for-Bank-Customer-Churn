@@ -423,10 +423,13 @@ with tab1:
         
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
-            shap_values = explainer(X_transformed)
+            
          else:
               explainer = shap.LinearExplainer(actual_model, X_transformed)
-              shap_values = explainer(X_transformed)
+
+         if "LogisitcRegression" in str(type(actual_model)):
+            st.info("SHAP visualization is not meaningful for Logistic Regression in this setup. Please select another model.")
+         shap_values = explainer(X_transformed)
          values = shap_values.values
 
          # Fix shape
