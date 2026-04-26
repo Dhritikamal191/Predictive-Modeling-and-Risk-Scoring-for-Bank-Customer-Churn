@@ -378,7 +378,7 @@ scenario_df["Balance"]=balance + 20000
 scenario_df["NumOfProducts"] = products
 scenario_df["IsActiveMember"] = active_member
 scenario_df["HasCrCard"] = has_card
-new_probability = model.predict_proba(scenario.df)[0][1]
+new_probability = model.predict_proba(X)[0][1]
 new_risk = new_probability * 100
 
 tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
