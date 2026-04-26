@@ -569,11 +569,11 @@ with tab2:
               plot_bgcolor="rgba(0,0,0,0)"
               )
 
-           st.plotly_chart(fig, use_container_width=True)
+          st.plotly_chart(fig, use_container_width=True)
 
     
-      with col2:
-           fig = go.Figure(go.Scatter(
+     with col2:
+          fig = go.Figure(go.Scatter(
               x=shap_df["SHAP Value"],
               y=shap_df["Feature"],
               mode="markers",
@@ -588,7 +588,7 @@ with tab2:
               hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"
               ))
 
-           fig.update_layout(
+          fig.update_layout(
               title="Feature Impact Distribution",
               xaxis_title="SHAP Value",
               yaxis_title="Features",
@@ -598,9 +598,9 @@ with tab2:
               plot_bgcolor="rgba(0,0,0,0)"
               )
 
-              fig.update_yaxes(autorange="reversed")
+            fig.update_yaxes(autorange="reversed")
 
-            st.plotly_chart(fig, use_container_width=True)
+          st.plotly_chart(fig, use_container_width=True)
 
      
      # --------------------------------------------------
