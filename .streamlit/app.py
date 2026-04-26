@@ -505,19 +505,33 @@ with tab2:
      # --------------------------------------------------
      st.subheader("Feature Importance Dashboard")
    
-     if hasattr(model, "feature_importances_"):
-        importance = model.feature_importances_
+     actual_model = list(model.named_steps.values())[-1]
 
-     elif hasattr(model, "coef_"):
-          importance = np.abs(model.coef_[0])
+     if hasattr(actual_model, "feature_importances_"):
+        importance = actual_model.feature_importances_
+
+     elif hasattr(actual_model, "coef_"):
+          importance = np.abs(actual_model.coef_[0])
 
      else:
           st.warning("Feature importance not available for this model")
           importance = None
-         
+
+     feature_names = model.named_steps["preprocessor"].get_feature_names_out()
+
      if importance is not None:
-        importance_df = pd.DataFrame({"Feature":input_df.columns,"Importance": importance}).sort_values(by="Importance", ascending=False)
-        max_val=importance_df["Importance"].max()
+
+        feature_names = model.named_steps["preprocessor"].get_feature_names_out()
+
+        min_len = min(len(feature_names), len(importance))
+
+        importance_df = pd.DataFrame({
+        "Feature": feature_names[:min_len],
+        "Importance": importance[:min_len]
+        }).sort_values(by="Importance", ascending=False)
+
+        max_val = importance_df["Importance"].max()
+
         fig2 = px.bar(importance_df,x="Importance",y="Feature",orientation="h", color="Importance", color_discrete_sequence=px.colors.qualitative.Set3)
         fig2.update_traces(text=importance_df["Importance"],textposition="outside")
         fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,font=dict(color="white"), legend=dict(font=dict(color="white")), paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
