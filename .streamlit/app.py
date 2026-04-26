@@ -549,22 +549,15 @@ with tab2:
     
          X_transformed = preprocessor.transform(X)
 
-    
-         if hasattr(actual_model, "feature_importances_"):
-            explainer = shap.TreeExplainer(actual_model)
-            shap_values = explainer(X_transformed)
-            values = shap_values.values
+         explainer = shap.Explainer(actual_model.predict_proba, X_transformed)
 
-        
+         shap_values = explainer(X_transformed)
+
+         values = shap_values.values
+
          if len(values.shape) == 3:
             values = values[:, :, 1]
 
-         else:
-              explainer = shap.LinearExplainer(actual_model, X_transformed)
-              shap_values = explainer(X_transformed)
-              values = shap_values.values
-
-    
          mean_shap = np.abs(values).mean(axis=0)
 
     
