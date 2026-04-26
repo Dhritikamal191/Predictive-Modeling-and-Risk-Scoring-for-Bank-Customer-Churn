@@ -432,7 +432,8 @@ with tab1:
               fig.update_layout(template="plotly_dark")
               fig.update_yaxes(autorange="reversed")
               st.plotly_chart(fig)
-         
+         else:
+              explainer = shap.LinearExplainer(actual_model, X_transformed)
 
          shap_values = explainer(X_transformed)
          values = shap_values.values
