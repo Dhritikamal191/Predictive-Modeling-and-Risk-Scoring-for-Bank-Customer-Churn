@@ -424,7 +424,7 @@ with tab1:
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
              
-         elif hasattr(actual_model, "coef_"):
+         else hasattr(actual_model, "coef_"):
               coef = actual_model.coef_[0]
               feature_names = preprocessor.get_feature_names_out()
               coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
@@ -432,8 +432,7 @@ with tab1:
               fig.update_layout(template="plotly_dark")
               fig.update_yaxes(autorange="reversed")
               st.plotly_chart(fig)
-         else:
-              explainer = shap.LinearExplainer(actual_model, X_transformed)
+         
 
          shap_values = explainer(X_transformed)
          values = shap_values.values
