@@ -447,6 +447,7 @@ with tab1:
               coef = actual_model.coef_[0]
               feature_names = preprocessor.get_feature_names_out()
               coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
+              st.info("Showing feature impact using Logistic regression coefficients")
               fig = px.bar(coef_df.head(10),x="Impact",y="Feature",orientation="h",color="Impact")
               fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",template="plotly_dark")
               fig.update_yaxes(autorange="reversed")
