@@ -444,8 +444,8 @@ with tab1:
               fig.update_layout(template="plotly_dark")
               fig.update_yaxes(autorange="reversed")
               st.plotly_chart(fig)
-          else:
-               st.warning("Explainability not available for this model")
+         else:
+              st.warning("Explainability not available for this model")
       except Exception as e:
             st.error(f"SHAP Error: {e}")
      top_n=10
