@@ -581,59 +581,59 @@ with tab2:
          }).sort_values(by="SHAP Value", ascending=True)
 
     
-    with col1:
-         fig = go.Figure(go.Bar(
-            x=shap_df["SHAP Value"],
-            y=shap_df["Feature"],
-            orientation="h",
-            marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")
-         ))
+         with col1:
+              fig = go.Figure(go.Bar(
+              x=shap_df["SHAP Value"],
+              y=shap_df["Feature"],
+              orientation="h",
+              marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")
+              ))
 
-         fig.update_layout(
-            title="Global Feature Contribution",
-            xaxis_title="Mean Impact on Prediction",
-            yaxis_title="Features",
-            template="plotly_dark",
-            height=500,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)"
-         )
+              fig.update_layout(
+              title="Global Feature Contribution",
+              xaxis_title="Mean Impact on Prediction",
+              yaxis_title="Features",
+              template="plotly_dark",
+              height=500,
+              paper_bgcolor="rgba(0,0,0,0)",
+              plot_bgcolor="rgba(0,0,0,0)"
+              )
 
-         st.plotly_chart(fig, use_container_width=True)
+              st.plotly_chart(fig, use_container_width=True)
 
     
-    with col2:
-         fig = go.Figure(go.Scatter(
-            x=shap_df["SHAP Value"],
-            y=shap_df["Feature"],
-            mode="markers",
-            marker=dict(
+         with col2:
+              fig = go.Figure(go.Scatter(
+              x=shap_df["SHAP Value"],
+              y=shap_df["Feature"],
+              mode="markers",
+              marker=dict(
                 size=12,
                 color=shap_df["SHAP Value"],
                 colorscale="Viridis",
                 showscale=True,
                 colorbar=dict(title="Impact")
-            ),
-            text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],
-            hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"
-         ))
+              ),
+              text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],
+              hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"
+              ))
 
-         fig.update_layout(
-            title="Feature Impact Distribution",
-            xaxis_title="SHAP Value",
-            yaxis_title="Features",
-            template="plotly_dark",
-            height=550,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)"
-         )
+              fig.update_layout(
+              title="Feature Impact Distribution",
+              xaxis_title="SHAP Value",
+              yaxis_title="Features",
+              template="plotly_dark",
+              height=550,
+              paper_bgcolor="rgba(0,0,0,0)",
+              plot_bgcolor="rgba(0,0,0,0)"
+              )
 
-         fig.update_yaxes(autorange="reversed")
+              fig.update_yaxes(autorange="reversed")
 
-         st.plotly_chart(fig, use_container_width=True)
+              st.plotly_chart(fig, use_container_width=True)
 
-     except Exception as e:
-            st.error(f"SHAP Error: {e}")
+       except Exception as e:
+             st.error(f"SHAP Error: {e}")
    
      # --------------------------------------------------
      # Customer Feature Visualization
