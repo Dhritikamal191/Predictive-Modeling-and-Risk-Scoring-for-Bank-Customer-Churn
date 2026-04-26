@@ -419,14 +419,14 @@ with tab1:
          preprocessor = model.named_steps["preprocessor"]
          actual_model = model.named_steps["model"]
 
-         X_input_transformed = preprocessor.transform(input_df)
-         X_background=preprocessor.transform(X_test[:100])
+         X_transformed = preprocessor.transform(input_df)
+        
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
+            shap_values = explainer(X_transformed)
          else:
-              explainer = shap.LinearExplainer(actual_model, X_background)
-
-         shap_values = explainer(X_input_transformed)
+              explainer = shap.LinearExplainer(actual_model, X_transformed)
+              shap_values = explainer(X_transformed)
          values = shap_values.values
 
          # Fix shape
