@@ -374,6 +374,7 @@ with col5:
 st.divider()
 
 scenario_df = input_df.copy()
+scenario_df["Balance"]=balance+20000
 scenario_df["NumOfProducts"] = products
 scenario_df["IsActiveMember"] = active_member
 scenario_df["HasCrCard"] = has_card
