@@ -553,11 +553,9 @@ with tab2:
      if len(values.shape) == 3:
         values = values[:, :, 1]
 
-     min_len = min(len(feature_names), len(mean_shap))
-
      feature_names = feature_names[:min_len]
      mean_shap = mean_shap[:min_len]
-
+     min_len = min(len(feature_names), len(mean_shap))
      shap_df = pd.DataFrame({
      "Feature": feature_names,
      "SHAP Value": mean_shap
