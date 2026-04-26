@@ -435,6 +435,8 @@ with tab1:
             feature_names = feature_names[:min_len]
             values = values[:min_len]
             shap_df = pd.DataFrame({"Feature": feature_names,"SHAP Value": values}).sort_values(by="SHAP Value", key=np.abs, ascending=False)
+            top_n=10
+            shap_df_top=shap_df.head(top_n) 
             st.dataframe(shap_df.head(10))
          elif hasattr(actual_model, "coef_"):
               coef = actual_model.coef_[0]
@@ -448,8 +450,6 @@ with tab1:
               st.warning("Explainability not available for this model")
      except Exception as e:
              st.error(f"SHAP Error: {e}")
-     top_n=10
-     shap_df_top=shap_df.head(top_n) 
      fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
      fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
