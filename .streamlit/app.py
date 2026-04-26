@@ -384,7 +384,7 @@ new_risk = new_probability * 100
 tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
 
 with tab1:
-     col1,col2,col3=st.columns(3)
+     col1,col2=st.columns(2)
 
      with col1:
           
@@ -402,17 +402,16 @@ with tab1:
           fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,font=dict(color="white"), legend=dict(font=dict(color="white")),height=400,template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig2)
          
-     with col3:
-          y_prob=model.predict_proba(X)[:,1]
-          y_pred=(y_prob>=threshold).astype(int)
-          cm =confusion_matrix(y_test, y_pred)
-          cm=cm[::-1]
-          labels = ["Churn", "No Churn"]
-          fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-          fig.update_layout(xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-          st.plotly_chart(fig)
+     st.subheader("Confusion Matrix")
+     y_prob=model.predict_proba(X)[:,1]
+     y_pred=(y_prob>=threshold).astype(int)
+     cm =confusion_matrix(y_test, y_pred)
+     cm=cm[::-1]
+     labels = ["Churn", "No Churn"]
+     fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
+     fig.update_layout(xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     st.plotly_chart(fig)
 
-    
      st.subheader("🔍 Model Explainability (SHAP)")
 
      try:
