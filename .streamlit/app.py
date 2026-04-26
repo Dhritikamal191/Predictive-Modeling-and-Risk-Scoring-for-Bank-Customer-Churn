@@ -423,8 +423,20 @@ with tab1:
         
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
-             
-         elif hasattr(actual_model, "coef_"):
+             shap_values = explainer(X_transformed)
+             values = shap_values.values
+
+             if len(values.shape) == 3:
+                values = values[0, :, 1]
+             elif len(values.shape) == 2:
+                  values = values[0]
+             feature_names = preprocessor.get_feature_names_out()
+             min_len = min(len(feature_names), len(values))
+             feature_names = feature_names[:min_len]
+             values = values[:min_len]
+             shap_df = pd.DataFrame({"Feature": feature_names,"SHAP Value": values}).sort_values(by="SHAP Value", key=np.abs, ascending=False)
+             st.dataframe(shap_df.head(10))
+          elif hasattr(actual_model, "coef_"):
               coef = actual_model.coef_[0]
               feature_names = preprocessor.get_feature_names_out()
               coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
@@ -432,35 +444,8 @@ with tab1:
               fig.update_layout(template="plotly_dark")
               fig.update_yaxes(autorange="reversed")
               st.plotly_chart(fig)
-         else:
-              explainer = shap.LinearExplainer(actual_model, X_transformed)
-
-         shap_values = explainer(X_transformed)
-         values = shap_values.values
-
-         # Fix shape
-         if len(values.shape) == 3:
-            values = values[0, :, 1]
-         elif len(values.shape) == 2:
-              values = values[0]
-
-         feature_names = preprocessor.get_feature_names_out()
-
-         # Fix mismatch
-         min_len = min(len(feature_names), len(values))
-         feature_names = feature_names[:min_len]
-         values = values[:min_len]
-
-         shap_df = pd.DataFrame({
-         "Feature": feature_names,
-         "SHAP Value": values
-         }).sort_values(by="SHAP Value", key=np.abs, ascending=False)
-
-         st.dataframe(shap_df.head(10))
-
-     except Exception as e:
-            st.error(f"SHAP Error: {e}")
-
+     else:
+          st.warning("Explainability not available for this model")
      top_n=10
      shap_df_top=shap_df.head(top_n) 
      fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
