@@ -424,7 +424,7 @@ with tab1:
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
              
-         else hasattr(actual_model, "coef_"):
+         elif hasattr(actual_model, "coef_"):
               coef = actual_model.coef_[0]
               feature_names = preprocessor.get_feature_names_out()
               coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
