@@ -553,15 +553,17 @@ with tab2:
      if len(values.shape) == 3:
         values = values[:, :, 1]
 
-     feature_names = feature_names[:min_len]
-     mean_shap = mean_shap[:min_len]
-     min_len = min(len(feature_names), len(mean_shap))
-     shap_df = pd.DataFrame({
-     "Feature": feature_names,
-     "SHAP Value": mean_shap
-     }).sort_values(by="SHAP Value", ascending=True)
+     mean_shap = np.abs(values).mean(axis=0)
 
-    
+     feature_names = preprocessor.get_feature_names_out()
+
+     min_len = min(len(feature_names), len(mean_shap))
+
+     shap_df = pd.DataFrame({
+        "Feature": feature_names[:min_len],
+        "SHAP Value": mean_shap[:min_len]
+    }).sort_values(by="SHAP Value", ascending=False)
+
      with col1:
           fig = go.Figure(go.Bar(
           x=shap_df["SHAP Value"],
