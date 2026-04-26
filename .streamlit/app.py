@@ -598,7 +598,7 @@ with tab2:
               plot_bgcolor="rgba(0,0,0,0)"
               )
 
-            fig.update_yaxes(autorange="reversed")
+          fig.update_yaxes(autorange="reversed")
 
           st.plotly_chart(fig, use_container_width=True)
 
