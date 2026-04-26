@@ -378,7 +378,7 @@ scenario_df["NumOfProducts"] = products
 scenario_df["IsActiveMember"] = active_member
 scenario_df["HasCrCard"] = has_card
 
-new_probability = model.predict_proba(scenario_df)[0][1]
+new_probability = model.predict_proba(preprocessor.transform(scenario.df))[0][1]
 new_risk = new_probability * 100
 
 tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
@@ -387,8 +387,6 @@ with tab1:
      col1,col2=st.columns(2)
 
      with col1:
-          new_risk=round(new_risk,2)
-          risk_score=round(risk_score,2)
           fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, title={'text': "Customer Churn Risk (%)",'font': {'size': 20}}, delta={'reference': risk_score,'relative':False,'valueformat':"+.2f",'increasing': {'color': "red"},'decreasing':{'color':"green"}},gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color':"#2563eb", 'thickness': 0.25},'bgcolor':"#111827",'borderwidth':2,'bordercolor':"#374151",'steps': [{'range': [0, 40], 'color': "#16a34a"},{'range': [40, 70],'color':"#ca8a04"},{'range': [70, 100], 'color':"#dc2626"}],'threshold': {'line': {'color':"black", 'width':4},'thickness':0.75,'value':new_risk}}))
 
           fig1.update_layout(height=400,margin=dict(l=20, r=20, t=50, b=20),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
