@@ -423,20 +423,20 @@ with tab1:
         
          if hasattr(actual_model, "feature_importances_"):
             explainer = shap.TreeExplainer(actual_model)
-             shap_values = explainer(X_transformed)
-             values = shap_values.values
+            shap_values = explainer(X_transformed)
+            values = shap_values.values
 
-             if len(values.shape) == 3:
-                values = values[0, :, 1]
-             elif len(values.shape) == 2:
-                  values = values[0]
-             feature_names = preprocessor.get_feature_names_out()
-             min_len = min(len(feature_names), len(values))
-             feature_names = feature_names[:min_len]
-             values = values[:min_len]
-             shap_df = pd.DataFrame({"Feature": feature_names,"SHAP Value": values}).sort_values(by="SHAP Value", key=np.abs, ascending=False)
-             st.dataframe(shap_df.head(10))
-          elif hasattr(actual_model, "coef_"):
+            if len(values.shape) == 3:
+               values = values[0, :, 1]
+            elif len(values.shape) == 2:
+                 values = values[0]
+            feature_names = preprocessor.get_feature_names_out()
+            min_len = min(len(feature_names), len(values))
+            feature_names = feature_names[:min_len]
+            values = values[:min_len]
+            shap_df = pd.DataFrame({"Feature": feature_names,"SHAP Value": values}).sort_values(by="SHAP Value", key=np.abs, ascending=False)
+            st.dataframe(shap_df.head(10))
+         elif hasattr(actual_model, "coef_"):
               coef = actual_model.coef_[0]
               feature_names = preprocessor.get_feature_names_out()
               coef_df = pd.DataFrame({"Feature": feature_names,"Impact": coef}).sort_values(by="Impact", key=np.abs, ascending=False)
