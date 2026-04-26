@@ -541,7 +541,8 @@ with tab2:
 
      col1, col2 = st.columns(2)
      
-     X_transformed = preprocessor.transform(X)
+     X_sample = X.sample(100, random_state=42)
+     X_transformed = preprocessor.transform(X_sample)
 
      explainer = shap.Explainer(actual_model.predict_proba, X_transformed)
 
