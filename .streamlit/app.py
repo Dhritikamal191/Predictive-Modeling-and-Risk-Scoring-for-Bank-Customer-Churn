@@ -380,6 +380,8 @@ scenario_df["HasCrCard"] = has_card
 
 new_probability = model.predict_proba(scenario_df)[0][1]
 new_risk = new_probability * 100
+new_risk=round(new_risk,2)
+risk_score=round(risk_score,2)
 
 tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
 
