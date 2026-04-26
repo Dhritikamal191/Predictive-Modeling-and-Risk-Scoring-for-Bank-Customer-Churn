@@ -377,7 +377,7 @@ scenario_df = input_df.copy()
 scenario_df["NumOfProducts"] = products
 scenario_df["IsActiveMember"] = active_member
 scenario_df["HasCrCard"] = has_card
-
+preprocessor=model.named_steps["preprocessor"]
 new_probability = model.predict_proba(preprocessor.transform(scenario.df))[0][1]
 new_risk = new_probability * 100
 
