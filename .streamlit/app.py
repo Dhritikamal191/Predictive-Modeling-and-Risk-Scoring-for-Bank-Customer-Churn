@@ -323,9 +323,9 @@ if st.button("Predict"):
        prob = model.predict_proba(input_df)[0][1]
        risk_score = prob * 100
        if pred == 1:
-          st.error(f"Customer likely to CHURN (Prob: {prob:.2f})")
+          st.error(f"Customer likely to CHURN")
        else:
-            st.success(f"Customer NOT likely to churn (Prob: {prob:.2f})")
+            st.success(f"Customer NOT likely to churn")
 
    except Exception as e:
           st.error(f"Prediction Error: {e}")
