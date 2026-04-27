@@ -279,7 +279,7 @@ X=df.drop(["Exited","CustomerId","Surname"], axis=1, errors="ignore")
 y_test=df["Exited"]
 st.sidebar.image("Images/mentor.png",width=150)
 
-model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
+model_choice=st.expander.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 model=models[model_choice]
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
 
