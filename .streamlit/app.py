@@ -776,7 +776,7 @@ with tab5:
      st.metric("Predicted Churn Rate", f"{churn_rate:.2%}")
      st.subheader("Prediction Distribution")
      fig=px.histogram(x=y_prob, nbins=30, title="Churn Probability Distribution")
-     fig.update_layout(template="plotly_dark")
+     fig.update_layout(template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
      st.subheader("Feature Drift Check")
