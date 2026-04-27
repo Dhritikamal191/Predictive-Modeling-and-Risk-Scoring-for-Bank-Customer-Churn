@@ -383,7 +383,7 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(X)[0][1]
 new_risk = new_probability * 100
 
-tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
+tab1, tab2, tab3, tab4, tab5= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring"])
 
 with tab1:
      col1,col2=st.columns(2)
@@ -770,3 +770,28 @@ with tab4:
      fig.update_traces(marker=dict(line=dict(width=1)))
     
      st.plotly_chart(fig, use_container_width=True)
+    
+with tab5:
+     churn_rate=y_pred.mean()
+     st.metric("Predicted Churn Rate", f"{churn_rate:.2%}")
+     st.subheader("Prediction Distribution")
+     fig=px.histogram(x=y_prob, nbins=30, title="Churn Probability Distribution")
+     fig.update_layout(template="plotly_dark")
+     st.plotly_chart(fig, use_container_width=True)
+
+     st.subheader("Feature Drift Check")
+     current_mean=input_df.mean(numeric_only=True)
+     train_mean=df.mean(numeric_only=True)
+     drift_df=pd.DataFrame({"Feature": current_mean.index,"Current": current_mean.values,"Training": train_mean[current_mean.index].values})
+     drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
+     st.dataframe(drift_df)
+
+     if auc<0.7:
+        st.error("Model performance dropped! Consider retraining.")
+        if churn_rate>0.5:
+           st.warning("High churn rate detected!")
+
+     import datetime
+
+     log=pd.DataFrame({"time":[datetime.datetime.now()],"probability":[prob],"prediction":[pred]})
+     log.to_csv("logs.csv", mode='a', header=False, index=False)
