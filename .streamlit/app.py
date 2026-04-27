@@ -437,7 +437,6 @@ with tab1:
             shap_df_top=shap_df.head(top_n) 
             html_table=styled_table(shap_df_top)
             st.markdown(html_table, unsafe_allow_html=True)
-            st.dataframe(shap_df.head(10))
             fig = px.bar(shap_df_top,x="SHAP Value",y="Feature",orientation="h",color="SHAP Value",color_continuous_scale="RdBu",title="Feature Impact on Prediction")
             fig.update_layout(template="plotly_dark",xaxis_title="Impact on Prediction",yaxis_title="Features",yaxis=dict(autorange="reversed"),coloraxis_colorbar=dict(title="SHAP Value"),margin=dict(l=50,r=50,t=50,b=50),height=400,font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
             fig.update_traces(text=shap_df_top["SHAP Value"].round(3),textposition="outside")
@@ -523,10 +522,7 @@ with tab2:
 
         min_len = min(len(feature_names), len(importance))
 
-        importance_df = pd.DataFrame({
-        "Feature": feature_names[:min_len],
-        "Importance": importance[:min_len]
-        }).sort_values(by="Importance", ascending=False)
+        importance_df = pd.DataFrame({"Feature": feature_names[:min_len],"Importance": importance[:min_len]}).sort_values(by="Importance", ascending=False)
 
         max_val = importance_df["Importance"].max()
 
@@ -557,57 +553,20 @@ with tab2:
 
      min_len = min(len(feature_names), len(mean_shap))
 
-     shap_df = pd.DataFrame({
-        "Feature": feature_names[:min_len],
-        "SHAP Value": mean_shap[:min_len]
-    }).sort_values(by="SHAP Value", ascending=False)
+     shap_df = pd.DataFrame({"Feature": feature_names[:min_len],"SHAP Value": mean_shap[:min_len]}).sort_values(by="SHAP Value", ascending=False)
 
      with col1:
-          fig = go.Figure(go.Bar(
-          x=shap_df["SHAP Value"],
-          y=shap_df["Feature"],
-          orientation="h",
-          marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")
-              ))
+          fig = go.Figure(go.Bar(x=shap_df["SHAP Value"],y=shap_df["Feature"],orientation="h",marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")))
 
-          fig.update_layout(
-          title="Global Feature Contribution",
-              xaxis_title="Mean Impact on Prediction",
-              yaxis_title="Features",
-              template="plotly_dark",
-              height=500,
-              paper_bgcolor="rgba(0,0,0,0)",
-              plot_bgcolor="rgba(0,0,0,0)"
-              )
+          fig.update_layout(title="Global Feature Contribution",xaxis_title="Mean Impact on Prediction",yaxis_title="Features",template="plotly_dark",height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig, use_container_width=True)
 
     
      with col2:
-          fig = go.Figure(go.Scatter(
-              x=shap_df["SHAP Value"],
-              y=shap_df["Feature"],
-              mode="markers",
-              marker=dict(
-                size=12,
-                color=shap_df["SHAP Value"],
-                colorscale="Viridis",
-                showscale=True,
-                colorbar=dict(title="Impact")
-              ),
-              text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],
-              hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"
-              ))
+          fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"],y=shap_df["Feature"],mode="markers",marker=dict(size=12,color=shap_df["SHAP Value"],colorscale="Viridis",showscale=True,colorbar=dict(title="Impact")),text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"))
 
-          fig.update_layout(
-              title="Feature Impact Distribution",
-              xaxis_title="SHAP Value",
-              yaxis_title="Features",
-              template="plotly_dark",
-              height=550,
-              paper_bgcolor="rgba(0,0,0,0)",
-              plot_bgcolor="rgba(0,0,0,0)"
-              )
+          fig.update_layout(title="Feature Impact Distribution",xaxis_title="SHAP Value",yaxis_title="Features",template="plotly_dark",height=550,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           fig.update_yaxes(autorange="reversed")
 
