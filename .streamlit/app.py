@@ -780,6 +780,10 @@ with tab5:
      st.plotly_chart(fig, use_container_width=True)
 
      st.subheader("Feature Drift Check")
+     import datetime
+     log_file="drift_log.csv"
+     if not os.path.exists(log_file):
+        pd.DataFrame(columns-["time","feature","drift"]).to_csv(log_file, index=False)
      current_data=df.drop("Exited", axis=1)
      current_mean=current_data.mean(numeric_only=True)
      train_mean=current_data.mean(numeric_only=True)
@@ -797,9 +801,14 @@ with tab5:
         if churn_rate > 0.5:
            st.warning("High churn rate detected!")
 
-     import datetime
-     log=pd.DataFrame({"time":[datetime.datetime.now()],"probability":[prob],"prediction":[pred]})
-     log.to_csv("logs.csv", mode='a', header=False, index=False)
+     rows=[]
+     now =datetime.datetime.now()
+     for f in draft_values.index:
+         rows.append({"time":now,"feature":f,"drift":drift_values[f]})
+
+     pd.DataFrame(rows).to_csv(log_file,mode="a", header=false, index=False)
+     drift_history=pd.read_csv(log_file)
+     drift_history["time"]=pd.to_datetime(drift_history["time"])
 
      st.subheader("Feature Drift Trend Over Time")
      selected_feature=st.selectbox("Select Feature", drift_history["feature"].unique())
