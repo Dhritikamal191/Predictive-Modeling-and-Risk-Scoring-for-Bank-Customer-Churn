@@ -279,13 +279,13 @@ X=df.drop(["Exited","CustomerId","Surname"], axis=1, errors="ignore")
 y_test=df["Exited"]
 st.sidebar.image("Images/mentor.png",width=150)
 
-st.sidebar("Model Selection")
+st.sidebar.subheader("Model Selection")
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
     
 model=models[model_choice]
      
-st.sidebar("Customer Feature Inputs")
+st.sidebar.subheader("Customer Feature Inputs")
 
 credit_score = st.sidebar.number_input("Credit Score", 300, 900, 600)
 age = st.sidebar.number_input("Age", 18, 100, 40)
