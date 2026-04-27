@@ -279,23 +279,24 @@ X=df.drop(["Exited","CustomerId","Surname"], axis=1, errors="ignore")
 y_test=df["Exited"]
 st.sidebar.image("Images/mentor.png",width=150)
 
-with st.sidebar.expander("Model Selection", expanded=False):
-     model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
-     threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
+st.sidebar.("Model Selection")
+model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
+threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
     
 model=models[model_choice]
      
-with st.sidebar.expander("Customer Feature Inputs", expanded=False):
-     credit_score = st.sidebar.number_input("Credit Score", 300, 900, 600)
-     age = st.sidebar.number_input("Age", 18, 100, 40)
-     tenure = st.sidebar.slider("Tenure", 0, 10, 5)
-     balance = st.sidebar.slider("Balance", 0, 250000, 50000)
-     products = st.sidebar.slider("Number of Products", 1, 4, 2)
-     active_member = st.sidebar.selectbox("Active Member", [0,1])
-     has_card = st.sidebar.selectbox("Has Credit Card", [0,1])
-     salary = st.sidebar.slider("Estimated Salary", 0,1000, 200000, 50000)
-     gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
-     geography = st.sidebar.selectbox("Geography", ["France", "Germany", "Spain"])
+st.sidebar("Customer Feature Inputs")
+
+credit_score = st.sidebar.number_input("Credit Score", 300, 900, 600)
+age = st.sidebar.number_input("Age", 18, 100, 40)
+tenure = st.sidebar.slider("Tenure", 0, 10, 5)
+balance = st.sidebar.slider("Balance", 0, 250000, 50000)
+products = st.sidebar.slider("Number of Products", 1, 4, 2)
+active_member = st.sidebar.selectbox("Active Member", [0,1])
+has_card = st.sidebar.selectbox("Has Credit Card", [0,1])
+salary = st.sidebar.slider("Estimated Salary", 0,1000, 200000, 50000)
+gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
+geography = st.sidebar.selectbox("Geography", ["France", "Germany", "Spain"])
 # --------------------------------------------------
 # Prediction Input
 # --------------------------------------------------
