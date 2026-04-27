@@ -813,8 +813,8 @@ with tab5:
      recent_mean=recent_data.mean(numeric_only=True)
      drift_values=abs(train_mean-recent_mean)
      rows=[]
+    
      now =datetime.datetime.now()
-     drift_values=abs(train_mean-current_mean)
      for f in draft_values.index:
          rows.append({"time":now,"feature":f,"drift":drift_values[f]})
 
