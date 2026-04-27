@@ -784,7 +784,7 @@ with tab5:
      import datetime
      log_file="drift_log.csv"
      if not os.path.exists(log_file):
-        pd.DataFrame(columns-["time","feature","drift"]).to_csv(log_file, index=False)
+        pd.DataFrame(columns=["time","feature","drift"]).to_csv(log_file, index=False)
      current_data=df.drop("Exited", axis=1)
      current_mean=current_data.mean(numeric_only=True)
      train_mean=current_data.mean(numeric_only=True)
