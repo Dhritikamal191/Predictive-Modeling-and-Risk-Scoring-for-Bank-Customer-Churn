@@ -818,7 +818,7 @@ with tab5:
      for f in drift_values.index:
          rows.append({"time":now,"feature":f,"drift":drift_values[f]})
 
-     pd.DataFrame(rows).to_csv(log_file,mode="a", header=false, index=False)
+     pd.DataFrame(rows).to_csv(log_file,mode="a", header=False, index=False)
      drift_history=pd.read_csv(log_file)
      drift_history["time"]=pd.to_datetime(drift_history["time"])
 
