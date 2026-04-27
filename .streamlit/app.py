@@ -802,6 +802,16 @@ with tab5:
         if churn_rate > 0.5:
            st.warning("High churn rate detected!")
 
+     import datetime
+     log_file="drift_log.csv"
+     if not os.path.exists(log_file):
+        pd.DataFrame(columns=["time","feature","drift"]).to_csv(log_file, index=False)
+
+     train_data=df.drop("Exited", axis=1, errors="ignore")
+     recent_data=df.sample(200, random_state=42)
+     train_mean=train_data.mean(numeric_only=True)
+     recent_mean=recent_data.mean(numeric_only=True)
+     drift_values=abs(train_mean-recent_mean)
      rows=[]
      now =datetime.datetime.now()
      drift_values=abs(train_mean-current_mean)
