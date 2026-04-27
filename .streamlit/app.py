@@ -786,13 +786,13 @@ with tab5:
      drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
      st.dataframe(drift_df)
 
+     import datetime
+
+     log=pd.DataFrame({"time":[datetime.datetime.now()],"probability":[prob],"prediction":[pred]})
+     log.to_csv("logs.csv", mode='a', header=False, index=False)
+
      roc_auc_val=roc_auc_score(y_test,y_prob)
      if roc_auc_val < 0.7:
         st.error("Model performance dropped! Consider retraining.")
         if churn_rate > 0.5:
            st.warning("High churn rate detected!")
-
-     import datetime
-
-     log=pd.DataFrame({"time":[datetime.datetime.now()],"probability":[prob],"prediction":[pred]})
-     log.to_csv("logs.csv", mode='a', header=False, index=False)
