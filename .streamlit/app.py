@@ -786,9 +786,9 @@ with tab5:
      drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
      st.dataframe(drift_df)
 
-     if auc<0.7:
+     if auc < 0.7:
         st.error("Model performance dropped! Consider retraining.")
-        if churn_rate>0.5:
+        if churn_rate > 0.5:
            st.warning("High churn rate detected!")
 
      import datetime
