@@ -825,6 +825,6 @@ with tab5:
      st.subheader("Feature Drift Trend Over Time")
      selected_feature=st.selectbox("Select Feature", drift_history["feature"].unique())
      feature_df=drift_history[drift_history["feature"]==selected_feature]
-     fig=px.line(feature_f, x="time",y="drift",title=f"Drift Trend for {selected_feature}", markers=True)
+     fig=px.line(feature_df, x="time",y="drift",title=f"Drift Trend for {selected_feature}", markers=True)
      fig.update_layout(template="plotly_dark",xaxis_title="Time", yaxis_title="Drift",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
