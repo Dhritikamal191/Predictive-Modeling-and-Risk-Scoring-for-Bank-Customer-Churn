@@ -780,7 +780,11 @@ with tab5:
      st.plotly_chart(fig, use_container_width=True)
 
      st.subheader("Feature Drift Check")
-     current_mean=input_df.mean(numeric_only=True)
+     current_data=df.drop("Exited", axis=1)
+     current_mean=current_dataf.mean(numeric_only=True)
+     train_mean=current_data.mean(numeric_only=True)
+     recent_data=df.sample(200, random_state=42)
+     current_mean=recent_data.mean(numeric_only=True)
      train_mean=df.mean(numeric_only=True)
      drift_df=pd.DataFrame({"Feature": current_mean.index,"Current": current_mean.values,"Training": train_mean[current_mean.index].values})
      drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
