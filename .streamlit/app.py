@@ -281,10 +281,10 @@ st.sidebar.image("Images/mentor.png",width=150)
 
 with st.sidebar.expander("Model Selection"):
      model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
-
-model=models[model_choice]
      threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
-
+    
+model=models[model_choice]
+     
 with st.sidebar.expander("Customer Feature Inputs"):
      credit_score = st.sidebar.number_input("Credit Score", 300, 900, 600)
      age = st.sidebar.number_input("Age", 18, 100, 40)
