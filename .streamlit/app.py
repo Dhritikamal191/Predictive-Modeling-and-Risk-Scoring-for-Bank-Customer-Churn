@@ -784,6 +784,8 @@ with tab5:
      train_mean=df.mean(numeric_only=True)
      drift_df=pd.DataFrame({"Feature": current_mean.index,"Current": current_mean.values,"Training": train_mean[current_mean.index].values})
      drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
+     html_table=styled_table(drift_df)
+     st.markdown(html_table, unsafe_allow_html=True)
      st.dataframe(drift_df)
 
      import datetime
