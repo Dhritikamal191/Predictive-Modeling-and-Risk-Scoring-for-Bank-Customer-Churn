@@ -815,7 +815,7 @@ with tab5:
      rows=[]
     
      now =datetime.datetime.now()
-     for f in draft_values.index:
+     for f in drift_values.index:
          rows.append({"time":now,"feature":f,"drift":drift_values[f]})
 
      pd.DataFrame(rows).to_csv(log_file,mode="a", header=false, index=False)
