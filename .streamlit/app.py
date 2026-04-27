@@ -790,7 +790,6 @@ with tab5:
      train_mean=current_data.mean(numeric_only=True)
      recent_data=df.sample(200, random_state=42)
      current_mean=recent_data.mean(numeric_only=True)
-     drift_values=abs(train_mean-current_mean)
      train_mean=df.mean(numeric_only=True)
      drift_df=pd.DataFrame({"Feature": current_mean.index,"Current": current_mean.values,"Training": train_mean[current_mean.index].values})
      drift_df["Drift"]=abs(drift_df["Current"]-drift_df["Training"])
@@ -805,6 +804,7 @@ with tab5:
 
      rows=[]
      now =datetime.datetime.now()
+     drift_values=abs(train_mean-current_mean)
      for f in draft_values.index:
          rows.append({"time":now,"feature":f,"drift":drift_values[f]})
 
