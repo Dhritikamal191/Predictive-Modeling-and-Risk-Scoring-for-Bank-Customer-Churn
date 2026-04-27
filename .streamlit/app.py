@@ -781,7 +781,7 @@ with tab5:
 
      st.subheader("Feature Drift Check")
      current_data=df.drop("Exited", axis=1)
-     current_mean=current_dataf.mean(numeric_only=True)
+     current_mean=current_data.mean(numeric_only=True)
      train_mean=current_data.mean(numeric_only=True)
      recent_data=df.sample(200, random_state=42)
      current_mean=recent_data.mean(numeric_only=True)
