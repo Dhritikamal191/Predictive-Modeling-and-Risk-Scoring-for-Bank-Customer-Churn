@@ -381,7 +381,7 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(X)[0][1]
 new_risk = new_probability * 100
 
-tab= st.radio(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
+tab1, tab2, tab3, tab4= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison"])
 
 with tab1:
      col1,col2=st.columns(2)
