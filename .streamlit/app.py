@@ -411,9 +411,9 @@ with tab1:
           y_pred=(y_prob>=threshold).astype(int)
           cm =confusion_matrix(y_test, y_pred)
           cm=cm[::-1]
-          labels = ["Churn", "No Churn"]
+          labels = ["Churn","No Churn"]
           fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-          fig.update_layout(title=dict(text="Confusion Matrix",x=0.5,xanchor="center",font=dict(size=17, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(font=dict(color="white"),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           st.plotly_chart(fig)
 
      st.subheader("🔍 Model Explainability (SHAP)")
