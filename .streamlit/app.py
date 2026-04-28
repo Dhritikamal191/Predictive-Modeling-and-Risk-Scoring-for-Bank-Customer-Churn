@@ -488,7 +488,7 @@ with tab1:
                 x_range = np.linspace(0, 1, 500)
                 y_range = kde(x_range)
          
-         fig.add_trace(go.Scatter(x=x_range, y=y_range, mode='lines', name=label, fill='tozeroy',  line=dict(color=color, width=2), fillcolor=color, opacity=0.5))
+                fig.add_trace(go.Scatter(x=x_range, y=y_range, mode='lines', name=label, fill='tozeroy',  line=dict(color=color, width=2), fillcolor=color, opacity=0.5))
          m_val = np.mean(kde_probs)
          fig.add_vline(x=m_val, line_dash="dash", line_color="red")
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
