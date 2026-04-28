@@ -741,9 +741,8 @@ with tab4:
      st.markdown(html_table, unsafe_allow_html=True)
 
      col1, col2=st.columns(2)
+     st.subheader("Model Performance Comparison")
      with col1:
-          st.subheader("Model Comparison Table (Percentage Based)")
-
           html_table=styled_df.to_html()
           st.markdown(html_table, unsafe_allow_html=True)
      with col2:
@@ -753,7 +752,7 @@ with tab4:
           fig.update_traces(texttemplate='%{text:.2f}',textposition='outside',marker_line_width=1.5)
           best_model = df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]["Model"]
           fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
-          fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
+          fig.update_layout(xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
           fig.update_traces(marker=dict(line=dict(width=1)))
