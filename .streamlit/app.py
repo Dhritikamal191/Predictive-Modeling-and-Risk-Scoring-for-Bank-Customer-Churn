@@ -470,7 +470,7 @@ with tab1:
      plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
      plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
      fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
-     fig.update_traces(marker_line_width=0)
+     fig.update_traces(marker_line_width=0,textposition="outside")
      fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, use_container_width=True)
 
