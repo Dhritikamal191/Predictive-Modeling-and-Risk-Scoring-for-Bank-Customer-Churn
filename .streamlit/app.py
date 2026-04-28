@@ -481,7 +481,7 @@ with tab1:
          kde_mean = np.mean(kde_probs)
          data_0 =kde_probs[y_test == 0]
          data_1 =kde_probs[y_test == 1]
-         
+         fig=go.Figure()
          for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"],["rgba(0,200,150,0.4)","rgba(200,0,200,0.4)"]):
              if len(data) > 1:
                 kde=gaussian_kde(data)
