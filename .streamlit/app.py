@@ -466,18 +466,16 @@ with tab1:
      # --------------------------------------------------
      col1, col2=st.columns(2)
      with col1:
-          st.subheader("Probability Distribution Visualization")
           plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
           plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
           fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
           fig.update_traces(marker_line_width=0)
-          fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(title=dict(text="Probability Distribution Visualization",x=0.5, xanchor="center",font=dict(size=17, color="white")),bargap=0.1, legend_title_text="Customer Status",template="plotly_dark", legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
          
-     with col2:
-          st.subheader("Churn Probability Density Distribution")  
+     with col2: 
           def render_comparison_kde(model, X, y_test):
               kde_probs = model.predict_proba(X)[:, 1]
               kde_mean = np.mean(kde_probs)
@@ -494,7 +492,7 @@ with tab1:
                   m_val = np.mean(kde_probs)
                   fig.add_vline(x=m_val, line_dash="dash", line_color="red")
                   fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
-                  fig.update_layout(xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
+                  fig.update_layout(title=dict(text="Churn Proabbility Density Distribution",x=0.5, xanchor="center",font=dict(size=17, color="white")),xaxis_title="Probability", yaxis_title="Density", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
                   fig.update_xaxes(showgrid=False)
                   fig.update_yaxes(showgrid=False)
               return fig
