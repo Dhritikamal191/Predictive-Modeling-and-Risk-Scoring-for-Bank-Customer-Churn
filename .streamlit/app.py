@@ -533,8 +533,6 @@ with tab2:
         fig2.update_layout(template="plotly_dark", yaxis=dict(autorange="reversed"), height=500,font=dict(color="white"), legend=dict(font=dict(color="white")), paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig2, use_container_width=True)
 
-     st.subheader("Feature Contribution and Feature Impact on Churn Prediction")
-
      col1, col2 = st.columns(2)
      
      X_sample = X.sample(100, random_state=42)
