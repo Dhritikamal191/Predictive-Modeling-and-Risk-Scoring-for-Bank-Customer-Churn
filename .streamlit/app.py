@@ -497,8 +497,9 @@ with tab1:
               fig.update_layout(xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
               fig.update_xaxes(showgrid=False)
               fig.update_yaxes(showgrid=False)
-              st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
           return fig
+          st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
+          
          
 with tab2:
      # --------------------------------------------------
