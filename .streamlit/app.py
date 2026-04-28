@@ -464,41 +464,39 @@ with tab1:
      # --------------------------------------------------
      # Probability Distribution Visualization
      # --------------------------------------------------
-     col1,col2=st.columns(2)
-     with col1:
-          st.subheader("Probability Distribution Visualization")
-          plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
-          plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
-          fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
-          fig.update_traces(marker_line_width=0)
-          fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+    
+     st.subheader("Probability Distribution Visualization")
+     plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y_test})
+     plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
+     fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
+     fig.update_traces(marker_line_width=0)
+     fig.update_layout(bargap=0.1, legend_title_text="Customer Status",template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_xaxes(showgrid=False)
+     fig.update_yaxes(showgrid=False)
+     st.plotly_chart(fig, use_container_width=True)
+   
+     st.subheader("Churn Probability Density Distribution")  
+     def render_comparison_kde(model, X, y_test):
+         kde_probs = model.predict_proba(X)[:, 1]
+         kde_mean = np.mean(kde_probs)
+         data_0 =kde_probs[y_test == 0]
+         data_1 =kde_probs[y_test == 1]
+         
+         for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"],["rgba(0,200,150,0.4)","rgba(200,0,200,0.4)"]):
+             if len(data) > 1:
+                kde=gaussian_kde(data)
+                x_range = np.linspace(0, 1, 500)
+                y_range = kde(x_range)
+         
+          fig.add_trace(go.Scatter(x=x_range, y=y_range, mode='lines', name=label, fill='tozeroy',  line=dict(color=color, width=2), fillcolor=color, opacity=0.5))
+          m_val = np.mean(kde_probs)
+          fig.add_vline(x=m_val, line_dash="dash", line_color="red")
+          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
+          fig.update_layout(xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
-          st.plotly_chart(fig, use_container_width=True)
-
-     with col2:
-          st.subheader("Churn Probability Density Distribution")  
-          def render_comparison_kde(model, X, y_test):
-              kde_probs = model.predict_proba(X)[:, 1]
-              kde_mean = np.mean(kde_probs)
-              data_0 =kde_probs[y_test == 0]
-              data_1 =kde_probs[y_test == 1]
-         
-              for data, label, color in zip([data_0, data_1], ["Stayed", "Churned"],["rgba(0,200,150,0.4)","rgba(200,0,200,0.4)"]):
-                  if len(data) > 1:
-                     kde=gaussian_kde(data)
-                     x_range = np.linspace(0, 1, 500)
-                     y_range = kde(x_range)
-         
-              fig.add_trace(go.Scatter(x=x_range, y=y_range, mode='lines', name=label, fill='tozeroy',  line=dict(color=color, width=2), fillcolor=color, opacity=0.5))
-              m_val = np.mean(kde_probs)
-              fig.add_vline(x=m_val, line_dash="dash", line_color="red")
-              fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
-              fig.update_layout(xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
-              fig.update_xaxes(showgrid=False)
-              fig.update_yaxes(showgrid=False)
-              return fig
-              st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
+          return fig
+          st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
           
          
 with tab2:
