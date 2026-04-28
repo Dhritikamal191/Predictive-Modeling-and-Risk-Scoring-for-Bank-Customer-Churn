@@ -398,11 +398,38 @@ with tab1:
 
      with col2:
           
-          compare_df=pd.DataFrame({"Type":["Original","Adjusted"],"Risk":[risk_score,new_risk]})
-          fig2=px.bar(compare_df,x="Type",y="Risk",color="Type",text="Risk",title="Customer Churn Risk Comparison",color_discrete_sequence=["#6366f1","#f43f5e"])
-          fig2.update_traces(texttemplate='%{text:.2f}',textposition='outside')
-          fig2.update_layout(yaxis_title="Risk Score (%)",xaxis_title="Scenario",title_x=0.3,font=dict(color="white"), legend=dict(font=dict(color="white")),height=400,template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-          st.plotly_chart(fig2)
+          compare_df = pd.DataFrame({
+    "Type": ["Original", "Adjusted"],
+    "Risk": [risk_score, new_risk]
+})
+
+fig2 = px.pie(
+    compare_df,
+    names="Type",
+    values="Risk",
+    hole=0.5,   # 🔥 this makes it a donut
+    color="Type",
+    color_discrete_sequence=["#6366f1", "#f43f5e"]
+)
+
+# Show % + value
+fig2.update_traces(
+    textinfo="label+percent",
+    hovertemplate="<b>%{label}</b><br>Risk: %{value:.2f}%<extra></extra>"
+)
+
+fig2.update_layout(
+    title="Customer Churn Risk Comparison",
+    title_x=0.3,
+    font=dict(color="white"),
+    legend=dict(font=dict(color="white")),
+    height=400,
+    template="plotly_dark",
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)"
+)
+
+st.plotly_chart(fig2)
          
      st.subheader("Confusion Matrix")
      y_prob=model.predict_proba(X)[:,1]
