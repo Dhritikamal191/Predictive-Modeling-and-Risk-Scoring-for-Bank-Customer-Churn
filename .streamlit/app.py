@@ -496,7 +496,7 @@ with tab1:
          fig.update_xaxes(showgrid=False)
          fig.update_yaxes(showgrid=False)
          return fig
-         st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
+     st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
         
 with tab2:
      # --------------------------------------------------
