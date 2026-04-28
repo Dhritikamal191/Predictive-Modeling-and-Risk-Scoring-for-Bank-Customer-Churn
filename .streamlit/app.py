@@ -413,7 +413,7 @@ with tab1:
      cm=cm[::-1]
      labels = ["Churn", "No Churn"]
      fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5,font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5,xanchor="center",font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      st.subheader("🔍 Model Explainability (SHAP)")
@@ -586,8 +586,7 @@ with tab2:
      st.subheader("Customer Data Exploration")
      col1,col2=st.columns(2)
      with col1:
-          st.subheader("Age Distribution by Churn")
-    
+          
           df0 = df[df["Exited"] == 0]
           df1 = df[df["Exited"] == 1]
 
@@ -602,15 +601,14 @@ with tab2:
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
      with col2:
-          st.subheader("Balance Distribution by Churn")
-
+         
           fig = go.Figure()
 
           fig.add_trace(go.Violin(y=df0["Balance"],name="Not Churned",box_visible=True,meanline_visible=True,line_color="#00D4FF",fillcolor="rgba(0,212,255,0.4)",opacity=0.7))
           fig.add_trace(go.Violin(y=df1["Balance"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
           fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Balance"])],mode="markers",marker=dict(color="black", size=8),name="Median (0)")
           fig.add_scatter(x=["Churned"],y=[np.median(df1["Balance"])],mode="markers",marker=dict(color="grey", size=8),name="Median (1)")
-          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
+          fig.update_layout(title=dict(text="Balance Distribution by Churn",x=0.5, xanchor="center",font=dict(size=20, color="white")),font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Balance")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
@@ -618,7 +616,6 @@ with tab2:
 with tab3:
      col1, col2=st.columns(2)
      with col1:
-          st.subheader("ROC Curve")
           from sklearn.metrics import roc_curve, auc
           y= df["Exited"]
           y_true = df["Exited"].to_numpy().ravel()
@@ -628,7 +625,7 @@ with tab3:
           fig = go.Figure()  
           fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines", name=f"AUC = {roc_auc:.3f}"))
           fig.add_trace(go.Scatter(x=[0, 1],y=[0, 1],mode="lines",line=dict(color="grey",dash="dash"),name="Random Model"))
-          fig.update_layout(xaxis_title="False Positive Rate", yaxis_title="True Positive Rate",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5,font=dict(color="white")), hovermode="x unified")
+          fig.update_layout(title=dict(text="ROC Curve for Random Model",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="False Positive Rate", yaxis_title="True Positive Rate", template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", height=550, legend=dict(orientation="h",yanchor="bottom", y=1.02, xanchor="center", x=0.5,font=dict(color="white")), hovermode="x unified")
           fig.update_xaxes(showgrid=True, gridcolor="rgba(255, 255,255,0.1)")
           fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
           st.plotly_chart(fig, use_container_width=True)
@@ -642,7 +639,7 @@ with tab3:
 
           fig.add_trace(go.Scatter(x=fpr,y=tpr, mode="lines",name=f"{name} (AUC={roc_auc:.3f})"))
           fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1],mode="lines",line=dict(dash="dash"),name="Random"))
-          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(title=dict(text="ROC with respect to Random Line",x=0.5, xanchor="center",font=dict(size=20, color="white")), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig)
@@ -672,7 +669,7 @@ with tab3:
 
      fig.add_shape(type='line',line=dict(dash='dash'),x0=0, x1=1, y0=0, y1=1)
 
-     fig.update_layout(title="ROC Curve Comparison",xaxis_title="False Positive Rate",yaxis_title="True Positive Rate",template="plotly_dark")
+     fig.update_layout(title=dict(text="ROC Curve Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="False Positive Rate",yaxis_title="True Positive Rate",template="plotly_dark")
 
      st.plotly_chart(fig, use_container_width=True)
 
@@ -749,7 +746,6 @@ with tab4:
      html_table=styled_df.to_html()
      st.markdown(html_table, unsafe_allow_html=True)
     
-     st.subheader ("Model Comparison Graph")
      df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
      color_map = {"Accuracy": "#00D4FF", "Recall": "#FF6B6B", "F1 Score": "#FFD93D"}
@@ -762,7 +758,7 @@ with tab4:
 
      fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
 
-     fig.update_layout(title="Model Performance Comparison",xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
+     fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
 
      fig.update_xaxes(showgrid=False)
     
@@ -776,8 +772,8 @@ with tab5:
      churn_rate=y_pred.mean()
      st.metric("Predicted Churn Rate", f"{churn_rate:.2%}")
      st.subheader("Prediction Distribution")
-     fig=px.histogram(x=y_prob, nbins=30, title="Churn Probability Distribution")
-     fig.update_layout(template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig=px.histogram(x=y_prob, nbins=30)
+     fig.update_layout(title=dict(text="Churn Probability Distribution",x=0.5, xanchor="center",font=dict(size=20, color="white")),template="plotly_dark",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=False)
      st.plotly_chart(fig, use_container_width=True)
@@ -828,7 +824,7 @@ with tab5:
      selected_feature=st.selectbox("Select Feature", drift_history["feature"].unique())
      feature_df=drift_history[drift_history["feature"]==selected_feature]
      fig=px.line(feature_df, x="time",y="drift",title=f"Drift Trend for {selected_feature}", markers=True)
-     fig.update_layout(template="plotly_dark",xaxis_title="Time", yaxis_title="Drift",font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(title=dict(text="Feature Drift Over Time",x=0.5, xanchor="center",font=dict(size=20, color="white")),template="plotly_dark",xaxis_title="Time", yaxis_title="Drift", legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=False)
      st.plotly_chart(fig, use_container_width=True)
