@@ -413,7 +413,7 @@ with tab1:
      cm=cm[::-1]
      labels = ["Churn", "No Churn"]
      fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5,font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      st.subheader("🔍 Model Explainability (SHAP)")
