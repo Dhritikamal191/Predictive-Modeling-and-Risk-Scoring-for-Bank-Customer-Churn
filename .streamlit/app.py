@@ -407,14 +407,13 @@ with tab1:
 
           st.plotly_chart(fig2)
          
-     st.subheader("Confusion Matrix")
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
      cm =confusion_matrix(y_test, y_pred)
      cm=cm[::-1]
      labels = ["Churn", "No Churn"]
      fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-     fig.update_layout(xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
      st.subheader("🔍 Model Explainability (SHAP)")
@@ -497,7 +496,7 @@ with tab1:
          m_val = np.mean(kde_probs)
          fig.add_vline(x=m_val, line_dash="dash", line_color="red")
          fig.add_annotation(x=m_val, text=f"Mean: {m_val:.2f}", showarrow=False, yshift=10)
-         fig.update_layout(title="Probability Distribution (Churned vs. Stayed)", xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
+         fig.update_layout(xaxis_title="Probability", yaxis_title="Density",font=dict(color="white"), template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(range=[0, 1]), legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99,font=dict(color="white")))
          fig.update_xaxes(showgrid=False)
          fig.update_yaxes(showgrid=False)
          return fig
@@ -566,7 +565,7 @@ with tab2:
      with col1:
           fig = go.Figure(go.Bar(x=shap_df["SHAP Value"],y=shap_df["Feature"],orientation="h",marker=dict(color=shap_df["SHAP Value"], colorscale="RdBu")))
 
-          fig.update_layout(title="Global Feature Contribution",xaxis_title="Mean Impact on Prediction",yaxis_title="Features",template="plotly_dark",height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(title=dict(text="Global Feature Contribution",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Mean Impact on Prediction",yaxis_title="Features",template="plotly_dark",height=500,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
@@ -575,7 +574,7 @@ with tab2:
      with col2:
           fig = go.Figure(go.Scatter(x=shap_df["SHAP Value"],y=shap_df["Feature"],mode="markers",marker=dict(size=12,color=shap_df["SHAP Value"],colorscale="Viridis",showscale=True,colorbar=dict(title="Impact")),text=[f"{v:.3f}" for v in shap_df["SHAP Value"]],hovertemplate="<b>%{y}</b><br>Impact: %{x:.3f}<extra></extra>"))
 
-          fig.update_layout(title="Feature Impact Distribution",xaxis_title="SHAP Value",yaxis_title="Features",template="plotly_dark",height=550,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig.update_layout(title=dict(text="Feature Impact Distribution",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="SHAP Value",yaxis_title="Features",template="plotly_dark",height=550,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False,autorange="reversed")
           st.plotly_chart(fig, use_container_width=True)
@@ -598,7 +597,7 @@ with tab2:
           fig.add_trace(go.Violin(y=df1["Age"],name="Churned",box_visible=True,meanline_visible=True,line_color="#FF6B6B",fillcolor="rgba(255,107,107,0.4)",opacity=0.7))
           fig.add_scatter(x=["Not Churned"],y=[np.median(df0["Age"])],mode="markers",marker=dict(color="grey", size=8),name="Median (0)")
           fig.add_scatter(x=["Churned"],y=[np.median(df1["Age"])],mode="markers",marker=dict(color="black", size=8),name="Median (1)")
-          fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
+          fig.update_layout(title=dict(text="Age Distribution by Churn",x=0.5, xanchor="center",font=dict(size=20, color="white")),font=dict(color="white"), legend=dict(font=dict(color="white")),template="plotly_dark",paper_bgcolor="#0B132B",plot_bgcolor="#0B132B",yaxis_title="Age",showlegend=True)
           fig.update_xaxes(showgrid=False)
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
