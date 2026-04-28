@@ -387,7 +387,7 @@ new_risk = new_probability * 100
 tab1, tab2, tab3, tab4, tab5= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring"])
 
 with tab1:
-     col1,col2=st.columns(2)
+     col1, col2, col3=st.columns(3)
 
      with col1:
           fig1 = go.Figure(go.Indicator(mode="gauge+number+delta", value=new_risk, delta={'reference': risk_score,'relative':False,'valueformat':"+.2f",'increasing': {'color': "red"},'decreasing':{'color':"green"}},gauge={'axis': {'range': [0, 100], 'tickwidth': 1},'bar': {'color':"#2563eb", 'thickness': 0.25},'bgcolor':"#111827",'borderwidth':2,'bordercolor':"#374151",'steps': [{'range': [0, 40], 'color': "#16a34a"},{'range': [40, 70],'color':"#ca8a04"},{'range': [70, 100], 'color':"#dc2626"}],'threshold': {'line': {'color':"black", 'width':4},'thickness':0.75,'value':new_risk}}))
@@ -406,15 +406,15 @@ with tab1:
           fig2.update_layout(title=dict(text="Customer Churn Risk Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white")),legend=dict(font=dict(color="white")),height=400,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig2)
-         
-     y_prob=model.predict_proba(X)[:,1]
-     y_pred=(y_prob>=threshold).astype(int)
-     cm =confusion_matrix(y_test, y_pred)
-     cm=cm[::-1]
-     labels = ["Churn", "No Churn"]
-     fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
-     fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5,xanchor="center",font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-     st.plotly_chart(fig)
+     with col3:    
+          y_prob=model.predict_proba(X)[:,1]
+          y_pred=(y_prob>=threshold).astype(int)
+          cm =confusion_matrix(y_test, y_pred)
+          cm=cm[::-1]
+          labels = ["Churn", "No Churn"]
+          fig = ff.create_annotated_heatmap(z=cm, x=labels, y=labels, colorscale="Reds")
+          fig.update_layout(title=dict(text="Confusion Matrix (Actual vs Predicted)",x=0.5,xanchor="center",font=dict(size=20, color="white")),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          st.plotly_chart(fig)
 
      st.subheader("🔍 Model Explainability (SHAP)")
 
