@@ -403,7 +403,7 @@ with tab1:
 
           fig2.update_traces(textinfo="label+percent",hovertemplate="<b>%{label}</b><br>Risk: %{value:.2f}%<extra></extra>")
 
-          fig2.update_layout(title="Customer Churn Risk Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white"),title_x=0.3,legend=dict(font=dict(color="white")),height=400,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
+          fig2.update_layout(title="Customer Churn Risk Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white"),legend=dict(font=dict(color="white")),height=400,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig2)
          
