@@ -740,32 +740,24 @@ with tab4:
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
 
-     st.subheader("Model Comparison Table (Percentage Based)")
+     col1, col2=st.columns(2)
+     with col1:
+          st.subheader("Model Comparison Table (Percentage Based)")
 
-     html_table=styled_df.to_html()
-     st.markdown(html_table, unsafe_allow_html=True)
-    
-     df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
-
-     color_map = {"Accuracy": "#00D4FF", "Recall": "#FF6B6B", "F1 Score": "#FFD93D"}
-
-     fig = px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",color_discrete_map=color_map,text="Score",template="plotly_dark")
-
-     fig.update_traces(texttemplate='%{text:.2f}',textposition='outside',marker_line_width=1.5)
-
-     best_model = df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]["Model"]
-
-     fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
-
-     fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="right",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
-
-     fig.update_xaxes(showgrid=False)
-    
-     fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
-    
-     fig.update_traces(marker=dict(line=dict(width=1)))
-    
-     st.plotly_chart(fig, use_container_width=True)
+          html_table=styled_df.to_html()
+          st.markdown(html_table, unsafe_allow_html=True)
+     with col2:
+          df_melted = df_metrics.melt(id_vars="Model", var_name="Metric", value_name="Score")
+          color_map = {"Accuracy": "#00D4FF", "Recall": "#FF6B6B", "F1 Score": "#FFD93D"}
+          fig = px.bar(df_melted,x="Model",y="Score",color="Metric",barmode="group",color_discrete_map=color_map,text="Score",template="plotly_dark")
+          fig.update_traces(texttemplate='%{text:.2f}',textposition='outside',marker_line_width=1.5)
+          best_model = df_metrics.sort_values(by="F1 Score", ascending=False).iloc[0]["Model"]
+          fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
+          fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="center",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
+          fig.update_xaxes(showgrid=False)
+          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
+          fig.update_traces(marker=dict(line=dict(width=1)))
+          st.plotly_chart(fig, use_container_width=True)
     
 with tab5:
      churn_rate=y_pred.mean()
