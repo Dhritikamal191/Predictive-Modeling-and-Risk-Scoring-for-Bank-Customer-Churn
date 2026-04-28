@@ -757,7 +757,7 @@ with tab4:
 
      fig.add_vrect(x0=best_model,x1=best_model,fillcolor="rgba(255, 255, 255, 0.1)",line_width=0,layer="below")
 
-     fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="left",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
+     fig.update_layout(title=dict(text="Model Performance Comparison",x=0.5, xanchor="right",font=dict(size=20, color="white")),xaxis_title="Model",yaxis_title="Score",font=dict(color="white"),height=550,margin=dict(l=40, r=40, t=60, b=40),legend=dict(orientation="h",yanchor="bottom",y=1.02,xanchor="center",x=0.5,title="",font=dict(color="white")),template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)", hovermode="x unified")
 
      fig.update_xaxes(showgrid=False)
     
