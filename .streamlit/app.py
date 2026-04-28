@@ -740,8 +740,8 @@ with tab4:
      html_table=styled_table(df_metrics)
      st.markdown(html_table, unsafe_allow_html=True)
 
-     col1, col2=st.columns(2)
      st.subheader("Model Performance Comparison")
+     col1, col2=st.columns(2)
      with col1:
           html_table=styled_df.to_html()
           st.markdown(html_table, unsafe_allow_html=True)
