@@ -407,31 +407,31 @@ with tab1:
 
           st.plotly_chart(fig2)
      
-recommendations = []
+     recommendations = []
 
-if Age > 50:
-    recommendations.append("Provide personalized relationship management for senior customers.")
+     if Age > 50:
+        recommendations.append("Provide personalized relationship management for senior customers.")
 
-if Balance > 100000:
-    recommendations.append("Offer premium banking benefits and wealth management services.")
+     if Balance > 100000:
+        recommendations.append("Offer premium banking benefits and wealth management services.")
 
-if IsActiveMember == 0:
-    recommendations.append("Increase engagement through loyalty programs and personalized offers.")
+     if IsActiveMember == 0:
+        recommendations.append("Increase engagement through loyalty programs and personalized offers.")
 
-if NumOfProducts <= 1:
-    recommendations.append("Recommend additional banking products to improve retention.")
+     if NumOfProducts <= 1:
+        recommendations.append("Recommend additional banking products to improve retention.")
 
-if CreditScore < 500:
-    recommendations.append("Provide financial wellness support and flexible credit solutions.")
+     if CreditScore < 500:
+        recommendations.append("Provide financial wellness support and flexible credit solutions.")
 
-if Geography == "Germany":
-    recommendations.append("Customers from Germany show relatively higher churn tendency.")
+     if Geography == "Germany":
+        recommendations.append("Customers from Germany show relatively higher churn tendency.")
 
-if EstimatedSalary > 120000:
-    recommendations.append("Offer premium investment and savings plans.")
+     if EstimatedSalary > 120000:
+        recommendations.append("Offer premium investment and savings plans.")
 
-for rec in recommendations:
-    st.markdown(f"✅ {rec}")
+     for rec in recommendations:
+         st.markdown(f"✅ {rec}")
  
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
