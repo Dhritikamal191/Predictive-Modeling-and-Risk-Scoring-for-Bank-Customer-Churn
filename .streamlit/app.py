@@ -341,12 +341,12 @@ if credit_score <= 0 or age <= 0 or balance <= 0 or salary <= 0 :
       st.error(" Invalid input values. Please check inputs.")
       st.stop()
 
-if risk_score < 30:
-   risk = "Low Risk"
-elif risk_score < 70:
+if risk_score >= 70:
+   risk = "High Risk"
+elif risk_score >= 40:
      risk = "Medium Risk"
 else:
-     risk = "High Risk"
+     risk = "Low Risk"
        
 if pred is None:
    st.warning("Please click Predict first")
