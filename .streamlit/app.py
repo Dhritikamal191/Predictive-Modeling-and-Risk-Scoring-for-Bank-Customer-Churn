@@ -406,7 +406,9 @@ with tab1:
           fig2.update_layout(title=dict(text="Customer Churn Risk Comparison",x=0.5, xanchor="center",font=dict(size=17, color="white")),legend=dict(font=dict(color="white")),height=400,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig2)
-     
+         
+     st.subheader("Recommendations")
+    
      recommendations = []
 
      if age > 50:
@@ -431,7 +433,7 @@ with tab1:
         recommendations.append("Offer premium investment and savings plans.")
 
      for rec in recommendations:
-         st.markdown(f"✅ {rec}")
+         st.markdown(f" {rec}")
  
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
@@ -442,7 +444,7 @@ with tab1:
      fig.update_layout(font=dict(color="white"),xaxis_title="Predicted", yaxis_title="Actual",template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig)
 
-     st.subheader("🔍 Model Explainability (SHAP)")
+     st.subheader(" Model Explainability (SHAP)")
 
      try:
          preprocessor = model.named_steps["preprocessor"]
