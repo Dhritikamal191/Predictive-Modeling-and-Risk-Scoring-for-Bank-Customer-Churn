@@ -406,7 +406,33 @@ with tab1:
           fig2.update_layout(title=dict(text="Customer Churn Risk Comparison",x=0.5, xanchor="center",font=dict(size=17, color="white")),legend=dict(font=dict(color="white")),height=400,template="plotly_dark",paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
           st.plotly_chart(fig2)
-      
+     
+recommendations = []
+
+if Age > 50:
+    recommendations.append("Provide personalized relationship management for senior customers.")
+
+if Balance > 100000:
+    recommendations.append("Offer premium banking benefits and wealth management services.")
+
+if IsActiveMember == 0:
+    recommendations.append("Increase engagement through loyalty programs and personalized offers.")
+
+if NumOfProducts <= 1:
+    recommendations.append("Recommend additional banking products to improve retention.")
+
+if CreditScore < 500:
+    recommendations.append("Provide financial wellness support and flexible credit solutions.")
+
+if Geography == "Germany":
+    recommendations.append("Customers from Germany show relatively higher churn tendency.")
+
+if EstimatedSalary > 120000:
+    recommendations.append("Offer premium investment and savings plans.")
+
+for rec in recommendations:
+    st.markdown(f"✅ {rec}")
+ 
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
      cm =confusion_matrix(y_test, y_pred)
