@@ -409,25 +409,25 @@ with tab1:
      
      recommendations = []
 
-     if Age > 50:
+     if age > 50:
         recommendations.append("Provide personalized relationship management for senior customers.")
 
-     if Balance > 100000:
+     if balance > 100000:
         recommendations.append("Offer premium banking benefits and wealth management services.")
 
-     if IsActiveMember == 0:
+     if active_member == 0:
         recommendations.append("Increase engagement through loyalty programs and personalized offers.")
 
-     if NumOfProducts <= 1:
+     if products <= 1:
         recommendations.append("Recommend additional banking products to improve retention.")
 
-     if CreditScore < 500:
+     if credit_score < 500:
         recommendations.append("Provide financial wellness support and flexible credit solutions.")
 
-     if Geography == "Germany":
+     if geography == "Germany":
         recommendations.append("Customers from Germany show relatively higher churn tendency.")
 
-     if EstimatedSalary > 120000:
+     if salary > 120000:
         recommendations.append("Offer premium investment and savings plans.")
 
      for rec in recommendations:
