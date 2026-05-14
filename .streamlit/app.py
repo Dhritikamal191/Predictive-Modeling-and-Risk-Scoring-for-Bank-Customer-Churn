@@ -438,9 +438,11 @@ with tab1:
      st.subheader("Retention Cost Estimation")
 
      avg_customer_value = balance * 0.12
-retention_offer_cost = 5000
+
+     retention_offer_cost = 5000
 
      expected_loss = (risk_score / 100) * avg_customer_value
+
      net_savings = expected_loss - retention_offer_cost
 
      col1, col2, col3 = st.columns(3)
