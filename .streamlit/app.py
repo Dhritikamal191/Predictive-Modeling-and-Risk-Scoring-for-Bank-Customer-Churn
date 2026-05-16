@@ -514,8 +514,8 @@ with tab1:
 
      st.subheader("A/B Testing Simulation")
 
-     strategy_a = max(40, 100 - (risk * 0.9))
-     strategy_b = max(45, 100 - (risk * 0.6))
+     strategy_a = max(40, 100 - (risk_score * 0.9))
+     strategy_b = max(45, 100 - (risk_score * 0.6))
      ab_df = pd.DataFrame({
      "Strategy": [
         "Discount Campaign",
