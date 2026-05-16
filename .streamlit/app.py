@@ -543,7 +543,7 @@ with tab1:
      )
 
      fig.update_layout(
-     yaxis_title="Retention Rate (%)",
+     yaxis_title="Retention Rate (%)",legend=dict(font=dict(color="white")),
      paper_bgcolor="rgba(0,0,0,0)",
      plot_bgcolor="rgba(0,0,0,0)"
      )
