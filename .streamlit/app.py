@@ -438,115 +438,52 @@ with tab1:
      st.subheader("Retention Cost Estimation")
 
      avg_customer_value = balance * 0.12
-
      retention_offer_cost = 5000
-
      expected_loss = (risk_score / 100) * avg_customer_value
-
      net_savings = expected_loss - retention_offer_cost
-
+    
      col1, col2, col3 = st.columns(3)
 
      with col1:
-          st.metric(
-          "Estimated Customer Value",
-          f"₹{avg_customer_value:,.0f}"
-          )
+          st.metric("Estimated Customer Value",f"₹{avg_customer_value:,.0f}")
 
      with col2:
-          st.metric(
-          "Potential Churn Loss",
-          f"₹{expected_loss:,.0f}"
-          )
+          st.metric("Potential Churn Loss",f"₹{expected_loss:,.0f}")
 
      with col3:
-          st.metric(
-          "Estimated Retention Cost",
-          f"₹{retention_offer_cost:,.0f}"
-          )
+          st.metric("Estimated Retention Cost",f"₹{retention_offer_cost:,.0f}")
 
      if net_savings > 0:
         st.success(
-        f"Retention strategy may save approximately ₹{net_savings:,.0f}."
-     )
+        f"Retention strategy may save approximately ₹{net_savings:,.0f}.")
      else:
           st.warning(
-          "Retention campaign cost may exceed expected recoverable value."
-     )
+          "Retention campaign cost may exceed expected recoverable value.")
 
-     cost_df = pd.DataFrame({
-     "Category": [
-        "Potential Churn Loss",
-        "Retention Cost"
-     ],
-     "Amount": [
-        expected_loss,
-        retention_offer_cost
-     ]
-     })
+     cost_df = pd.DataFrame({"Category": ["Potential Churn Loss","Retention Cost"],"Amount": [expected_loss,retention_offer_cost]})
 
-     fig_cost = px.bar(
-     cost_df,
-     x="Category",
-     y="Amount",
-     color="Category",
-     text="Amount",
-     color_discrete_sequence=["#ef4444", "#22c55e"]
-     )
+     fig_cost = px.bar(cost_df,x="Category",y="Amount",color="Category",text="Amount",color_discrete_sequence=["#ef4444", "#22c55e"])
 
-     fig_cost.update_traces(
-     texttemplate='₹%{text:,.0f}',
-     textposition='outside'
-     )
+     fig_cost.update_traces(texttemplate='₹%{text:,.0f}',textposition='outside')
 
-     fig_cost.update_layout(
-     template="plotly_dark",
-     height=400,
-     showlegend=False,
-     paper_bgcolor="rgba(0,0,0,0)",
-     plot_bgcolor="rgba(0,0,0,0)"
-     )
+     fig_cost.update_layout(template="plotly_dark",height=400,showlegend=False,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
      fig_cost.update_xaxes(showgrid=False)
      fig_cost.update_yaxes(showgrid=False)
 
-     st.plotly_chart(fig_cost,  use_container_width=True)
+     st.plotly_chart(fig_cost,use_container_width=True)
 
      st.subheader("A/B Testing Simulation")
 
      strategy_a = max(40, 100 - (risk_score * 0.9))
      strategy_b = max(45, 100 - (risk_score * 0.6))
-     ab_df = pd.DataFrame({
-     "Strategy": [
-        "Discount Campaign",
-        "Relationship Manager"
-     ],
-     "Retention Rate": [
-        strategy_a,
-        strategy_b
-     ]
-     })
+     ab_df = pd.DataFrame({"Strategy": ["Discount Campaign","Relationship Manager"],"Retention Rate": [strategy_a,strategy_b]})
 
-     fig = px.bar(
-     ab_df,
-     x="Strategy",
-     y="Retention Rate",
-     color="Strategy",
-     text="Retention Rate",
-     template="plotly_dark",
-     color_discrete_sequence=["#3b82f6", "#22c55e"]
-     )
+     fig = px.bar(ab_df,x="Strategy",y="Retention Rate",color="Strategy",text="Retention Rate",template="plotly_dark",color_discrete_sequence=["#3b82f6", "#22c55e"])
 
-     fig.update_traces(
-     texttemplate='%{text:.1f}%',
-     textposition='outside'
-     )
+     fig.update_traces(texttemplate='%{text:.1f}%',textposition='outside')
 
-     fig.update_layout(
-     yaxis_title="Retention Rate (%)",legend=dict(font=dict(color="white")),
-     paper_bgcolor="rgba(0,0,0,0)",
-     plot_bgcolor="rgba(0,0,0,0)"
-     )
+     fig.update_layout(yaxis_title="Retention Rate (%)",legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
 
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=False)
