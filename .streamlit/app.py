@@ -434,24 +434,7 @@ with tab1:
 
      for rec in recommendations:
          st.markdown(f" {rec}")
-     
-     st.subheader("A/B Testing Simulation")
-
-     strategy_a = max(40, 100 - (risk_score * 0.9))
-     strategy_b = max(45, 100 - (risk_score * 0.6))
-     ab_df = pd.DataFrame({"Strategy": ["Discount Campaign","Relationship Manager"],"Retention Rate": [strategy_a,strategy_b]})
-
-     fig = px.bar(ab_df,x="Strategy",y="Retention Rate",color="Strategy",text="Retention Rate",template="plotly_dark",color_discrete_sequence=["#3b82f6", "#22c55e"])
-
-     fig.update_traces(texttemplate='%{text:.1f}%',textposition='outside')
-
-     fig.update_layout(yaxis_title="Retention Rate (%)",legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")
-
-     fig.update_xaxes(showgrid=False)
-     fig.update_yaxes(showgrid=False)
-
-     st.plotly_chart(fig,  use_container_width=True)
-
+     
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
      cm =confusion_matrix(y_test, y_pred)
