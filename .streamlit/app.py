@@ -927,6 +927,9 @@ with tab6:
 
         probability_formula = 1 / (1 + np.exp(-z))
 
+     else: 
+          st.info("Tree based models use ensemble decision structures.")
+
      st.subheader("Quantitative Probability Calculation")
      
      st.write(f"Intercept (β₀): {intercept:.4f}")
