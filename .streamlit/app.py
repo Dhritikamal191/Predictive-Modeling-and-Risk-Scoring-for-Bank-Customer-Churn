@@ -917,6 +917,7 @@ with tab6:
     r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}"
 )
 
+        lr_pipeline = models["Logistic Regression"]
         lr_model = lr_pipeline.named_steps["model"]
 
         coefficients = lr_model.coef_[0]
