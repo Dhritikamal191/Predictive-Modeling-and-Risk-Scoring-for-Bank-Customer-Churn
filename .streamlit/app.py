@@ -434,7 +434,9 @@ with tab1:
 
      for rec in recommendations:
          st.markdown(f" {rec}")
-     
+ 
+    
+
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
      cm =confusion_matrix(y_test, y_pred)
@@ -846,21 +848,13 @@ with tab6:
 
      if model_choice == "Logistic Regression":
 
-        st.latex(
-    r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)"
-)
+        st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
 
-        st.latex(
-    r"P(Churn)=\frac{1}{1+e^{-z}}"
-)
+        st.latex(r"P(Churn)=\frac{1}{1+e^{-z}}")
 
-        st.latex(
-    r"\mathbb{E}[Loss] = P(Churn) \times Customer\ Value"
-)
+        st.latex(r"\mathbb{E}[Loss] = P(Churn) \times Customer\ Value")
 
-        st.latex(
-    r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}"
-)
+        st.latex(r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}")
 
         lr_pipeline = models["Logistic Regression"]
 
@@ -901,13 +895,9 @@ with tab6:
 
         treatment_effectiveness = 0.25
 
-        expected_saved_value = (
-    expected_loss * treatment_effectiveness
-    )
+        expected_saved_value = (expected_loss * treatment_effectiveness)
 
-        roi = (
-    expected_saved_value - retention_cost
-) / retention_cost
+        roi = (expected_saved_value - retention_cost) / retention_cost
 
         retained_value = expected_loss * 0.65
 
@@ -922,41 +912,21 @@ with tab6:
         col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
-             st.metric(
-        "Expected Loss",
-        f"₹{expected_loss:,.0f}"
-        )
+             st.metric("Expected Loss",f"₹{expected_loss:,.0f}")
 
         with col2:
-             st.metric(
-        "Retention ROI",
-        f"{roi:.2f}x"
-        )
+             st.metric("Retention ROI",f"{roi:.2f}x")
         
         with col3:
-             st.metric(
-    "Customer Value",
-    f"₹{customer_value:,.0f}"
-    )
+             st.metric("Customer Value",f"₹{customer_value:,.0f}")
 
         with col4:
-             st.metric(
-    "Potential Churn Loss",
-    f"₹{potential_loss:,.0f}"
-    )
+             st.metric("Potential Churn Loss",f"₹{potential_loss:,.0f}")
 
         with col5:
-             st.metric(
-    "Retention Cost",
-    f"₹{retention_cost:,.0f}"
-    )
+             st.metric("Retention Cost",f"₹{retention_cost:,.0f}")
 
-        coef_df = pd.DataFrame({
-        "Feature": feature_names,
-        "Coefficient": coefficients,
-        "Contribution":
-        input_scaled[0] * coefficients
-        })
+        coef_df = pd.DataFrame({"Feature": feature_names,"Coefficient": coefficients,"Contribution":input_scaled[0] * coefficients})
 
         html_table=styled_table(coef_df)
         st.markdown(html_table, unsafe_allow_html=True)
@@ -969,67 +939,30 @@ with tab6:
 
         saved_revenue = uplift * customer_value
 
-        ab_roi = (
-    saved_revenue - retention_cost
-) / retention_cost
+        ab_roi = (saved_revenue - retention_cost) / retention_cost
 
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-             st.metric(
-        "Control Churn",
-        f"{probability_formula:.2%}"
-        )
+             st.metric("Control Churn",f"{probability_formula:.2%}")
 
         with col2:
-             st.metric(
-        "Treatment Churn",
-        f"{treatment_churn:.2%}"
-        )
+             st.metric("Treatment Churn",f"{treatment_churn:.2%}")
 
         with col3:
-             st.metric(
-        "Uplift",
-        f"{uplift:.2%}"
-        )
+             st.metric("Uplift",f"{uplift:.2%}")
 
         with col4:
-             st.metric(
-        "Experimental ROI",
-        f"{ab_roi:.2f}x"
-        )
+             st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
-        ab_df = pd.DataFrame({
-    "Group": ["Control", "Treatment"],
-    "Churn Rate": [
-        probability_formula * 100,
-        treatment_churn * 100
-    ]
-    })
+        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Churn Rate": [probability_formula * 100,treatment_churn * 100]})
 
-        fig = px.bar(
-    ab_df,
-    x="Group",
-    y="Churn Rate",
-    color="Group",
-    text="Churn Rate",
-    template="plotly_dark"
-    )
-
-        fig.update_traces(
-    texttemplate='%{text:.2f}%',
-    textposition='outside'
-    )
-
+        fig = px.bar(ab_df,x="Group",y="Churn Rate",color="Group",text="Churn Rate",template="plotly_dark")
+        fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
+        fig.update_traces(texttemplate='%{text:.2f}%',textposition='outside')
         st.plotly_chart(fig, use_container_width=True)
 
-        treatment_effectiveness = st.sidebar.slider(
-    "Retention Effectiveness",
-    0.0,
-    0.5,
-    0.20,
-    0.01
-    )
+        treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      else: 
           st.info("Tree based models use ensemble decision structures.")
      
