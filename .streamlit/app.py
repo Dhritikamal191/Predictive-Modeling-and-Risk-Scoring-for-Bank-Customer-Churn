@@ -952,6 +952,8 @@ with tab6:
 
         expected_loss = probability_formula * customer_value
 
+        retention_cost = customer_value * 0.08
+
         treatment_effectiveness = 0.25
 
         expected_saved_value = (
