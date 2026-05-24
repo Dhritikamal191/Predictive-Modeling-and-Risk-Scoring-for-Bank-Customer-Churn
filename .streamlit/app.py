@@ -984,6 +984,18 @@ with tab6:
         html_table=styled_table(coef_df)
         st.markdown(html_table, unsafe_allow_html=True)
 
+        st.subheader("Retention Strategy A/B Testing")
+
+        treatment_churn = (probability_formula * (1 - treatment_effectiveness))
+
+        uplift = probability_formula - treatment_churn
+
+        saved_revenue = uplift * customer_value
+
+        ab_roi = (
+    saved_revenue - retention_cost
+) / retention_cost
+
      else: 
           st.info("Tree based models use ensemble decision structures.")
      
