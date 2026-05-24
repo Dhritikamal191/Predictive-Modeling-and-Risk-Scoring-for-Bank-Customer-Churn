@@ -996,6 +996,63 @@ with tab6:
     saved_revenue - retention_cost
 ) / retention_cost
 
+        col1, col2, col3, col4 = st.columns(4)
+
+        with col1:
+             st.metric(
+        "Control Churn",
+        f"{control_churn:.2%}"
+        )
+
+        with col2:
+             st.metric(
+        "Treatment Churn",
+        f"{treatment_churn:.2%}"
+        )
+
+        with col3:
+             st.metric(
+        "Uplift",
+        f"{uplift:.2%}"
+        )
+
+        with col4:
+             st.metric(
+        "Experimental ROI",
+        f"{ab_roi:.2f}x"
+        )
+
+        ab_df = pd.DataFrame({
+    "Group": ["Control", "Treatment"],
+    "Churn Rate": [
+        control_churn * 100,
+        treatment_churn * 100
+    ]
+    })
+
+        fig = px.bar(
+    ab_df,
+    x="Group",
+    y="Churn Rate",
+    color="Group",
+    text="Churn Rate",
+    template="plotly_dark"
+    )
+
+        fig.update_traces(
+    texttemplate='%{text:.2f}%',
+    textposition='outside'
+    )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        treatment_effectiveness = st.sidebar.slider(
+    "Retention Effectiveness",
+    0.0,
+    0.5,
+    0.20,
+    0.01
+    )
      else: 
           st.info("Tree based models use ensemble decision structures.")
      
