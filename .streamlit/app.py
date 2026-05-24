@@ -918,6 +918,11 @@ with tab6:
 )
 
         lr_pipeline = models["Logistic Regression"]
+
+        preprocessor = lr_pipeline.named_steps["preprocessor"]
+
+        input_scaled = preprocessor.transform(input_df)
+
         lr_model = lr_pipeline.named_steps["model"]
 
         coefficients = lr_model.coef_[0]
