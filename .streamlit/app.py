@@ -939,6 +939,15 @@ with tab6:
 
         st.write(f"Linear Combination (z): {z:.4f}")
 
+        if z > 2:
+          st.error("Strong positive risk exposure detected")
+
+        elif z > 0:
+            st.warning("Moderate positive churn pressure detected")
+
+        else:
+             st.success("Negative risk exposure indicates stable customer behavior")
+
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
         model_prob = model.predict_proba(input_df)[0][1]
