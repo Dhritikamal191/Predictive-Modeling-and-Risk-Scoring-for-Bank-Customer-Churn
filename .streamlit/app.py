@@ -899,23 +899,23 @@ with tab6:
 
      st.subheader("Logistic Regression Probability Model")
 
-     st.latex(
+     if model_choice == "Logistic Regression":
+
+        st.latex(
     r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)"
 )
 
-     st.latex(
+        st.latex(
     r"P(Churn)=\frac{1}{1+e^{-z}}"
 )
 
-     st.latex(
+        st.latex(
     r"\mathbb{E}[Loss] = P(Churn) \times Customer\ Value"
 )
 
-     st.latex(
+        st.latex(
     r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}"
 )
-
-     if model_choice == "Logistic Regression":
 
         lr_model = model.named_steps["model"]
 
