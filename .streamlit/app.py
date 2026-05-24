@@ -915,4 +915,36 @@ with tab6:
     r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}"
 )
 
+     if model_choice == "Logistic Regression":
+
+        lr_model = model.named_steps["model"]
+
+        coefficients = lr_model.coef_[0]
+
+        intercept = lr_model.intercept_[0]
+
+        z = intercept + np.dot(input_scaled[0], coefficients)
+
+        probability_formula = 1 / (1 + np.exp(-z))
+
+     st.subheader("Quantitative Probability Calculation")
+     
+     st.write(f"Intercept (β₀): {intercept:.4f}")
+
+     st.write(f"Linear Combination (z): {z:.4f}")
+
+     st.write(f"Calculated Probability: {probability_formula:.4f}")
+
+     model_prob = model.predict_proba(input_df)[0][1]
+
+     st.write(f"Model Prediction Probability: {model_prob:.4f}")
+
+     coef_df = pd.DataFrame({
+     "Feature": feature_names,
+     "Coefficient": coefficients,
+     "Contribution":
+        input_scaled[0] * coefficients
+     })
+
+     st.dataframe(coef_df)
      
