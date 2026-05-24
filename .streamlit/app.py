@@ -966,13 +966,15 @@ with tab6:
 
         retained_value = expected_loss * 0.65
 
+        potential_loss = probability_formula * customer_value 
+
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
         model_prob = model.predict_proba(input_df)[0][1]
 
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4, col5, col6 = st.columns(6)
 
         with col1:
              st.metric(
@@ -991,6 +993,24 @@ with tab6:
         "Retention ROI",
         f"{roi:.2f}x"
         )
+        
+        with col4:
+             st.metric(
+    "Customer Value",
+    f"₹{customer_value:,.0f}"
+    )
+
+        with col5:
+             st.metric(
+    "Potential Churn Loss",
+    f"₹{potential_loss:,.0f}"
+    )
+
+        with col6:
+             st.metric(
+    "Retention Cost",
+    f"₹{retention_cost:,.0f}"
+    )
 
         coef_df = pd.DataFrame({
         "Feature": feature_names,
