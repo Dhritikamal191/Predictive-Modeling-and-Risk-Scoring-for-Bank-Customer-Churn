@@ -924,7 +924,7 @@ with tab6:
 
         intercept = lr_model.intercept_[0]
 
-        z = intercept + np.dot(input_df[0], coefficients)
+        z = intercept + np.dot(input_df, coefficients)
 
         probability_formula = 1 / (1 + np.exp(-z))
 
