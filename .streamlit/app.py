@@ -952,7 +952,8 @@ with tab6:
         input_scaled[0] * coefficients
         })
 
-        st.dataframe(coef_df)
+        html_table=styled_table(coef_df)
+        st.markdown(html_table, unsafe_allow_html=True)
 
      else: 
           st.info("Tree based models use ensemble decision structures.")
