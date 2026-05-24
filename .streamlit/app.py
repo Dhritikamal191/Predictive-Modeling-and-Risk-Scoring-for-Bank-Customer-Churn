@@ -948,11 +948,44 @@ with tab6:
         else:
              st.success("Negative risk exposure indicates stable customer behavior")
 
+        customer_value = balance + salary
+
+        expected_loss = probability_formula * customer_value
+
+        retention_cost = customer_value * 0.08
+
+        retained_value = expected_loss * 0.65
+
+        roi = (
+    (retained_value - retention_cost)
+    / retention_cost
+        )
+
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
         model_prob = model.predict_proba(input_df)[0][1]
 
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+             st.metric(
+        "Churn Probability",
+        f"{probability_formula:.2%}"
+        )
+
+        with col2:
+             st.metric(
+        "Expected Loss",
+        f"₹{expected_loss:,.0f}"
+        )
+
+        with col3:
+             st.metric(
+        "Retention ROI",
+        f"{roi:.2f}x"
+        )
 
         coef_df = pd.DataFrame({
         "Feature": feature_names,
