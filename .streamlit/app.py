@@ -919,39 +919,33 @@ with tab6:
 
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
 
-        col1, col2, col3, col4, col5, col6 = st.columns(6)
+        col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
-             st.metric(
-        "Churn Probability",
-        f"{probability_formula:.2%}"
-        )
-
-        with col2:
              st.metric(
         "Expected Loss",
         f"₹{expected_loss:,.0f}"
         )
 
-        with col3:
+        with col2:
              st.metric(
         "Retention ROI",
         f"{roi:.2f}x"
         )
         
-        with col4:
+        with col3:
              st.metric(
     "Customer Value",
     f"₹{customer_value:,.0f}"
     )
 
-        with col5:
+        with col4:
              st.metric(
     "Potential Churn Loss",
     f"₹{potential_loss:,.0f}"
     )
 
-        with col6:
+        with col5:
              st.metric(
     "Retention Cost",
     f"₹{retention_cost:,.0f}"
