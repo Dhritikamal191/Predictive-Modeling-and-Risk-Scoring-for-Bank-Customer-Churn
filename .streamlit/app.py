@@ -1001,7 +1001,7 @@ with tab6:
         with col1:
              st.metric(
         "Control Churn",
-        f"{control_churn:.2%}"
+        f"{probability_formula:.2%}"
         )
 
         with col2:
@@ -1025,7 +1025,7 @@ with tab6:
         ab_df = pd.DataFrame({
     "Group": ["Control", "Treatment"],
     "Churn Rate": [
-        control_churn * 100,
+        probability_formula * 100,
         treatment_churn * 100
     ]
     })
