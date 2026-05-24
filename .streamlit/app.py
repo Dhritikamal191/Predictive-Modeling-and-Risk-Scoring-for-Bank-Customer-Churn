@@ -894,3 +894,25 @@ with tab5:
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=False)
      st.plotly_chart(fig, use_container_width=True)
+
+with tab6:
+
+     st.subheader("Logistic Regression Probability Model")
+
+     st.latex(
+    r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)"
+)
+
+     st.latex(
+    r"P(Churn)=\frac{1}{1+e^{-z}}"
+)
+
+     st.latex(
+    r"\mathbb{E}[Loss] = P(Churn) \times Customer\ Value"
+)
+
+     st.latex(
+    r"ROI=\frac{Retention\ Savings-Retention\ Cost}{Retention\ Cost}"
+)
+
+     
