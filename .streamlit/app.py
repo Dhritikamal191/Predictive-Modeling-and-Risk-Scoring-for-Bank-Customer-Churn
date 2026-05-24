@@ -899,7 +899,7 @@ with tab6:
 
      st.subheader("Logistic Regression Probability Model")
 
-     if model == "Logistic Regression":
+     if model_choice == "Logistic Regression":
 
         st.latex(
     r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)"
