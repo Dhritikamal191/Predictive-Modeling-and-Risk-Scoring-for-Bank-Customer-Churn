@@ -283,7 +283,7 @@ st.sidebar.image("Images/mentor.png",width=150)
 st.sidebar.subheader("Model Selection")
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)
-    
+treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)  
 model=models[model_choice]
      
 st.sidebar.subheader("Customer Feature Inputs")
@@ -846,7 +846,6 @@ with tab6:
 
      st.subheader("Logistic Regression Probability Model")
 
-     treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      if model_choice == "Logistic Regression":
 
         st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
