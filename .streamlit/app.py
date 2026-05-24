@@ -927,27 +927,27 @@ with tab6:
 
         probability_formula = 1 / (1 + np.exp(-z))
 
+        st.subheader("Quantitative Probability Calculation")
+     
+        st.write(f"Intercept (β₀): {intercept:.4f}")
+
+        st.write(f"Linear Combination (z): {z:.4f}")
+
+        st.write(f"Calculated Probability: {probability_formula:.4f}")
+
+        model_prob = model.predict_proba(input_df)[0][1]
+
+        st.write(f"Model Prediction Probability: {model_prob:.4f}")
+
+        coef_df = pd.DataFrame({
+        "Feature": feature_names,
+        "Coefficient": coefficients,
+        "Contribution":
+        input_scaled[0] * coefficients
+        })
+
+        st.dataframe(coef_df)
+
      else: 
           st.info("Tree based models use ensemble decision structures.")
-
-     st.subheader("Quantitative Probability Calculation")
-     
-     st.write(f"Intercept (β₀): {intercept:.4f}")
-
-     st.write(f"Linear Combination (z): {z:.4f}")
-
-     st.write(f"Calculated Probability: {probability_formula:.4f}")
-
-     model_prob = model.predict_proba(input_df)[0][1]
-
-     st.write(f"Model Prediction Probability: {model_prob:.4f}")
-
-     coef_df = pd.DataFrame({
-     "Feature": feature_names,
-     "Coefficient": coefficients,
-     "Contribution":
-        input_scaled[0] * coefficients
-     })
-
-     st.dataframe(coef_df)
      
