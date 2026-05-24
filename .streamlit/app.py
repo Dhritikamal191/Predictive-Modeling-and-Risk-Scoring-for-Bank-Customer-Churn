@@ -846,6 +846,7 @@ with tab6:
 
      st.subheader("Logistic Regression Probability Model")
 
+     treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      if model_choice == "Logistic Regression":
 
         st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
@@ -961,8 +962,7 @@ with tab6:
         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
         fig.update_traces(texttemplate='%{text:.2f}%',textposition='outside')
         st.plotly_chart(fig, use_container_width=True)
-
-        treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
+         
      else: 
           st.info("Tree based models use ensemble decision structures.")
      
