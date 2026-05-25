@@ -383,9 +383,9 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(X)[0][1]
 new_risk = new_probability * 100
 
-page=st.radio("Navigation",["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring","Quantitative Modeling"],horizontal=True)
+tab1, tab2, tab3, tab4, tab5, tab6 =st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring","Quantitative Modeling"])
 
-if page == "Customer Risk Calculator":
+with tab1:
      col1, col2=st.columns(2)
 
      with col1:
@@ -525,7 +525,7 @@ if page == "Customer Risk Calculator":
               return fig
           st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
         
-elif page == "Feature Importance":
+with tab2:
      # --------------------------------------------------
      # Feature Importance Dashboard
      # --------------------------------------------------
@@ -633,7 +633,7 @@ elif page == "Feature Importance":
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
 
-elif "ROC and PDP":
+with tab3:
      col1, col2=st.columns(2)
      with col1:
           from sklearn.metrics import roc_curve, auc
@@ -712,7 +712,7 @@ elif "ROC and PDP":
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
-elif "Model Comparison":
+with tab4:
 
      def get_metrics(model, X, y, threshold):
          y_prob=model.predict_proba(X)[:,1]
@@ -778,7 +778,7 @@ elif "Model Comparison":
           fig.update_traces(marker=dict(line=dict(width=1)))
           st.plotly_chart(fig, use_container_width=True)
     
-elif "Monitoring":
+with tab5:
      churn_rate=y_pred.mean()
      st.metric("Predicted Churn Rate", f"{churn_rate:.2%}")
      st.subheader("Prediction Distribution")
@@ -839,7 +839,7 @@ elif "Monitoring":
      fig.update_yaxes(showgrid=False)
      st.plotly_chart(fig, use_container_width=True)
 
-elif "Quantitative Modeling":
+with tab6:
      treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      st.subheader("Logistic Regression Probability Model")
 
