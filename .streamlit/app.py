@@ -945,7 +945,7 @@ with tab6:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
         ab_df = pd.DataFrame({"Type": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
-        fig = px.pie(compare_df,names="Type",values="Risk",hole=0.5,color="Type",color_discrete_sequence=["#6366f1","#f43f5e"],template="plotly_dark")
+        fig = px.pie(ab_df,names="Type",values="Risk",hole=0.5,color="Type",color_discrete_sequence=["#6366f1","#f43f5e"],template="plotly_dark")
         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
         fig.update_traces(texttemplate='%{text:.2f}%',textposition='outside')
         st.plotly_chart(fig, use_container_width=True)
