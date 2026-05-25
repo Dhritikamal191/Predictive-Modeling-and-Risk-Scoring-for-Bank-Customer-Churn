@@ -849,13 +849,6 @@ with tab6:
 
         treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
 
-        treatment_probability = max(
-    0,
-    prob - treatment_effectiveness
-)
-
-        treatment_risk = treatment_probability * 100
-
         st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
 
         st.latex(r"P(Churn)=\frac{1}{1+e^{-z}}")
@@ -880,6 +873,10 @@ with tab6:
 
         probability_formula = 1 / (1 + np.exp(-z))
 
+        probability=model.predict_proba(input_scaled)[0][1]
+        treatment_probability = max(0, probability - treatment_effectiveness)
+        treatment_risk = treatment_probability * 100
+         
         st.subheader("Quantitative Probability Calculation")
      
         st.write(f"Intercept (β₀): {intercept:.4f}")
