@@ -965,7 +965,7 @@ with tab6:
 
         fig = px.pie(
     compare_df,
-    names="Group",
+    names="Type",
     values="Risk",
     hole=0.5,
     color="Type",
