@@ -896,19 +896,12 @@ with tab6:
              st.success("Negative risk exposure indicates stable customer behavior")
 
         customer_value = balance + salary
-
         expected_loss = probability_formula * customer_value
-
         retention_cost = customer_value * 0.08
-
         treatment_effectiveness = 0.25
-
         expected_saved_value = (expected_loss * treatment_effectiveness)
-
         roi = (expected_saved_value - retention_cost) / retention_cost
-
         retained_value = expected_loss * 0.65
-
         potential_loss = probability_formula * customer_value 
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
@@ -940,11 +933,9 @@ with tab6:
         st.markdown(html_table, unsafe_allow_html=True)
 
         st.subheader("Retention Strategy A/B Testing")
-
+
         uplift = probability_formula - treatment_probability 
-
         saved_revenue = uplift * customer_value
-
         ab_roi = (saved_revenue - retention_cost) / retention_cost
 
         col1, col2, col3, col4 = st.columns(4)
@@ -962,19 +953,7 @@ with tab6:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
         ab_df = pd.DataFrame({"Type": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
-
-        fig = px.pie(
-    compare_df,
-    names="Type",
-    values="Risk",
-    hole=0.5,
-    color="Type",
-    color_discrete_sequence=[
-        "#6366f1",
-        "#f43f5e"
-    ],
-    template="plotly_dark"
-)
+        fig = px.pie(compare_df,names="Type",values="Risk",hole=0.5,color="Type",color_discrete_sequence=["#6366f1","#f43f5e"],template="plotly_dark")
         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
         fig.update_traces(texttemplate='%{text:.2f}%',textposition='outside')
         st.plotly_chart(fig, use_container_width=True)
