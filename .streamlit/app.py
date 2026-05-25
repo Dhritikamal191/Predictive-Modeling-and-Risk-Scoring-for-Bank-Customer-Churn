@@ -842,12 +842,10 @@ with tab5:
      st.plotly_chart(fig, use_container_width=True)
 
 with tab6:
-
+     treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      st.subheader("Logistic Regression Probability Model")
 
      if model_choice == "Logistic Regression":
-
-        treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
 
         st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
 
