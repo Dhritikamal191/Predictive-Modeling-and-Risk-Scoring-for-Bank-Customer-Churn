@@ -961,7 +961,7 @@ with tab6:
         with col4:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
-        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
+        ab_df = pd.DataFrame({"Type": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
 
         fig = px.pie(
     compare_df,
