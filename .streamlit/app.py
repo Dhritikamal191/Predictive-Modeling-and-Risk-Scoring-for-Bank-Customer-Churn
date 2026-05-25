@@ -383,9 +383,9 @@ scenario_df["HasCrCard"] = has_card
 new_probability = model.predict_proba(X)[0][1]
 new_risk = new_probability * 100
 
-tab1, tab2, tab3, tab4, tab5, tab6= st.tabs(["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring","Quantitative Modeling"])
+page=st.radio("Navigation",["Customer Risk Calculator","Feature Importance","ROC and PDP","Model Comparison","Monitoring","Quantitative Modeling"],horizontal=True)
 
-with tab1:
+if page == "Customer Risk Calculator":
      col1, col2=st.columns(2)
 
      with col1:
@@ -434,8 +434,6 @@ with tab1:
      for rec in recommendations:
          st.markdown(f" {rec}")
  
-    
-
      y_prob=model.predict_proba(X)[:,1]
      y_pred=(y_prob>=threshold).astype(int)
      cm =confusion_matrix(y_test, y_pred)
@@ -527,7 +525,7 @@ with tab1:
               return fig
           st.plotly_chart(render_comparison_kde(model, X, y_test), use_container_width=True)
         
-with tab2:
+elif page == "Feature Importance":
      # --------------------------------------------------
      # Feature Importance Dashboard
      # --------------------------------------------------
@@ -635,7 +633,7 @@ with tab2:
           fig.update_yaxes(showgrid=False)
           st.plotly_chart(fig, use_container_width=True)
 
-with tab3:
+elif "ROC and PDP":
      col1, col2=st.columns(2)
      with col1:
           from sklearn.metrics import roc_curve, auc
@@ -714,7 +712,7 @@ with tab3:
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
-with tab4:
+elif "Model Comparison":
 
      def get_metrics(model, X, y, threshold):
          y_prob=model.predict_proba(X)[:,1]
@@ -780,7 +778,7 @@ with tab4:
           fig.update_traces(marker=dict(line=dict(width=1)))
           st.plotly_chart(fig, use_container_width=True)
     
-with tab5:
+elif "Monitoring":
      churn_rate=y_pred.mean()
      st.metric("Predicted Churn Rate", f"{churn_rate:.2%}")
      st.subheader("Prediction Distribution")
@@ -841,7 +839,7 @@ with tab5:
      fig.update_yaxes(showgrid=False)
      st.plotly_chart(fig, use_container_width=True)
 
-with tab6:
+elif "Quantitative Modeling":
      treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
      st.subheader("Logistic Regression Probability Model")
 
@@ -944,6 +942,11 @@ with tab6:
         with col4:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
+        if uplift < 0.05:
+           st.warning("Retention strategy effectiveness is low")
+        if roi < 0:
+           st.error("Campaign ROI is negative.")
+            
         ab_df = pd.DataFrame({"Type": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
         fig = px.pie(ab_df,names="Type",values="Risk",hole=0.5,color="Type",color_discrete_sequence=["#6366f1","#f43f5e"],template="plotly_dark")
         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
