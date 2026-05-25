@@ -849,14 +849,10 @@ with tab6:
 
         treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
 
-        control_probability = prob
-
         treatment_probability = max(
     0,
-    control_probability - treatment_effectiveness
+    prob - treatment_effectiveness
 )
-
-        control_risk = control_probability * 100
 
         treatment_risk = treatment_probability * 100
 
@@ -944,10 +940,8 @@ with tab6:
         st.markdown(html_table, unsafe_allow_html=True)
 
         st.subheader("Retention Strategy A/B Testing")
-
-        treatment_churn = (probability_formula * (1 - treatment_effectiveness))
-
-        uplift = probability_formula - treatment_churn
+
+        uplift = probability_formula - treatment_probability 
 
         saved_revenue = uplift * customer_value
 
@@ -959,7 +953,7 @@ with tab6:
              st.metric("Control Churn",f"{probability_formula:.2%}")
 
         with col2:
-             st.metric("Treatment Churn",f"{treatment_churn:.2%}")
+             st.metric("Treatment Churn",f"{treatment_probability:.2%}")
 
         with col3:
              st.metric("Uplift",f"{uplift:.2%}")
@@ -967,11 +961,11 @@ with tab6:
         with col4:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
-        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Risk": [control_risk,treatment_risk]})
+        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Risk": [risk_score,treatment_risk]})
 
         fig = px.pie(
     compare_df,
-    names="Type",
+    names="Group",
     values="Risk",
     hole=0.5,
     color="Type",
