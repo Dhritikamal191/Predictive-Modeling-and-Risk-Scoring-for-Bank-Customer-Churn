@@ -899,11 +899,10 @@ with tab6:
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
-        treatment_probability = max(0, prob - treatment_effectiveness)
-         
+        model_prob=model.predict_proba(input_df)[0][1]
+        treatment_probability = max(0, model_prob - treatment_effectiveness)
         treatment_risk = treatment_probability * 100
 
-        model_prob=model.predict_proba(input_df)[0][1]
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
 
         col1, col2, col3, col4, col5 = st.columns(5)
