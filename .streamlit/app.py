@@ -873,7 +873,7 @@ with tab6:
 
         probability_formula = 1 / (1 + np.exp(-z))
 
-        probability=model.predict_proba(input_scaled)[0][1]
+        probability=model.predict_proba(input_scaled)[:][1]
         treatment_probability = max(0, probability - treatment_effectiveness)
         treatment_risk = treatment_probability * 100
          
