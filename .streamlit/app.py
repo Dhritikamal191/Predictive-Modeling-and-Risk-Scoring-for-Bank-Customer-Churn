@@ -872,11 +872,7 @@ with tab6:
         z = intercept + np.dot(input_scaled[0], coefficients)
 
         probability_formula = 1 / (1 + np.exp(-z))
-
-        prob=model.predict_proba(input_df)[0][1]
-        treatment_probability = max(0, prob - treatment_effectiveness)
-        treatment_risk = treatment_probability * 100
-         
+ 
         st.subheader("Quantitative Probability Calculation")
      
         st.write(f"Intercept (β₀): {intercept:.4f}")
@@ -905,6 +901,10 @@ with tab6:
 
         model_prob = model.predict_proba(input_df)[0][1]
 
+        treatment_probability = max(0, model_prob - treatment_effectiveness)
+         
+        treatment_risk = treatment_probability * 100
+         
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
 
         col1, col2, col3, col4, col5 = st.columns(5)
