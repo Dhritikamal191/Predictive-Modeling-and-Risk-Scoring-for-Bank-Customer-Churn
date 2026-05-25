@@ -848,6 +848,18 @@ with tab6:
      if model_choice == "Logistic Regression":
 
         treatment_effectiveness = st.sidebar.slider("Retention Effectiveness",0.0,0.5,0.20,0.01)
+
+        control_probability = prob
+
+        treatment_probability = max(
+    0,
+    control_probability - treatment_effectiveness
+)
+
+        control_risk = control_probability * 100
+
+        treatment_risk = treatment_probability * 100
+
         st.latex(r"z = \beta_0 + \beta_1(CreditScore) + \beta_2(Age) + \beta_3(Balance)")
 
         st.latex(r"P(Churn)=\frac{1}{1+e^{-z}}")
@@ -955,9 +967,20 @@ with tab6:
         with col4:
              st.metric("Experimental ROI",f"{ab_roi:.2f}x")
 
-        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Churn Rate": [probability_formula * 100,treatment_churn * 100]})
+        ab_df = pd.DataFrame({"Group": ["Control", "Treatment"],"Risk": [control_risk,treatment_risk]})
 
-        fig = px.bar(ab_df,x="Group",y="Churn Rate",color="Group",text="Churn Rate",template="plotly_dark")
+        fig = px.pie(
+    compare_df,
+    names="Type",
+    values="Risk",
+    hole=0.5,
+    color="Type",
+    color_discrete_sequence=[
+        "#6366f1",
+        "#f43f5e"
+    ],
+    template="plotly_dark"
+)
         fig.update_layout(font=dict(color="white"), legend=dict(font=dict(color="white")),paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)")                  
         fig.update_traces(texttemplate='%{text:.2f}%',textposition='outside')
         st.plotly_chart(fig, use_container_width=True)
