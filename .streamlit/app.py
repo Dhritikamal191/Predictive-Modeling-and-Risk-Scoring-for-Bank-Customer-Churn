@@ -889,7 +889,6 @@ with tab6:
         customer_value = balance + salary
         expected_loss = probability_formula * customer_value
         retention_cost = customer_value * 0.08
-        treatment_effectiveness = 0.25
         expected_saved_value = (expected_loss * treatment_effectiveness)
         roi = (expected_saved_value - retention_cost) / retention_cost
         retained_value = expected_loss * 0.65
