@@ -712,6 +712,7 @@ with tab3:
          fig.update_xaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
          st.plotly_chart(fig, use_container_width=True)
+
 with tab4:
 
      def get_metrics(model, X, y, threshold):
