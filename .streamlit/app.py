@@ -13,6 +13,7 @@ from sklearn.metrics import confusion_matrix
 import plotly.figure_factory as ff
 from scipy.stats import gaussian_kde
 from sklearn.metrics import (accuracy_score, recall_score, f1_score, roc_auc_score, roc_curve, confusion_matrix)
+st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
 st.markdown("""
 <style>
 
@@ -254,9 +255,6 @@ def kpi_card(title, value, icon):
         <div class="kpi-value">{value}</div>
     </div>
     """
-
-st.set_page_config(page_title="Predictive Modeling and Risk Scoring for Bank Customer Churn",layout="wide")
-
 col1,col2=st.columns([0.5,6])
 
 with col1:
