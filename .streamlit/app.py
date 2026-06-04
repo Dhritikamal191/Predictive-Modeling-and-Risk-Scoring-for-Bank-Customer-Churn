@@ -268,7 +268,8 @@ st.divider()
 # Load Model
 # --------------------------------------------------
 models=joblib.load("models/all_models_pipeline.pkl")
-
+st.write(type(models))
+st.write(models)
 # Load dataset for visualization
 
 df=pd.read_csv("Data/European_Bank.csv")
@@ -279,9 +280,7 @@ st.sidebar.image("Images/mentor.png",width=150)
 st.sidebar.subheader("Model Selection")
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)  
-model=models[model_choice]
-print(type(models))
-print(models.keys() if hasattr(models,"keys") else models)     
+model=models[model_choice]    
 st.sidebar.subheader("Customer Feature Inputs")
 
 credit_score = st.sidebar.number_input("Credit Score", 300, 900, 600)
