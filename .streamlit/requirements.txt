@@ -1,4 +1,4 @@
-streamlit
+streamlit==1.2.2
 scikit-learn==1.2.2
 xgboost
 shap
@@ -8,4 +8,4 @@ numpy
 plotly
 matplotlib
 seaborn
-joblib
+joblib==1.32.0
