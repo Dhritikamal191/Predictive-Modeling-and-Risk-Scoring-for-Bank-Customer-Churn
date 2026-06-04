@@ -255,6 +255,14 @@ def kpi_card(title, value, icon):
         <div class="kpi-value">{value}</div>
     </div>
     """
+import sklearn
+import imblearn
+import joblib
+
+st.write("sklearn:", sklearn.__version__)
+st.write("imblearn:", imblearn.__version__)
+st.write("joblib:", joblib.__version__)
+
 col1,col2=st.columns([0.5,6])
 
 with col1:
