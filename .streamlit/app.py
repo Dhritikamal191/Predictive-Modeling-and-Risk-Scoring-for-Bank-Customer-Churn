@@ -268,8 +268,7 @@ st.divider()
 # Load Model
 # --------------------------------------------------
 models=joblib.load("models/all_models_pipeline.pkl")
-st.write(type(models))
-st.write(models)
+
 # Load dataset for visualization
 
 df=pd.read_csv("Data/European_Bank.csv")
