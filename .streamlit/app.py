@@ -279,7 +279,7 @@ st.sidebar.image("Images/mentor.png",width=150)
 st.sidebar.subheader("Model Selection")
 model_choice=st.sidebar.radio("Select Model",["Logistic Regression","Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost"], key="model_selector")
 threshold=st.sidebar.slider("Select Threshold",0.0, 1.0, 0.50, 0.01)  
-model=models[model_choice]
+model=[model_choice]
      
 st.sidebar.subheader("Customer Feature Inputs")
 
