@@ -255,6 +255,9 @@ def kpi_card(title, value, icon):
         <div class="kpi-value">{value}</div>
     </div>
     """
+print(type(models))
+print(models.keys() if hasattr(models,"keys") else models)
+
 col1,col2=st.columns([0.5,6])
 
 with col1:
