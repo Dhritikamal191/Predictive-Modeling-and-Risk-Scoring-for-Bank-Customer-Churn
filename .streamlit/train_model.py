@@ -17,8 +17,8 @@ from imblearn.over_sampling import SMOTE
 
 Load data
 
-df = pd.read_csv("Bank.csv")
-df = df.drop(["CustomerId", "Surname"], axis=1)
+df = pd.read_csv("European_Bank.csv")
+df = df.drop(["Year","CustomerId", "Surname"], axis=1)
 
 Split features
 
