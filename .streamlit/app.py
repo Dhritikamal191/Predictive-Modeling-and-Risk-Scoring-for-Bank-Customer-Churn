@@ -880,17 +880,17 @@ with tab6:
         else:
              st.success("Negative risk exposure indicates stable customer behavior")
 
+        model_prob=model.predict_proba(input_df)[0][1]
         customer_value = balance + salary
         expected_loss = probability_formula * customer_value
         retention_cost = customer_value * treatment_effectiveness 
         expected_saved_value = (expected_loss * treatment_effectiveness)
         roi = (expected_saved_value - retention_cost) / retention_cost
         retained_value = expected_loss * treatment_effectiveness 
-        potential_loss = customer_value * treatment_effectiveness 
+        potential_loss = customer_value * (1 + model_prob)
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
-
-        model_prob=model.predict_proba(input_df)[0][1]
+        
         treatment_probability =max(0, model_prob - treatment_effectiveness)
         treatment_risk = treatment_probability * 100
 
