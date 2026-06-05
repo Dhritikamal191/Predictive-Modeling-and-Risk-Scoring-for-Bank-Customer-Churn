@@ -882,7 +882,7 @@ with tab6:
 
         customer_value = balance + salary + has_card + products + tenure + active_member
         expected_loss = probability_formula * customer_value
-        retention_cost = customer_value * treatment_effectiveness 
+        retention_cost = customer_value * treatment_effectiveness * 0.5
         expected_saved_value = (expected_loss * treatment_effectiveness)
         roi = (expected_saved_value - retention_cost) / retention_cost
         retained_value = expected_loss * treatment_effectiveness 
