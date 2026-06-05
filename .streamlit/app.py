@@ -882,11 +882,11 @@ with tab6:
 
         customer_value = balance + salary
         expected_loss = probability_formula * customer_value
-        retention_cost = customer_value * 0.08
+        retention_cost = customer_value * treatment_effectiveness 
         expected_saved_value = (expected_loss * treatment_effectiveness)
         roi = (expected_saved_value - retention_cost) / retention_cost
-        retained_value = expected_loss * 0.65 
-        potential_loss = customer_value 
+        retained_value = expected_loss * treatment_effectiveness 
+        potential_loss = customer_value * treatment_effectiveness 
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
@@ -920,7 +920,7 @@ with tab6:
 
         st.subheader("Retention Strategy A/B Testing")
 
-        uplift = probability_formula - treatment_probability 
+        uplift = model_prob - treatment_probability 
         saved_revenue = uplift * customer_value
         ab_roi = (saved_revenue - retention_cost) / retention_cost
 
