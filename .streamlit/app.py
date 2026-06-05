@@ -886,7 +886,7 @@ with tab6:
         expected_saved_value = (expected_loss * treatment_effectiveness)
         roi = (expected_saved_value - retention_cost) / retention_cost
         retained_value = expected_loss * treatment_effectiveness 
-        potential_loss = probability_formula * customer_value 
+        potential_loss = customer_value 
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
 
