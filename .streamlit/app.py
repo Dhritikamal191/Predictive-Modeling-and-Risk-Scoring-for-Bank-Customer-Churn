@@ -891,7 +891,7 @@ with tab6:
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
         
-        treatment_probability =max(0, model_prob - treatment_effectiveness)
+        treatment_probability =max(0, probability_formula - treatment_effectiveness)
         treatment_risk = treatment_probability * 100
 
         st.write(f"Model Prediction Probability: {model_prob:.4f}")
