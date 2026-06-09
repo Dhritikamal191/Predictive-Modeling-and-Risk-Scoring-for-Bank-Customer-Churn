@@ -267,7 +267,7 @@ st.divider()
 # --------------------------------------------------
 # Load Model
 # --------------------------------------------------
-models=joblib.load("models/all_models_pipeline.pkl")
+models=joblib.load("all_models_pipeline.pkl")
 
 # Load dataset for visualization
 
@@ -880,7 +880,8 @@ with tab6:
         else:
              st.success("Negative risk exposure indicates stable customer behavior")
 
-        model_prob=model.predict_proba(input_df)[0][1]
+        model_prob=model.predict_proba(input_df)[0][1]
+
         customer_value = balance + salary
         expected_loss = probability_formula * customer_value
         retention_cost = customer_value * treatment_effectiveness 
@@ -890,7 +891,8 @@ with tab6:
         potential_loss = customer_value * (1 + model_prob)
 
         st.write(f"Calculated Probability: {probability_formula:.4f}")
-        
+
+        
         treatment_probability =max(0, probability_formula - treatment_effectiveness)
         treatment_risk = treatment_probability * 100
 
