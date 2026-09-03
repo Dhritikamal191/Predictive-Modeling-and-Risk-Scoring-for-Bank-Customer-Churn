@@ -9,3 +9,8 @@ plotly
 shap
 matplotlib
 seaborn
+fastapi
+uvicorn
+pydantic
+pytest
+httpx
