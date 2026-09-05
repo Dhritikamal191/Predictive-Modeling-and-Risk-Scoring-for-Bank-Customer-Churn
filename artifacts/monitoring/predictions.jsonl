@@ -1,0 +1,1 @@
+{"timestamp": "2026-09-04T08:16:32.291144+00:00", "model": "Bank-Churn-Gradient-Boosting", "model_alias": "champion", "churn_probability": 0.576112, "churn_prediction": 1, "risk_category": "High"}

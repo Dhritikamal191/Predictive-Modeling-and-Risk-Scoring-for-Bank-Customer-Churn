@@ -22,7 +22,8 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
-
+from evidently import Report
+from evidently.presets import DataDriftPreset
 from scipy.stats import ks_2samp
 
 
@@ -68,6 +69,30 @@ METADATA_DIR.mkdir(
     exist_ok=True,
 )
 
+# ---------------------------------------------------------
+# Evidently monitoring output
+# ---------------------------------------------------------
+
+MONITORING_DIR = (
+    PROJECT_ROOT
+    / "artifacts"
+    / "monitoring"
+)
+
+MONITORING_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
+EVIDENTLY_HTML = (
+    MONITORING_DIR
+    / "data_drift_report.html"
+)
+
+EVIDENTLY_JSON = (
+    MONITORING_DIR
+    / "data_drift_report.json"
+)
 
 # ============================================================
 # CONFIGURATION
@@ -537,6 +562,45 @@ def main():
         f"Current rows:   {len(current):,}"
     )
 
+        # ---------------------------------------------------------
+    # Evidently data drift report
+    # ---------------------------------------------------------
+
+    print()
+    print("Running Evidently drift analysis...")
+
+    evidently_report = Report(
+        [
+            DataDriftPreset(
+                drift_share=0.5,
+            )
+        ]
+    )
+
+    evidently_snapshot = evidently_report.run(
+        current_data=current,
+        reference_data=reference,
+    )
+
+    evidently_snapshot.save_html(
+        str(EVIDENTLY_HTML)
+    )
+
+    evidently_snapshot.save_json(
+        str(EVIDENTLY_JSON)
+    )
+
+    print()
+    print("✓ Evidently HTML report generated")
+    print(
+        f"  {EVIDENTLY_HTML}"
+    )
+
+    print("✓ Evidently JSON report generated")
+    print(
+        f"  {EVIDENTLY_JSON}"
+    )
+    
     # --------------------------------------------------------
     # Feature engineering
     # --------------------------------------------------------
@@ -551,6 +615,47 @@ def main():
 
     current = create_features(
         current
+    )
+
+        # --------------------------------------------------------
+    # Evidently data drift report
+    # --------------------------------------------------------
+
+    print(
+        "\n[2.5/5] Running Evidently data drift analysis..."
+    )
+
+    evidently_reference = reference.copy()
+    evidently_current = current.copy()
+
+    # Keep only columns suitable for Evidently
+    evidently_report = Report(
+        [
+            DataDriftPreset(
+                drift_share=0.5
+            )
+        ]
+    )
+
+    evidently_snapshot = evidently_report.run(
+        current_data=evidently_current,
+        reference_data=evidently_reference,
+    )
+
+    evidently_snapshot.save_html(
+        str(EVIDENTLY_HTML)
+    )
+
+    evidently_snapshot.save_json(
+        str(EVIDENTLY_JSON)
+    )
+
+    print(
+        "  ✓ Evidently HTML report generated"
+    )
+
+    print(
+        "  ✓ Evidently JSON report generated"
     )
 
     # --------------------------------------------------------

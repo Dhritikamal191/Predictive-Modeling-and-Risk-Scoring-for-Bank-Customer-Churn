@@ -20,3 +20,4 @@ artifacts/metadata/*
 
 .DS_Store
 Thumbs.db
+mlflow.db
