@@ -1,13 +1,17 @@
 from pathlib import Path
 import traceback
-import mlflow
+
 import joblib
+import mlflow
 import mlflow.sklearn
 import pandas as pd
+
 from fastapi import FastAPI, HTTPException
+
 from api.schemas import CustomerInput, PredictionResponse
 from src.features.engineering import create_features
 from src.monitoring.prediction_monitoring import record_prediction
+
 
 # =========================================================
 # PROJECT CONFIGURATION
@@ -22,6 +26,13 @@ EXPERIMENT_NAME = "Bank Churn — Supervised ML"
 MODEL_NAME = "Bank-Churn-Gradient-Boosting"
 MODEL_ALIAS = "champion"
 
+LOCAL_MODEL_PATH = (
+    ROOT
+    / "artifacts"
+    / "models"
+    / "gradient_boosting.pkl"
+)
+
 
 # =========================================================
 # MLFLOW CONFIGURATION
@@ -31,7 +42,10 @@ mlflow.set_tracking_uri(
     f"sqlite:///{MLFLOW_DB}"
 )
 
-mlflow.set_experiment(EXPERIMENT_NAME)
+try:
+    mlflow.set_experiment(EXPERIMENT_NAME)
+except Exception as e:
+    print(f"MLflow experiment configuration warning: {e}")
 
 
 # =========================================================
@@ -42,59 +56,44 @@ app = FastAPI(
     title="Bank Customer Churn Prediction API",
     description=(
         "Production-style API for bank customer churn "
-        "prediction and risk classification using an "
-        "MLflow Model Registry champion model."
+        "prediction and risk classification using a "
+        "Gradient Boosting champion model."
     ),
     version="2.0.0",
 )
 
+
 # =========================================================
-# LOAD CHAMPION MODEL
+# MODEL VARIABLES
 # =========================================================
 
-MODEL_URI = f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+model = None
 
-LOCAL_MODEL_PATH = (
-    ROOT
-    / "artifacts"
-    / "models"
-    / "gradient_boosting.pkl"
+model_source = None
+
+model_load_error = None
+
+
+# =========================================================
+# LOAD MODEL
+# =========================================================
+
+MODEL_URI = (
+    f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
 )
 
-try:
-    model = mlflow.sklearn.load_model(MODEL_URI)
-    model_load_error = None
-
-    print("✓ Champion model loaded from MLflow")
-
-except Exception as mlflow_error:
-
-    print("MLflow model unavailable.")
-    print(f"MLflow error: {mlflow_error}")
-
-    try:
-        model = joblib.load(LOCAL_MODEL_PATH)
-        model_load_error = None
-
-        print("✓ Gradient Boosting model loaded locally")
-        print(f"Path: {LOCAL_MODEL_PATH}")
-
-    except Exception as local_error:
-
-        model = None
-        model_load_error = (
-            f"MLflow error: {mlflow_error}; "
-            f"Local model error: {local_error}"
-        )
-
-        print("✗ Model loading failed")
-        print(model_load_error)
 
 # ---------------------------------------------------------
-# PRIMARY: LOAD FROM MLFLOW MODEL REGISTRY
+# 1. TRY MLFLOW MODEL REGISTRY
 # ---------------------------------------------------------
 
 try:
+
+    print("=" * 70)
+    print("BANK CHURN API — LOADING MODEL")
+    print("=" * 70)
+
+    print(f"MLflow URI: {MODEL_URI}")
 
     model = mlflow.sklearn.load_model(
         MODEL_URI
@@ -102,32 +101,23 @@ try:
 
     model_source = "MLflow Model Registry"
 
-    print("=" * 70)
-    print("BANK CHURN API — MODEL LOADED")
-    print("=" * 70)
+    print("✓ Champion model loaded from MLflow")
     print(f"Model:  {MODEL_NAME}")
     print(f"Alias:  {MODEL_ALIAS}")
-    print(f"Source: {model_source}")
-    print(f"URI:    {MODEL_URI}")
     print(f"Type:   {type(model)}")
     print(
-        f"predict_proba available: "
-        f"{hasattr(model, 'predict_proba')}"
+        "predict_proba available:",
+        hasattr(model, "predict_proba"),
     )
-    print("=" * 70)
-
 
 # ---------------------------------------------------------
-# FALLBACK: LOAD LOCAL GRADIENT BOOSTING MODEL
+# 2. FALLBACK TO LOCAL MODEL
 # ---------------------------------------------------------
 
 except Exception as mlflow_error:
 
-    print("=" * 70)
-    print("MLFLOW MODEL LOAD FAILED")
-    print("=" * 70)
+    print("⚠ MLflow model unavailable")
     print(f"MLflow error: {mlflow_error}")
-    print("=" * 70)
 
     try:
 
@@ -144,17 +134,23 @@ except Exception as mlflow_error:
 
         model_source = "Local Gradient Boosting Model"
 
-        print("=" * 70)
-        print("BANK CHURN API — LOCAL MODEL LOADED")
-        print("=" * 70)
-        print(f"Source: {model_source}")
-        print(f"Path:   {LOCAL_MODEL_PATH}")
-        print(f"Type:   {type(model)}")
-        print("=" * 70)
+        print(
+            "✓ Gradient Boosting model loaded locally"
+        )
+
+        print(
+            f"Path: {LOCAL_MODEL_PATH}"
+        )
+
+        print(
+            f"Type: {type(model)}"
+        )
 
     except Exception as local_error:
 
         model = None
+
+        model_source = None
 
         model_load_error = (
             f"MLflow error: {mlflow_error}; "
@@ -162,10 +158,12 @@ except Exception as mlflow_error:
         )
 
         print("=" * 70)
-        print("BANK CHURN API — MODEL LOAD FAILED")
+        print("✗ BANK CHURN API — MODEL LOAD FAILED")
         print("=" * 70)
         print(model_load_error)
+
         traceback.print_exc()
+
         print("=" * 70)
 
 
@@ -183,17 +181,19 @@ def health():
             "model_loaded": False,
             "model": MODEL_NAME,
             "alias": MODEL_ALIAS,
+            "model_source": None,
             "error": model_load_error,
         }
 
     return {
-         "status": "healthy",
-         "model_loaded": True,
-         "model": MODEL_NAME,
-         "alias": MODEL_ALIAS,
-         "model_source": model_source,
-         "model_uri": MODEL_URI,
-        }
+        "status": "healthy",
+        "model_loaded": True,
+        "model": MODEL_NAME,
+        "alias": MODEL_ALIAS,
+        "model_source": model_source,
+        "model_uri": MODEL_URI,
+    }
+
 
 # =========================================================
 # PREDICTION ENDPOINT
@@ -207,13 +207,22 @@ def health():
     name="bank-churn-prediction",
     span_type="CHAIN",
 )
-def predict(customer: CustomerInput):
+def predict(
+    customer: CustomerInput,
+):
+
+    # -----------------------------------------------------
+    # MODEL AVAILABILITY
+    # -----------------------------------------------------
 
     if model is None:
 
         raise HTTPException(
             status_code=503,
-            detail="Champion model is not available.",
+            detail=(
+                "Champion model is not available. "
+                "Check MLflow registry or local model file."
+            ),
         )
 
     try:
@@ -226,6 +235,7 @@ def predict(customer: CustomerInput):
             metadata={
                 "model": MODEL_NAME,
                 "model_alias": MODEL_ALIAS,
+                "model_source": model_source,
                 "api_endpoint": "/predict",
                 "prediction_type": "binary_churn",
             },
@@ -277,10 +287,13 @@ def predict(customer: CustomerInput):
         # CHURN PROBABILITY
         # -------------------------------------------------
 
-        if not hasattr(model, "predict_proba"):
+        if not hasattr(
+            model,
+            "predict_proba",
+        ):
 
             raise RuntimeError(
-                "Loaded champion model does not support "
+                "Loaded model does not support "
                 "predict_proba()."
             )
 
@@ -323,11 +336,16 @@ def predict(customer: CustomerInput):
             }
         )
 
+        # -------------------------------------------------
+        # RECORD PREDICTION FOR MONITORING
+        # -------------------------------------------------
+
         record_prediction(
-           churn_probability=probability,
-           churn_prediction=prediction,
-           risk_category=risk,
+            churn_probability=probability,
+            churn_prediction=prediction,
+            risk_category=risk,
         )
+
         # -------------------------------------------------
         # API RESPONSE
         # -------------------------------------------------
@@ -346,14 +364,16 @@ def predict(customer: CustomerInput):
 
     except Exception as e:
 
-        print("\n")
+        print()
         print("=" * 70)
         print("PREDICTION ERROR")
         print("=" * 70)
         print(f"Error: {e}")
+
         traceback.print_exc()
+
         print("=" * 70)
-        print("\n")
+        print()
 
         raise HTTPException(
             status_code=500,
@@ -369,10 +389,13 @@ def predict(customer: CustomerInput):
 def root():
 
     return {
-        "message": "Bank Customer Churn Prediction API",
+        "message": (
+            "Bank Customer Churn Prediction API"
+        ),
         "version": "2.0.0",
         "model": MODEL_NAME,
         "alias": MODEL_ALIAS,
+        "model_source": model_source,
         "docs": "/docs",
         "health": "/health",
         "prediction": "/predict",
