@@ -37,6 +37,32 @@ OUTPUT_DIR.mkdir(
 )
 
 
+def record_prediction(
+    churn_probability,
+    churn_prediction,
+    risk_category,
+):
+    """
+    Record a production prediction to predictions.jsonl.
+    """
+
+    record = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "churn_probability": float(churn_probability),
+        "churn_prediction": int(churn_prediction),
+        "risk_category": str(risk_category),
+    }
+
+    with open(
+        PREDICTION_LOG,
+        "a",
+        encoding="utf-8",
+    ) as file:
+
+        file.write(
+            json.dumps(record) + "\n"
+        )
+
 # ---------------------------------------------------------
 # Load prediction logs
 # ---------------------------------------------------------
