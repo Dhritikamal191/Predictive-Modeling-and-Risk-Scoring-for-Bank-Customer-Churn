@@ -1,4 +1,4 @@
-name: CI
+name: Bank Churn CI
 
 on:
   push:
@@ -11,6 +11,7 @@ on:
       - main
       - mlops-upgrade
 
+
 jobs:
 
   test:
@@ -20,7 +21,7 @@ jobs:
     steps:
 
       # =====================================================
-      # CHECKOUT REPOSITORY + DOWNLOAD GIT LFS FILES
+      # 1. CHECKOUT REPOSITORY + GIT LFS
       # =====================================================
 
       - name: Checkout repository
@@ -28,26 +29,93 @@ jobs:
         with:
           lfs: true
 
+
       # =====================================================
-      # SETUP PYTHON
+      # 2. SETUP PYTHON
       # =====================================================
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
+
 
       # =====================================================
-      # VERIFY GIT LFS
+      # 3. VERIFY GIT LFS
       # =====================================================
+
+      - name: Install Git LFS
+        run: |
+          git lfs install
+
 
       - name: Pull Git LFS files
         run: |
-          git lfs install
           git lfs pull
 
+
       # =====================================================
-      # VERIFY MODEL FILE
+      # 4. VERIFY MODEL FILES
+      # =====================================================
+
+      - name: Verify Git LFS model files
+        run: |
+          echo "Checking Gradient Boosting model..."
+
+          ls -lh artifacts/models/
+
+          test -f artifacts/models/gradient_boosting.pkl
+
+          echo "Gradient Boosting file found."
+
+          file artifacts/models/gradient_boosting.pkl
+
+          echo "First bytes of model file:"
+          head -c 30 artifacts/models/gradient_boosting.pkl || true
+
+
+      # =====================================================
+      # 5. UPGRADE PIP
+      # =====================================================
+
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
+
+
+      # =====================================================
+      # 6. INSTALL PROJECT DEPENDENCIES
+      # =====================================================
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+
+      # =====================================================
+      # 7. VERIFY JOBLIB INSTALLATION
+      # =====================================================
+
+      - name: Verify Python dependencies
+        run: |
+          python - <<'PY'
+          import sys
+          import joblib
+          import sklearn
+          import pandas
+
+          print("Python version:", sys.version)
+          print("joblib version:", joblib.__version__)
+          print("scikit-learn version:", sklearn.__version__)
+          print("pandas version:", pandas.__version__)
+
+          print("✓ Required Python dependencies available")
+          PY
+
+
+      # =====================================================
+      # 8. VERIFY GRADIENT BOOSTING MODEL
       # =====================================================
 
       - name: Verify Gradient Boosting model
@@ -60,10 +128,18 @@ jobs:
 
           print("Checking:", path)
 
+          # -------------------------------------------------
+          # CHECK FILE EXISTS
+          # -------------------------------------------------
+
           if not os.path.exists(path):
               raise FileNotFoundError(
                   f"Required model not found: {path}"
               )
+
+          # -------------------------------------------------
+          # CHECK FILE SIZE
+          # -------------------------------------------------
 
           size = os.path.getsize(path)
 
@@ -72,7 +148,15 @@ jobs:
               f"{size / 1024 / 1024:.2f} MB"
           )
 
-          # Detect Git LFS pointer files
+          if size == 0:
+              raise RuntimeError(
+                  "Gradient Boosting model file is empty."
+              )
+
+          # -------------------------------------------------
+          # DETECT GIT LFS POINTER
+          # -------------------------------------------------
+
           with open(path, "rb") as f:
               header = f.read(100)
 
@@ -80,20 +164,27 @@ jobs:
               b"version https://git-lfs.github.com/spec/v1"
           ):
               raise RuntimeError(
-                  "Git LFS pointer was checked out instead "
-                  "of the actual model file."
+                  "Git LFS pointer was checked out "
+                  "instead of the actual model file."
               )
+
+          print("✓ Actual model file detected.")
+
+          # -------------------------------------------------
+          # LOAD MODEL
+          # -------------------------------------------------
 
           model = joblib.load(path)
 
           print("Model type:", type(model))
+
+          # -------------------------------------------------
+          # VERIFY PREDICT
+          # -------------------------------------------------
+
           print(
               "Has predict:",
               hasattr(model, "predict")
-          )
-          print(
-              "Has predict_proba:",
-              hasattr(model, "predict_proba")
           )
 
           if not hasattr(model, "predict"):
@@ -101,6 +192,15 @@ jobs:
                   "Gradient Boosting model does not "
                   "provide predict()."
               )
+
+          # -------------------------------------------------
+          # VERIFY PREDICT_PROBA
+          # -------------------------------------------------
+
+          print(
+              "Has predict_proba:",
+              hasattr(model, "predict_proba")
+          )
 
           if not hasattr(model, "predict_proba"):
               raise RuntimeError(
@@ -111,19 +211,81 @@ jobs:
           print("✓ Gradient Boosting model verified")
           PY
 
+
       # =====================================================
-      # INSTALL DEPENDENCIES
+      # 9. VERIFY ALL LFS MODELS
       # =====================================================
 
-      - name: Install dependencies
+      - name: Verify all model artifacts
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python - <<'PY'
+          import os
+          import joblib
+
+          models = [
+              "artifacts/models/decision_tree.pkl",
+              "artifacts/models/gradient_boosting.pkl",
+              "artifacts/models/logistic_regression.pkl",
+              "artifacts/models/random_forest.pkl",
+              "artifacts/models/xgboost.pkl",
+              "artifacts/models/kmeans_customer_segmentation.pkl",
+              "artifacts/models/segmentation_scaler.pkl",
+          ]
+
+          for path in models:
+
+              print("\nChecking:", path)
+
+              if not os.path.exists(path):
+                  raise FileNotFoundError(
+                      f"Model not found: {path}"
+                  )
+
+              size = os.path.getsize(path)
+
+              print(
+                  f"Size: "
+                  f"{size / 1024 / 1024:.2f} MB"
+              )
+
+              if size == 0:
+                  raise RuntimeError(
+                      f"Empty model file: {path}"
+                  )
+
+              with open(path, "rb") as f:
+                  header = f.read(100)
+
+              if header.startswith(
+                  b"version https://git-lfs.github.com/spec/v1"
+              ):
+                  raise RuntimeError(
+                      f"Git LFS pointer detected instead "
+                      f"of actual model: {path}"
+                  )
+
+              model = joblib.load(path)
+
+              print(
+                  "Type:",
+                  type(model)
+              )
+
+              if not hasattr(model, "predict"):
+                  print(
+                      "Warning: model does not expose "
+                      "predict():",
+                      path
+                  )
+
+          print("\n✓ All model artifacts verified")
+          PY
+
 
       # =====================================================
-      # RUN TESTS
+      # 10. RUN TESTS
       # =====================================================
 
       - name: Run tests
         run: |
-          python -m pytest -v
+          pytest -v
