@@ -11,28 +11,203 @@ on:
       - main
       - mlops-upgrade
 
+
 jobs:
+
   test:
+
     runs-on: ubuntu-latest
 
     steps:
+
+      # =====================================================
+      # 1. CHECKOUT
+      # =====================================================
+
       - name: Checkout repository
         uses: actions/checkout@v4
+
+
+      # =====================================================
+      # 2. SETUP PYTHON
+      # =====================================================
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+
+
+      # =====================================================
+      # 3. UPGRADE PIP
+      # =====================================================
 
       - name: Upgrade pip
         run: |
           python -m pip install --upgrade pip
 
+
+      # =====================================================
+      # 4. INSTALL DEPENDENCIES
+      # =====================================================
+
       - name: Install dependencies
         run: |
-          python -m pip install -r requirements.txt
+          pip install -r requirements.txt
+
+
+      # =====================================================
+      # 5. VERIFY IMPORTANT PROJECT FILES
+      # =====================================================
+
+      - name: Verify project structure
+        run: |
+          echo "======================================"
+          echo "PROJECT STRUCTURE"
+          echo "======================================"
+
+          echo "Python:"
+          python --version
+
+          echo ""
+          echo "Model files:"
+          ls -lh artifacts/models/ || true
+
+          echo ""
+          echo "Source files:"
+          ls -lh src/
+
+          echo ""
+          echo "API files:"
+          ls -lh api/
+
+          echo ""
+          echo "Tests:"
+          ls -lh tests/
+
+
+      # =====================================================
+      # 6. VERIFY CHAMPION MODEL
+      # =====================================================
+
+      - name: Verify Gradient Boosting model
+        run: |
+          python - <<'PY'
+          import os
+          import joblib
+
+          path = "artifacts/models/gradient_boosting.pkl"
+
+          print("Checking:", path)
+
+          if not os.path.exists(path):
+              raise FileNotFoundError(
+                  f"Required model not found: {path}"
+              )
+
+          print(
+              f"Model size: "
+              f"{os.path.getsize(path) / 1024 / 1024:.2f} MB"
+          )
+
+          model = joblib.load(path)
+
+          print("Model type:", type(model))
+          print(
+              "Has predict:",
+              hasattr(model, "predict")
+          )
+          print(
+              "Has predict_proba:",
+              hasattr(model, "predict_proba")
+          )
+
+          if not hasattr(model, "predict"):
+              raise RuntimeError(
+                  "Gradient Boosting model does not "
+                  "provide predict()."
+              )
+
+          if not hasattr(model, "predict_proba"):
+              raise RuntimeError(
+                  "Gradient Boosting model does not "
+                  "provide predict_proba()."
+              )
+
+          print("✓ Gradient Boosting model verified")
+          PY
+
+
+      # =====================================================
+      # 7. VERIFY FEATURE ENGINEERING
+      # =====================================================
+
+      - name: Test feature engineering
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          from src.features.engineering import create_features
+
+          data = pd.DataFrame([
+              {
+                  "CreditScore": 650,
+                  "Geography": "France",
+                  "Gender": "Female",
+                  "Age": 45,
+                  "Tenure": 5,
+                  "Balance": 100000,
+                  "NumOfProducts": 2,
+                  "HasCrCard": 1,
+                  "IsActiveMember": 0,
+                  "EstimatedSalary": 80000,
+              }
+          ])
+
+          result = create_features(data)
+
+          print("Created features:")
+          print(result.columns.tolist())
+
+          required = [
+              "BalanceSalaryRatio",
+              "CustomerValue",
+              "ProductDensity",
+              "EngagementScore",
+              "AgeTenureInteraction",
+              "HasBalance",
+          ]
+
+          missing = [
+              column
+              for column in required
+              if column not in result.columns
+          ]
+
+          if missing:
+              raise RuntimeError(
+                  f"Missing engineered features: {missing}"
+              )
+
+          print("✓ Feature engineering verified")
+          PY
+
+
+      # =====================================================
+      # 8. RUN PYTEST
+      # =====================================================
 
       - name: Run tests
         run: |
           python -m pytest -v
+
+
+      # =====================================================
+      # 9. TEST COMPLETE
+      # =====================================================
+
+      - name: CI completed
+        if: success()
+        run: |
+          echo "======================================"
+          echo "✓ BANK CHURN CI PASSED"
+          echo "======================================"
