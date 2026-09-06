@@ -319,11 +319,27 @@ cm = confusion_matrix(
     y_pred,
 )
 
-fig = ff.create_annotated_heatmap(
-    z=cm,
-    x=["No Churn", "Churn"],
-    y=["No Churn", "Churn"],
-    colorscale="Reds",
+# ---------------------------------------------------------
+# CONFUSION MATRIX
+# ---------------------------------------------------------
+
+fig = go.Figure(
+    data=go.Heatmap(
+        z=cm,
+        x=["No Churn", "Churn"],
+        y=["No Churn", "Churn"],
+        colorscale="Reds",
+        text=cm,
+        texttemplate="%{text}",
+        textfont=dict(size=16),
+        hovertemplate=(
+            "Actual: %{y}<br>"
+            "Predicted: %{x}<br>"
+            "Count: %{z}"
+            "<extra></extra>"
+        ),
+        showscale=True,
+    )
 )
 
 fig.update_layout(
