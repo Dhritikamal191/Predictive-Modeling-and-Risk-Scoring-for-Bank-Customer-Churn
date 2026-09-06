@@ -4,21 +4,23 @@ Bank Churn — MLOps Monitoring Dashboard
 Displays:
 1. Data Drift
 2. Feature Drift
-3. Prediction Drift
-4. Prediction Monitoring
-5. Model Performance
-6. Champion Model Validation
-7. Evidently Report
+3. Feature Distribution — KDE
+4. Prediction Drift
+5. Prediction Monitoring
+6. Model Performance
+7. Champion Model Validation
+8. Evidently Report
 """
 
 import json
 from pathlib import Path
-import seaborn as sns
+
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 from scipy.stats import gaussian_kde
 import numpy as np
+
 
 # =========================================================
 # PAGE CONFIGURATION
@@ -61,13 +63,7 @@ st.markdown(
 # PROJECT PATHS
 # =========================================================
 
-# If this file is:
-# pages/6_Monitoring.py
-#
-# parents[1] = project root
-
 ROOT = Path(__file__).resolve().parents[1]
-
 
 MONITORING_DIR = (
     ROOT
@@ -75,13 +71,11 @@ MONITORING_DIR = (
     / "monitoring"
 )
 
-
 METRICS_DIR = (
     ROOT
     / "artifacts"
     / "metrics"
 )
-
 
 METADATA_DIR = (
     ROOT
@@ -89,41 +83,93 @@ METADATA_DIR = (
     / "metadata"
 )
 
-
 REGISTRY_DIR = (
     ROOT
     / "artifacts"
     / "registry"
 )
 
+
 # =========================================================
 # LOAD REFERENCE / CURRENT DATA FOR KDE
 # =========================================================
-
-DATA_PATH = (
-    ROOT
-    / "data"
-    / "raw"
-    / "European_Bank.csv"
-)
+#
+# IMPORTANT:
+# data/raw/European_Bank.csv is no longer required.
+#
+# customer_risk_scoring.csv is already tracked in:
+#
+# artifacts/metrics/customer_risk_scoring.csv
+#
+# It contains:
+# CreditScore
+# Age
+# Balance
+# NumOfProducts
+# EstimatedSalary
+# etc.
+#
+# Therefore it is used as the monitoring population.
+# =========================================================
 
 reference = None
 current = None
 
-if DATA_PATH.exists():
+RISK_DATA_PATH = (
+    METRICS_DIR
+    / "customer_risk_scoring.csv"
+)
 
-    data = pd.read_csv(DATA_PATH)
 
-    # Same population split used by drift.py
-    reference = data.sample(
-        frac=0.70,
-        random_state=42,
-    )
+if RISK_DATA_PATH.exists():
 
-    current = data.drop(
-        reference.index,
-        errors="ignore",
-    )
+    try:
+
+        data = pd.read_csv(
+            RISK_DATA_PATH
+        )
+
+        # -------------------------------------------------
+        # Numerical features for KDE
+        # -------------------------------------------------
+
+        numerical_features = [
+            "CreditScore",
+            "Age",
+            "Tenure",
+            "Balance",
+            "NumOfProducts",
+            "EstimatedSalary",
+        ]
+
+        available_features = [
+            feature
+            for feature in numerical_features
+            if feature in data.columns
+        ]
+
+        if available_features:
+
+            # -------------------------------------------------
+            # Deterministic 70/30 split
+            # -------------------------------------------------
+
+            reference = data.sample(
+                frac=0.70,
+                random_state=42,
+            )
+
+            current = data.drop(
+                reference.index,
+                errors="ignore",
+            )
+
+    except Exception as error:
+
+        print(
+            f"Unable to load monitoring data: {error}"
+        )
+
 
 # =========================================================
 # JSON LOADER
@@ -241,7 +287,6 @@ st.markdown(
 st.subheader(
     "Monitoring Overview"
 )
-
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -388,7 +433,6 @@ if monitoring_status:
     overall_status = str(
         overall_status
     ).upper()
-
 
     if overall_status == "STABLE":
 
@@ -568,117 +612,6 @@ if feature_drift_file.exists():
             hide_index=True,
         )
 
-        # =========================================================
-        # FEATURE DISTRIBUTION — KDE
-        # =========================================================
-
-        st.subheader(
-        "📈 Feature Distribution — KDE"
-        )
-
-        if reference is not None and current is not None:
-
-           numerical_features = [
-        "CreditScore",
-        "Age",
-        "Tenure",
-        "Balance",
-        "NumOfProducts",
-        "EstimatedSalary",
-    ]
-
-           available_features = [
-        feature
-        for feature in numerical_features
-        if feature in reference.columns
-        and feature in current.columns
-    ]
-
-           selected_feature = st.selectbox(
-        "Select Feature",
-        available_features,
-    )
-
-           ref_values = (
-        reference[selected_feature]
-        .dropna()
-        .astype(float)
-    )
-
-           current_values = (
-        current[selected_feature]
-        .dropna()
-        .astype(float)
-    )
-
-           # KDE
-           ref_kde = gaussian_kde(ref_values)
-           current_kde = gaussian_kde(current_values)
-
-           x_min = min(
-        ref_values.min(),
-        current_values.min(),
-    )
-
-           x_max = max(
-        ref_values.max(),
-        current_values.max(),
-    )
-
-           x = pd.Series(
-        np.linspace(
-            x_min,
-            x_max,
-            500,
-        )
-    )
-
-           fig = go.Figure()
-
-           fig.add_trace(
-        go.Scatter(
-            x=x,
-            y=ref_kde(x),
-            mode="lines",
-            name="Reference",
-            fill="tozeroy",
-            opacity=0.35,
-        )
-    )
-
-           fig.add_trace(
-        go.Scatter(
-            x=x,
-            y=current_kde(x),
-            mode="lines",
-            name="Current",
-            fill="tozeroy",
-            opacity=0.35,
-        )
-    )
-
-           fig.update_layout(
-        title=(
-            f"{selected_feature} — "
-            "Reference vs Current KDE"
-        ),
-        xaxis_title=selected_feature,
-        yaxis_title="Density",
-        template="plotly_dark",
-        height=450,
-        hovermode="x unified",
-    )
-
-           st.plotly_chart(
-        fig,
-        use_container_width=True,
-    )
-
-        else: 
-
-            st.info(
-        "Reference/current data unavailable."
-    )
 
     except Exception as error:
 
@@ -695,6 +628,197 @@ else:
 
     st.caption(
         "Expected: artifacts/metrics/feature_drift_report.csv"
+    )
+
+
+# =========================================================
+# FEATURE DISTRIBUTION — KDE
+# =========================================================
+
+st.subheader(
+    "📈 Feature Distribution — KDE"
+)
+
+
+if reference is not None and current is not None:
+
+    numerical_features = [
+        "CreditScore",
+        "Age",
+        "Tenure",
+        "Balance",
+        "NumOfProducts",
+        "EstimatedSalary",
+    ]
+
+    available_features = [
+        feature
+        for feature in numerical_features
+        if feature in reference.columns
+        and feature in current.columns
+    ]
+
+
+    if not available_features:
+
+        st.info(
+            "No numerical monitoring features are available."
+        )
+
+    else:
+
+        selected_feature = st.selectbox(
+            "Select Feature",
+            available_features,
+        )
+
+
+        ref_values = (
+            pd.to_numeric(
+                reference[selected_feature],
+                errors="coerce",
+            )
+            .dropna()
+        )
+
+
+        current_values = (
+            pd.to_numeric(
+                current[selected_feature],
+                errors="coerce",
+            )
+            .dropna()
+        )
+
+
+        # -------------------------------------------------
+        # Validate KDE input
+        # -------------------------------------------------
+
+        if (
+            len(ref_values) < 2
+            or len(current_values) < 2
+            or ref_values.nunique() < 2
+            or current_values.nunique() < 2
+        ):
+
+            st.info(
+                f"Insufficient variation in "
+                f"{selected_feature} for KDE."
+            )
+
+        else:
+
+            try:
+
+                # -------------------------------------------------
+                # KDE
+                # -------------------------------------------------
+
+                ref_kde = gaussian_kde(
+                    ref_values.to_numpy()
+                )
+
+                current_kde = gaussian_kde(
+                    current_values.to_numpy()
+                )
+
+
+                x_min = min(
+                    ref_values.min(),
+                    current_values.min(),
+                )
+
+                x_max = max(
+                    ref_values.max(),
+                    current_values.max(),
+                )
+
+
+                # Avoid zero-width x-axis
+                if x_min == x_max:
+
+                    x_min -= 1
+                    x_max += 1
+
+
+                x = np.linspace(
+                    x_min,
+                    x_max,
+                    500,
+                )
+
+
+                fig = go.Figure()
+
+
+                # -------------------------------------------------
+                # Reference distribution
+                # -------------------------------------------------
+
+                fig.add_trace(
+                    go.Scatter(
+                        x=x,
+                        y=ref_kde(x),
+                        mode="lines",
+                        name="Reference",
+                        fill="tozeroy",
+                        opacity=0.35,
+                    )
+                )
+
+
+                # -------------------------------------------------
+                # Current distribution
+                # -------------------------------------------------
+
+                fig.add_trace(
+                    go.Scatter(
+                        x=x,
+                        y=current_kde(x),
+                        mode="lines",
+                        name="Current",
+                        fill="tozeroy",
+                        opacity=0.35,
+                    )
+                )
+
+
+                fig.update_layout(
+                    title=(
+                        f"{selected_feature} — "
+                        "Reference vs Current KDE"
+                    ),
+                    xaxis_title=selected_feature,
+                    yaxis_title="Density",
+                    template="plotly_dark",
+                    height=450,
+                    hovermode="x unified",
+                )
+
+
+                st.plotly_chart(
+                    fig,
+                    use_container_width=True,
+                )
+
+
+            except Exception as error:
+
+                st.warning(
+                    f"KDE could not be calculated "
+                    f"for {selected_feature}: {error}"
+                )
+
+
+else:
+
+    st.info(
+        "Reference/current monitoring data is unavailable."
+    )
+
+    st.caption(
+        "KDE source: artifacts/metrics/customer_risk_scoring.csv"
     )
 
 
@@ -870,6 +994,13 @@ if prediction_summary:
                 f"{float(churn_rate):.2%}",
             )
 
+        else:
+
+            st.metric(
+                "Predicted Churn Rate",
+                "N/A",
+            )
+
 
     # -----------------------------------------------------
     # Risk Distribution
@@ -982,6 +1113,7 @@ if performance_status:
             ),
         ),
     )
+
 
     status = str(status).upper()
 
@@ -1188,3 +1320,7 @@ with st.expander(
         str(REGISTRY_DIR),
     )
 
+    st.write(
+        "**KDE Data:**",
+        str(RISK_DATA_PATH),
+    )

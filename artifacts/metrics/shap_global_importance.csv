@@ -1,0 +1,18 @@
+Feature,MeanAbsoluteSHAP,Rank,MeanSHAP,ImpactDirection
+num__Age,0.9119020289899108,1,-0.3617778182687007,Decreases Churn Risk
+num__NumOfProducts,0.7161117588759647,2,-0.2705066575649347,Decreases Churn Risk
+cat__Gender_Male,0.3480564000211474,3,-0.3402506225855776,Decreases Churn Risk
+cat__Geography_Germany,0.3464025665760973,4,-0.173187086952678,Decreases Churn Risk
+num__IsActiveMember,0.29584050986977095,5,-0.04791314184072516,Decreases Churn Risk
+num__Tenure,0.19149843492009924,6,-0.16007365855115277,Decreases Churn Risk
+cat__Geography_Spain,0.19106126030552348,7,-0.1906404122775818,Decreases Churn Risk
+num__EngagementScore,0.15539848066658574,8,-0.02690906561820622,Decreases Churn Risk
+num__Balance,0.14639014376769532,9,-0.03638370671953076,Decreases Churn Risk
+num__ProductDensity,0.1123725681274255,10,-0.11089827086750481,Decreases Churn Risk
+num__EstimatedSalary,0.08491374826623131,11,-0.019697831942304223,Decreases Churn Risk
+num__AgeTenureInteraction,0.074291280766481,12,-0.042979310582403014,Decreases Churn Risk
+num__CreditScore,0.07375590717369032,13,-0.013277209330092627,Decreases Churn Risk
+num__BalanceSalaryRatio,0.07074694477735859,14,0.02396518743966181,Increases Churn Risk
+num__CustomerValue,0.05657840680793319,15,-0.013144250249208072,Decreases Churn Risk
+num__HasCrCard,0.05267064330103837,16,-0.0014717012496005468,Decreases Churn Risk
+num__HasBalance,0.048990041030463165,17,-0.026127109078028468,Decreases Churn Risk

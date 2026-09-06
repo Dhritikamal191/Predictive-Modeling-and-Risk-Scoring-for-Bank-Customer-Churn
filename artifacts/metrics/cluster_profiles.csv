@@ -1,0 +1,5 @@
+,Age,Age,CreditScore,CreditScore,Tenure,Tenure,Balance,Balance,EstimatedSalary,EstimatedSalary,NumOfProducts,NumOfProducts,IsActiveMember,IsActiveMember,CustomerValue,CustomerValue,EngagementScore,EngagementScore,Exited,Exited
+,mean,median,mean,median,mean,median,mean,median,mean,median,mean,median,mean,median,mean,median,mean,median,mean,median
+Cluster,,,,,,,,,,,,,,,,,,,,
+0,38.44,37.0,649.48,651.0,5.06,5.0,597.42,0.0,98423.21,97633.93,1.79,2.0,0.52,1.0,99020.63,98320.27,1.99,2.0,0.14,0.0
+1,39.2,38.0,651.13,652.0,4.98,5.0,120163.31,120092.52,101049.69,101495.0,1.38,1.0,0.51,1.0,221213.0,220715.34,1.55,2.0,0.24,0.0
