@@ -11,6 +11,7 @@ on:
       - main
       - mlops-upgrade
 
+
 jobs:
 
   test:
@@ -28,6 +29,7 @@ jobs:
         with:
           lfs: true
 
+
       # =====================================================
       # 2. SETUP PYTHON
       # =====================================================
@@ -38,6 +40,7 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
+
       # =====================================================
       # 3. VERIFY PYTHON
       # =====================================================
@@ -47,6 +50,7 @@ jobs:
           python --version
           python -m pip --version
 
+
       # =====================================================
       # 4. INSTALL DEPENDENCIES
       # =====================================================
@@ -55,29 +59,45 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+
+
+      # =====================================================
+      # 5. INSTALL CI / TEST DEPENDENCIES
+      # =====================================================
+
+      - name: Install test dependencies
+        run: |
           python -m pip install pytest
+          python -m pip install httpx2
+
 
       # =====================================================
-      # 5. VERIFY IMPORTANT PACKAGES
+      # 6. VERIFY IMPORTANT PACKAGES
       # =====================================================
 
-      - name: Verify dependencies
+      - name: Verify installed packages
         run: |
           python -m pytest --version
           python -c "import joblib; print('joblib:', joblib.__version__)"
           python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
+          python -c "import fastapi; print('fastapi:', fastapi.__version__)"
+          python -c "import pandas; print('pandas:', pandas.__version__)"
+          python -c "import numpy; print('numpy:', numpy.__version__)"
+
 
       # =====================================================
-      # 6. GIT LFS
+      # 7. VERIFY GIT LFS
       # =====================================================
 
-      - name: Pull Git LFS files
+      - name: Verify Git LFS
         run: |
+          git lfs version
           git lfs install
           git lfs pull
 
+
       # =====================================================
-      # 7. VERIFY GRADIENT BOOSTING MODEL
+      # 8. VERIFY GRADIENT BOOSTING MODEL
       # =====================================================
 
       - name: Verify Gradient Boosting model
@@ -141,8 +161,9 @@ jobs:
           print("Gradient Boosting model verified")
           PY
 
+
       # =====================================================
-      # 8. RUN TESTS
+      # 9. RUN TESTS
       # =====================================================
 
       - name: Run tests
