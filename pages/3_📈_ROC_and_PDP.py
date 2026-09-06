@@ -197,9 +197,9 @@ MODEL_PATH = (
 # Primary artifact containing the complete customer dataset
 RISK_DATA_PATH = (
     ROOT
-    / "artifacts"
-    / "metrics"
-    / "customer_risk_scoring.csv"
+    / "Data"
+    / "raw"
+    / "European_Bank.csv"
 )
 
 # Fallback artifact
