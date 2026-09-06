@@ -5,7 +5,6 @@ import plotly.graph_objects as go
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
-import plotly.figure_factory as ff
 from src.dashboard.common import (
     apply_style,
     load_data,
