@@ -61,10 +61,34 @@ LOCAL_MODEL_PATH = (
     / "gradient_boosting.pkl"
 )
 
-model = None
-model_load_error = None
-model_source = None
+try:
+    model = mlflow.sklearn.load_model(MODEL_URI)
+    model_load_error = None
 
+    print("✓ Champion model loaded from MLflow")
+
+except Exception as mlflow_error:
+
+    print("MLflow model unavailable.")
+    print(f"MLflow error: {mlflow_error}")
+
+    try:
+        model = joblib.load(LOCAL_MODEL_PATH)
+        model_load_error = None
+
+        print("✓ Gradient Boosting model loaded locally")
+        print(f"Path: {LOCAL_MODEL_PATH}")
+
+    except Exception as local_error:
+
+        model = None
+        model_load_error = (
+            f"MLflow error: {mlflow_error}; "
+            f"Local model error: {local_error}"
+        )
+
+        print("✗ Model loading failed")
+        print(model_load_error)
 
 # ---------------------------------------------------------
 # PRIMARY: LOAD FROM MLFLOW MODEL REGISTRY
