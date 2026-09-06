@@ -169,379 +169,206 @@ with col2:
         use_container_width=True,
     )
 
-# =========================================================
-# PARTIAL DEPENDENCE — COMBINED
-# =========================================================
+ # =========================================================
+ # PARTIAL DEPENDENCE — COMBINED
+ # =========================================================
 
-st.subheader(
+ st.subheader(
     "📈 Partial Dependence Analysis"
-)
+ )
 
-st.caption(
+ st.caption(
     "Combined PDP showing how selected features influence "
     "predicted churn probability."
-)
+ )
 
-ROOT = Path(__file__).resolve().parents[1]
+ ROOT = Path(__file__).resolve().parents[1]
 
-# =========================================================
-# PATHS
-# =========================================================
+ DATA_PATH = (
+    ROOT
+    / "data"
+    / "raw"
+    / "European_Bank.csv"
+ )
 
-MODEL_PATH = (
+ MODEL_PATH = (
     ROOT
     / "artifacts"
     / "models"
     / "gradient_boosting.pkl"
-)
+ )
 
-# Primary artifact containing the complete customer dataset
-RISK_DATA_PATH = (
-    ROOT
-    / "artifacts"
-    / "metrics"
-    / "customer_risk_scoring.csv"
-)
 
-# Fallback artifact
-SEGMENT_DATA_PATH = (
-    ROOT
-    / "artifacts"
-    / "metrics"
-    / "customer_segments.csv"
-)
+ # =========================================================
+ # LOAD MODEL + DATA
+ # =========================================================
 
-# =========================================================
-# LOAD MODEL
-# =========================================================
+ if not MODEL_PATH.exists():
 
-if not MODEL_PATH.exists():
-
-    st.warning(
-        "Gradient Boosting model is unavailable for PDP analysis."
+    st.info(
+        "Gradient Boosting model unavailable for PDP analysis."
     )
 
-else:
+ elif not DATA_PATH.exists():
+
+    st.info(
+        "European Bank dataset unavailable for PDP analysis."
+    )
+
+ else:
 
     try:
 
+        # -------------------------------------------------
+        # Load model
+        # -------------------------------------------------
+
         model = joblib.load(MODEL_PATH)
 
-        # =================================================
-        # LOAD DATA
-        # =================================================
+        # -------------------------------------------------
+        # Load original dataset
+        # -------------------------------------------------
 
-        if RISK_DATA_PATH.exists():
+        pdp_data = pd.read_csv(DATA_PATH)
 
-            pdp_data = pd.read_csv(
-                RISK_DATA_PATH
-            )
+        # -------------------------------------------------
+        # Verify required raw columns
+        # -------------------------------------------------
 
-        elif SEGMENT_DATA_PATH.exists():
+        required_raw_features = [
+            "Age",
+            "CreditScore",
+            "Balance",
+            "EstimatedSalary",
+            "NumOfProducts",
+            "Tenure",
+            "HasCrCard",
+        ]
 
-            pdp_data = pd.read_csv(
-                SEGMENT_DATA_PATH
+        missing_raw = [
+            feature
+            for feature in required_raw_features
+            if feature not in pdp_data.columns
+        ]
+
+        if missing_raw:
+
+            st.error(
+                "Required features are missing from the "
+                f"dataset: {', '.join(missing_raw)}"
             )
 
         else:
 
-            pdp_data = None
+            # -------------------------------------------------
+            # Create engineered features
+            # -------------------------------------------------
 
-        # =================================================
-        # CHECK DATA
-        # =================================================
-
-        if pdp_data is None:
-
-            st.warning(
-                "PDP dataset is unavailable."
+            pdp_data["BalanceSalaryRatio"] = (
+                pdp_data["Balance"]
+                / (pdp_data["EstimatedSalary"] + 1)
             )
 
-        else:
+            pdp_data["CustomerValue"] = (
+                pdp_data["Balance"]
+                * pdp_data["EstimatedSalary"]
+            )
 
-            # =================================================
-            # CREATE ENGINEERED FEATURES
-            # =================================================
+            pdp_data["ProductDensity"] = (
+                pdp_data["NumOfProducts"]
+                / (pdp_data["Tenure"] + 1)
+            )
 
-            required_base_columns = [
+            pdp_data["EngagementScore"] = (
+                pdp_data["IsActiveMember"]
+                + pdp_data["HasCrCard"]
+            )
+
+            pdp_data["AgeTenureInteraction"] = (
+                pdp_data["Age"]
+                * pdp_data["Tenure"]
+            )
+
+            pdp_data["HasBalance"] = (
+                pdp_data["Balance"] > 0
+            ).astype(int)
+
+            # -------------------------------------------------
+            # Remove target and identifiers
+            # -------------------------------------------------
+
+            X_pdp = pdp_data.drop(
+                columns=[
+                    "Exited",
+                    "CustomerId",
+                    "Surname",
+                    "Year",
+                ],
+                errors="ignore",
+            )
+
+            # -------------------------------------------------
+            # Final PDP features
+            # -------------------------------------------------
+
+            pdp_features = [
+                "Age",
+                "CreditScore",
                 "Balance",
                 "EstimatedSalary",
                 "NumOfProducts",
                 "Tenure",
-                "IsActiveMember",
                 "HasCrCard",
-                "Age",
             ]
 
-            missing_base = [
-                col
-                for col in required_base_columns
-                if col not in pdp_data.columns
+            # -------------------------------------------------
+            # Confirm features are actually present
+            # -------------------------------------------------
+
+            missing_features = [
+                feature
+                for feature in pdp_features
+                if feature not in X_pdp.columns
             ]
 
-            if missing_base:
+            if missing_features:
 
-                st.warning(
+                st.error(
                     "Required features are missing for PDP: "
-                    + ", ".join(missing_base)
+                    + ", ".join(missing_features)
                 )
 
             else:
 
-                # ---------------------------------------------
-                # Balance / Salary Ratio
-                # ---------------------------------------------
+                # -------------------------------------------------
+                # Create PDP
+                # -------------------------------------------------
 
-                pdp_data["BalanceSalaryRatio"] = (
-                    pdp_data["Balance"]
-                    / (
-                        pdp_data["EstimatedSalary"]
-                        + 1
-                    )
+                from sklearn.inspection import PartialDependenceDisplay
+
+                fig, ax = plt.subplots(
+                    figsize=(12, 7)
                 )
 
-                # ---------------------------------------------
-                # Customer Value
-                # ---------------------------------------------
-
-                pdp_data["CustomerValue"] = (
-                    pdp_data["Balance"]
-                    * pdp_data["EstimatedSalary"]
+                PartialDependenceDisplay.from_estimator(
+                    model,
+                    X_pdp,
+                    features=pdp_features,
+                    kind="average",
+                    grid_resolution=50,
+                    ax=ax,
                 )
 
-                # ---------------------------------------------
-                # Product Density
-                # ---------------------------------------------
+                plt.tight_layout()
 
-                pdp_data["ProductDensity"] = (
-                    pdp_data["NumOfProducts"]
-                    / (
-                        pdp_data["Tenure"]
-                        + 1
-                    )
+                st.pyplot(
+                    fig,
+                    use_container_width=True,
                 )
 
-                # ---------------------------------------------
-                # Engagement Score
-                # ---------------------------------------------
+                plt.close(fig)
 
-                pdp_data["EngagementScore"] = (
-                    pdp_data["IsActiveMember"]
-                    + pdp_data["HasCrCard"]
-                )
-
-                # ---------------------------------------------
-                # Age × Tenure
-                # ---------------------------------------------
-
-                pdp_data["AgeTenureInteraction"] = (
-                    pdp_data["Age"]
-                    * pdp_data["Tenure"]
-                )
-
-                # ---------------------------------------------
-                # Has Balance
-                # ---------------------------------------------
-
-                pdp_data["HasBalance"] = (
-                    pdp_data["Balance"] > 0
-                ).astype(int)
-
-                # =================================================
-                # REMOVE NON-MODEL COLUMNS
-                # =================================================
-
-                X_pdp = pdp_data.drop(
-                    columns=[
-                        "Exited",
-                        "CustomerId",
-                        "Surname",
-                        "Cluster",
-                        "ChurnProbability",
-                        "RiskCategory",
-                        "ValueCategory",
-                        "ExpectedLoss",
-                        "RetentionCost",
-                        "ExpectedSavedValue",
-                        "ROI",
-                        "Priority",
-                    ],
-                    errors="ignore",
-                )
-
-                # =================================================
-                # PDP FEATURES
-                # =================================================
-
-                pdp_features = [
-                    "Age",
-                    "CreditScore",
-                    "Balance",
-                    "EstimatedSalary",
-                    "NumOfProducts",
-                    "Tenure",
-                ]
-
-                pdp_features = [
-                    feature
-                    for feature in pdp_features
-                    if feature in X_pdp.columns
-                ]
-
-                if not pdp_features:
-
-                    st.warning(
-                        "No valid PDP features are available."
-                    )
-
-                else:
-
-                    # =================================================
-                    # GENERATE COMBINED PDP
-                    # =================================================
-
-                    fig = go.Figure()
-
-                    for feature in pdp_features:
-
-                        try:
-
-                            # -----------------------------------------
-                            # Determine feature range
-                            # -----------------------------------------
-
-                            values = (
-                                X_pdp[feature]
-                                .dropna()
-                                .astype(float)
-                            )
-
-                            if len(values) < 2:
-
-                                continue
-
-                            feature_min = values.min()
-                            feature_max = values.max()
-
-                            if feature_min == feature_max:
-
-                                continue
-
-                            # -----------------------------------------
-                            # Create evenly spaced values
-                            # -----------------------------------------
-
-                            grid = np.linspace(
-                                feature_min,
-                                feature_max,
-                                50,
-                            )
-
-                            pdp_values = []
-
-                            # -----------------------------------------
-                            # Partial dependence
-                            # -----------------------------------------
-
-                            for value in grid:
-
-                                X_temp = X_pdp.copy()
-
-                                X_temp[feature] = value
-
-                                probabilities = (
-                                    model.predict_proba(
-                                        X_temp
-                                    )[:, 1]
-                                )
-
-                                pdp_values.append(
-                                    np.mean(
-                                        probabilities
-                                    )
-                                )
-
-                            # -----------------------------------------
-                            # Normalize X-axis
-                            # -----------------------------------------
-
-                            value_range = (
-                                feature_max
-                                - feature_min
-                            )
-
-                            x_normalized = (
-                                (
-                                    grid
-                                    - feature_min
-                                )
-                                / value_range
-                                * 100
-                            )
-
-                            # -----------------------------------------
-                            # Add trace
-                            # -----------------------------------------
-
-                            fig.add_trace(
-                                go.Scatter(
-                                    x=x_normalized,
-                                    y=pdp_values,
-                                    mode="lines",
-                                    name=feature,
-                                    hovertemplate=(
-                                        f"<b>{feature}</b>"
-                                        "<br>Relative Feature Value: "
-                                        "%{x:.1f}%"
-                                        "<br>Predicted Churn Probability: "
-                                        "%{y:.3f}"
-                                        "<extra></extra>"
-                                    ),
-                                )
-                            )
-
-                        except Exception as feature_error:
-
-                            st.warning(
-                                f"Unable to calculate PDP "
-                                f"for {feature}: "
-                                f"{feature_error}"
-                            )
-
-                    # =================================================
-                    # LAYOUT
-                    # =================================================
-
-                    fig.update_layout(
-                        title=(
-                            "Combined Partial Dependence Analysis"
-                        ),
-                        xaxis_title=(
-                            "Relative Feature Value "
-                            "(0% = Low, 100% = High)"
-                        ),
-                        yaxis_title=(
-                            "Predicted Churn Probability"
-                        ),
-                        template="plotly_dark",
-                        height=550,
-                        hovermode="x unified",
-                        legend=dict(
-                            title="Features",
-                            orientation="h",
-                            yanchor="bottom",
-                            y=1.02,
-                            xanchor="center",
-                            x=0.5,
-                        ),
-                    )
-
-                    st.plotly_chart(
-                        fig,
-                        use_container_width=True,
-                    )
-
-    except Exception as e:
+     except Exception as e:
 
         st.error(
             f"Unable to generate PDP analysis: {e}"
