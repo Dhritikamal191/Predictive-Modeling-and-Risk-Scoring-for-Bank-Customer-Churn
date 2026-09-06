@@ -47,55 +47,101 @@ app = FastAPI(
     version="2.0.0",
 )
 
-
 # =========================================================
 # LOAD CHAMPION MODEL
 # =========================================================
 
 MODEL_URI = f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
 
-try:
+LOCAL_MODEL_PATH = (
+    ROOT
+    / "artifacts"
+    / "models"
+    / "gradient_boosting.pkl"
+)
 
-    # IMPORTANT:
-    # Use the sklearn flavor rather than pyfunc.
-    #
-    # pyfunc.PyFuncModel exposes predict()
-    # but does not expose predict_proba().
-    #
-    # sklearn.load_model() restores the underlying
-    # sklearn / imblearn pipeline and therefore supports
-    # predict_proba().
+model = None
+model_load_error = None
+model_source = None
+
+
+# ---------------------------------------------------------
+# PRIMARY: LOAD FROM MLFLOW MODEL REGISTRY
+# ---------------------------------------------------------
+
+try:
 
     model = mlflow.sklearn.load_model(
         MODEL_URI
     )
 
-    model_load_error = None
+    model_source = "MLflow Model Registry"
 
     print("=" * 70)
     print("BANK CHURN API — MODEL LOADED")
     print("=" * 70)
-    print(f"Model: {MODEL_NAME}")
-    print(f"Alias: {MODEL_ALIAS}")
-    print(f"URI:   {MODEL_URI}")
-    print(f"Type:  {type(model)}")
+    print(f"Model:  {MODEL_NAME}")
+    print(f"Alias:  {MODEL_ALIAS}")
+    print(f"Source: {model_source}")
+    print(f"URI:    {MODEL_URI}")
+    print(f"Type:   {type(model)}")
     print(
         f"predict_proba available: "
         f"{hasattr(model, 'predict_proba')}"
     )
     print("=" * 70)
 
-except Exception as e:
 
-    model = None
-    model_load_error = str(e)
+# ---------------------------------------------------------
+# FALLBACK: LOAD LOCAL GRADIENT BOOSTING MODEL
+# ---------------------------------------------------------
+
+except Exception as mlflow_error:
 
     print("=" * 70)
-    print("BANK CHURN API — MODEL LOAD FAILED")
+    print("MLFLOW MODEL LOAD FAILED")
     print("=" * 70)
-    print(f"Error: {e}")
-    traceback.print_exc()
+    print(f"MLflow error: {mlflow_error}")
     print("=" * 70)
+
+    try:
+
+        if not LOCAL_MODEL_PATH.exists():
+
+            raise FileNotFoundError(
+                f"Local model not found: "
+                f"{LOCAL_MODEL_PATH}"
+            )
+
+        model = joblib.load(
+            LOCAL_MODEL_PATH
+        )
+
+        model_source = "Local Gradient Boosting Model"
+
+        print("=" * 70)
+        print("BANK CHURN API — LOCAL MODEL LOADED")
+        print("=" * 70)
+        print(f"Source: {model_source}")
+        print(f"Path:   {LOCAL_MODEL_PATH}")
+        print(f"Type:   {type(model)}")
+        print("=" * 70)
+
+    except Exception as local_error:
+
+        model = None
+
+        model_load_error = (
+            f"MLflow error: {mlflow_error}; "
+            f"Local model error: {local_error}"
+        )
+
+        print("=" * 70)
+        print("BANK CHURN API — MODEL LOAD FAILED")
+        print("=" * 70)
+        print(model_load_error)
+        traceback.print_exc()
+        print("=" * 70)
 
 
 # =========================================================
