@@ -138,6 +138,28 @@ jobs:
           PY
 
 
+      - name: Load Gradient Boosting model
+        run: |
+           python - <<'PY'
+           import joblib
+
+           path = "artifacts/models/gradient_boosting.pkl"
+
+           model = joblib.load(path)
+
+           print("Model type:", type(model))
+           print("Has predict:", hasattr(model, "predict"))
+           print("Has predict_proba:", hasattr(model, "predict_proba"))
+
+           if not hasattr(model, "predict"):
+              raise RuntimeError("Model does not provide predict()")
+
+           if not hasattr(model, "predict_proba"):
+              raise RuntimeError("Model does not provide predict_proba()")
+
+           print("✓ Gradient Boosting model verified")
+           PY
+
       # =====================================================
       # 7. VERIFY FEATURE ENGINEERING
       # =====================================================
