@@ -355,6 +355,8 @@ st.plotly_chart(
 # --------------------------------------------------
 # Probability Distribution Visualization
 # --------------------------------------------------
+
+st.subheader("Customer Distribution Plot")
 plot_results=pd.DataFrame({"Probability":y_prob, "Actual_Status": y})
 plot_results["Actual_Status"]=plot_results["Actual_Status"].map({1:"Churned", 0: "Stayed"})
 fig = px.histogram(plot_results, x="Probability", nbins=30, color="Actual_Status", color_discrete_sequence=["#6366f1","#f43f5e"], barmode="overlay", opacity=0.5)
