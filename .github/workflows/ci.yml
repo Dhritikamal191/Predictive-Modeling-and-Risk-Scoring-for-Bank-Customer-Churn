@@ -1,4 +1,4 @@
-name: CI
+name: Bank Churn CI
 
 on:
   push:
@@ -14,6 +14,7 @@ on:
 jobs:
 
   test:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -35,9 +36,39 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       # =====================================================
-      # 3. VERIFY GIT LFS
+      # 3. VERIFY PYTHON
+      # =====================================================
+
+      - name: Verify Python
+        run: |
+          python --version
+          python -m pip --version
+
+      # =====================================================
+      # 4. INSTALL DEPENDENCIES
+      # =====================================================
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+
+      # =====================================================
+      # 5. VERIFY IMPORTANT PACKAGES
+      # =====================================================
+
+      - name: Verify dependencies
+        run: |
+          python -m pytest --version
+          python -c "import joblib; print('joblib:', joblib.__version__)"
+          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
+
+      # =====================================================
+      # 6. GIT LFS
       # =====================================================
 
       - name: Pull Git LFS files
@@ -46,35 +77,7 @@ jobs:
           git lfs pull
 
       # =====================================================
-      # 4. UPGRADE PIP
-      # =====================================================
-
-      - name: Upgrade pip
-        run: |
-          python -m pip install --upgrade pip
-
-      # =====================================================
-      # 5. INSTALL PROJECT DEPENDENCIES
-      # =====================================================
-
-      - name: Install dependencies
-        run: |
-          python -m pip install -r requirements.txt
-
-      # =====================================================
-      # 6. VERIFY IMPORTANT PACKAGES
-      # =====================================================
-
-      - name: Verify Python environment
-        run: |
-          python --version
-          python -m pip --version
-          python -m pytest --version
-          python -c "import joblib; print('joblib:', joblib.__version__)"
-          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
-
-      # =====================================================
-      # 7. VERIFY GIT LFS MODEL
+      # 7. VERIFY GRADIENT BOOSTING MODEL
       # =====================================================
 
       - name: Verify Gradient Boosting model
@@ -114,7 +117,10 @@ jobs:
           model = joblib.load(path)
 
           print("Model type:", type(model))
-          print("Has predict:", hasattr(model, "predict"))
+          print(
+              "Has predict:",
+              hasattr(model, "predict")
+          )
           print(
               "Has predict_proba:",
               hasattr(model, "predict_proba")
