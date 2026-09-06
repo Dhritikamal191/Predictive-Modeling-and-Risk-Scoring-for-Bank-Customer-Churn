@@ -14,10 +14,6 @@ mlruns/
 data/processed/*
 data/reference/*
 
-artifacts/models/*
-artifacts/metrics/*
-artifacts/metadata/*
-
 .DS_Store
 Thumbs.db
 mlflow.db
