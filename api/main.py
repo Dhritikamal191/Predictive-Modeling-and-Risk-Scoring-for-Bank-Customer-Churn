@@ -1,6 +1,7 @@
 from pathlib import Path
 import traceback
 import mlflow
+import joblib
 import mlflow.sklearn
 import pandas as pd
 from fastapi import FastAPI, HTTPException
@@ -162,13 +163,13 @@ def health():
         }
 
     return {
-        "status": "healthy",
-        "model_loaded": True,
-        "model": MODEL_NAME,
-        "alias": MODEL_ALIAS,
-        "model_uri": MODEL_URI,
-    }
-
+         "status": "healthy",
+         "model_loaded": True,
+         "model": MODEL_NAME,
+         "alias": MODEL_ALIAS,
+         "model_source": model_source,
+         "model_uri": MODEL_URI,
+        }
 
 # =========================================================
 # PREDICTION ENDPOINT
