@@ -5,6 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 from pathlib import Path
 from sklearn.inspection import partial_dependence
+from sklearn.inspection import PartialDependenceDisplay
 import joblib
 
 from sklearn.metrics import (
