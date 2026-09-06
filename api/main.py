@@ -6,7 +6,7 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from api.schemas import CustomerInput, PredictionResponse
 from src.features.engineering import create_features
-from src.monitoring.prediction_monitor import record_prediction
+from src.monitoring.prediction_monitoring import record_prediction
 
 # =========================================================
 # PROJECT CONFIGURATION
