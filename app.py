@@ -16,6 +16,26 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
 
 # =========================================================
+# LOAD CUSTOMER RISK DATA FROM SUPABASE
+# =========================================================
+
+try:
+    customer_risk_df = load_customer_risk_data()
+
+    if customer_risk_df.empty:
+        st.warning("No customer risk data found in Supabase.")
+    else:
+        st.success(
+            f"Loaded {len(customer_risk_df):,} customer records from Supabase."
+        )
+
+except Exception as e:
+    st.error(
+        f"Unable to load customer risk data from Supabase: {e}"
+    )
+    customer_risk_df = pd.DataFrame()
+
+# =========================================================
 # HEADER
 # =========================================================
 
