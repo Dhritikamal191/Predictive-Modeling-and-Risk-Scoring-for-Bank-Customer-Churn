@@ -15,11 +15,11 @@ Displays:
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 from scipy.stats import gaussian_kde
-import numpy as np
 
 
 # =========================================================
@@ -91,25 +91,37 @@ REGISTRY_DIR = (
 
 
 # =========================================================
-# LOAD REFERENCE / CURRENT DATA FOR KDE
+# LOAD MONITORING POPULATION FOR KDE
 # =========================================================
 #
-# IMPORTANT:
-# data/raw/European_Bank.csv is no longer required.
+# We intentionally DO NOT use:
 #
-# customer_risk_scoring.csv is already tracked in:
+#     data/raw/European_Bank.csv
 #
-# artifacts/metrics/customer_risk_scoring.csv
+# for this section.
 #
-# It contains:
+# The monitoring population is:
+#
+#     artifacts/metrics/customer_risk_scoring.csv
+#
+# This file is already tracked in Git and contains the
+# customer-level risk scoring results.
+#
+# Available numerical fields include:
+#
 # CreditScore
 # Age
 # Balance
 # NumOfProducts
 # EstimatedSalary
-# etc.
+# CustomerValue
+# ChurnProbability
+# ExpectedLoss
+# RetentionCost
+# ExpectedSavedValue
+# ROI
 #
-# Therefore it is used as the monitoring population.
+# Tenure and HasCrCard are NOT required here.
 # =========================================================
 
 reference = None
@@ -130,16 +142,22 @@ if RISK_DATA_PATH.exists():
         )
 
         # -------------------------------------------------
-        # Numerical features for KDE
+        # Numerical features actually available in
+        # customer_risk_scoring.csv
         # -------------------------------------------------
 
         numerical_features = [
             "CreditScore",
             "Age",
-            "Tenure",
             "Balance",
             "NumOfProducts",
             "EstimatedSalary",
+            "CustomerValue",
+            "ChurnProbability",
+            "ExpectedLoss",
+            "RetentionCost",
+            "ExpectedSavedValue",
+            "ROI",
         ]
 
         available_features = [
@@ -166,8 +184,8 @@ if RISK_DATA_PATH.exists():
 
     except Exception as error:
 
-        print(
-            f"Unable to load monitoring data: {error}"
+        st.warning(
+            f"Unable to load monitoring population: {error}"
         )
 
 
@@ -242,15 +260,29 @@ prediction_drift = load_json(
 # ---------------------------------------------------------
 
 performance_status = load_json(
-    MONITORING_DIR
+    METADATA_DIR
     / "performance_monitoring_status.json"
 )
 
+if performance_status is None:
+
+    performance_status = load_json(
+        MONITORING_DIR
+        / "performance_monitoring_status.json"
+    )
+
 
 performance_alerts = load_json(
-    MONITORING_DIR
+    METRICS_DIR
     / "performance_alerts.json"
 )
+
+if performance_alerts is None:
+
+    performance_alerts = load_json(
+        MONITORING_DIR
+        / "performance_alerts.json"
+    )
 
 
 # ---------------------------------------------------------
@@ -639,17 +671,28 @@ st.subheader(
     "📈 Feature Distribution — KDE"
 )
 
+st.caption(
+    "Reference and current distributions are generated "
+    "from the tracked customer risk scoring population."
+)
+
 
 if reference is not None and current is not None:
 
     numerical_features = [
         "CreditScore",
         "Age",
-        "Tenure",
         "Balance",
         "NumOfProducts",
         "EstimatedSalary",
+        "CustomerValue",
+        "ChurnProbability",
+        "ExpectedLoss",
+        "RetentionCost",
+        "ExpectedSavedValue",
+        "ROI",
     ]
+
 
     available_features = [
         feature
@@ -678,6 +721,10 @@ if reference is not None and current is not None:
                 reference[selected_feature],
                 errors="coerce",
             )
+            .replace(
+                [np.inf, -np.inf],
+                np.nan,
+            )
             .dropna()
         )
 
@@ -686,6 +733,10 @@ if reference is not None and current is not None:
             pd.to_numeric(
                 current[selected_feature],
                 errors="coerce",
+            )
+            .replace(
+                [np.inf, -np.inf],
+                np.nan,
             )
             .dropna()
         )
@@ -736,6 +787,7 @@ if reference is not None and current is not None:
 
 
                 # Avoid zero-width x-axis
+
                 if x_min == x_max:
 
                     x_min -= 1
