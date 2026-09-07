@@ -2,6 +2,7 @@ import streamlit as st
 
 from src.dashboard.common import apply_style
 
+from src.supabase_client import load_customer_risk_data
 
 st.set_page_config(
     page_title="Bank Customer Churn",
