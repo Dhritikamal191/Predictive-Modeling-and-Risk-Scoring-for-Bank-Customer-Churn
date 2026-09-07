@@ -11,6 +11,8 @@ st.set_page_config(
 
 apply_style()
 
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
 
 # =========================================================
 # HEADER
