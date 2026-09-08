@@ -89,50 +89,30 @@ else:
 
 try:
 
-    prediction_record = {
-        "CustomerId": None,
-        "Surname": None,
-        "Geography": geography,
-        "Gender": gender,
-        "Age": int(age),
-        "CreditScore": int(credit_score),
-        "Balance": float(balance),
-        "EstimatedSalary": float(salary),
-        "NumOfProducts": int(products),
-        "IsActiveMember": int(active_member),
-        "Exited": int(pred),
-        "Cluster": None,
-        "CustomerValue": float(
-            balance + salary
-        ),
-        "ChurnProbability": float(prob),
-        "RiskCategory": risk,
-        "ValueCategory": None,
-        "ExpectedLoss": None,
-        "RetentionCost": None,
-        "ExpectedSavedValue": None,
-        "ROI": None,
-        "Priority": (
-            "P1 — Immediate Retention"
-            if risk_score >= 70
-            else "P2 — High Priority"
-            if risk_score >= 40
-            else "P4 — Monitor"
-        ),
-    }
-
     save_customer_prediction(
-        prediction_record
-    )
-
-    st.success(
-        "Prediction saved to Supabase."
+        {
+            "CreditScore": credit_score,
+            "Age": age,
+            "Tenure": tenure,
+            "Balance": balance,
+            "NumOfProducts": products,
+            "HasCrCard": has_card,
+            "IsActiveMember": active_member,
+            "EstimatedSalary": salary,
+            "Geography": geography,
+            "Gender": gender,
+            "Model": model_choice,
+            "ChurnProbability": float(prob),
+            "RiskScore": float(risk_score),
+            "RiskCategory": risk,
+            "Prediction": int(pred),
+        }
     )
 
 except Exception as e:
 
     st.warning(
-        f"Prediction generated, but could not be saved to Supabase: {e}"
+        f"Prediction generated, but could not be saved: {e}"
     )
     
 if pred == 1:
