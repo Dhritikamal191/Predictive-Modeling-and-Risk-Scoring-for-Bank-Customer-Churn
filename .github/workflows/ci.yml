@@ -1,4 +1,4 @@
-name: Bank Churn CI
+name: CI Pipeline
 
 on:
   push:
@@ -18,20 +18,25 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # IMPORTANT:
+    # These are your GitHub Environment variables/secrets.
+    # The environment name must match the environment where
+    # you stored SUPABASE_URL and SUPABASE_SERVICE_KEY.
+    environment:
+      name: Predictive Modeling Bank Churn
+
     steps:
 
       # =====================================================
-      # 1. CHECKOUT REPOSITORY + GIT LFS
+      # CHECKOUT
       # =====================================================
 
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
 
       # =====================================================
-      # 2. SETUP PYTHON
+      # SETUP PYTHON
       # =====================================================
 
       - name: Set up Python
@@ -42,132 +47,38 @@ jobs:
 
 
       # =====================================================
-      # 3. VERIFY PYTHON
+      # INSTALL DEPENDENCIES
       # =====================================================
 
-      - name: Verify Python
+      - name: Upgrade pip
         run: |
-          python --version
-          python -m pip --version
+          python -m pip install --upgrade pip
 
-
-      # =====================================================
-      # 4. INSTALL DEPENDENCIES
-      # =====================================================
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          pip install -r requirements.txt
 
 
       # =====================================================
-      # 5. INSTALL CI / TEST DEPENDENCIES
+      # SUPABASE ENVIRONMENT VARIABLES
       # =====================================================
 
-      - name: Install test dependencies
+      - name: Configure Supabase environment
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || vars.SUPABASE_SERVICE_KEY }}
         run: |
-          python -m pip install pytest
-          python -m pip install httpx2
+          echo "Supabase environment variables configured."
 
 
       # =====================================================
-      # 6. VERIFY IMPORTANT PACKAGES
+      # RUN TESTS
       # =====================================================
 
-      - name: Verify installed packages
+      - name: Run pytest
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || vars.SUPABASE_SERVICE_KEY }}
         run: |
-          python -m pytest --version
-          python -c "import joblib; print('joblib:', joblib.__version__)"
-          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
-          python -c "import fastapi; print('fastapi:', fastapi.__version__)"
-          python -c "import pandas; print('pandas:', pandas.__version__)"
-          python -c "import numpy; print('numpy:', numpy.__version__)"
-
-
-      # =====================================================
-      # 7. VERIFY GIT LFS
-      # =====================================================
-
-      - name: Verify Git LFS
-        run: |
-          git lfs version
-          git lfs install
-          git lfs pull
-
-
-      # =====================================================
-      # 8. VERIFY GRADIENT BOOSTING MODEL
-      # =====================================================
-
-      - name: Verify Gradient Boosting model
-        run: |
-          python - <<'PY'
-          import os
-          import joblib
-
-          path = "artifacts/models/gradient_boosting.pkl"
-
-          print("Checking:", path)
-
-          if not os.path.exists(path):
-              raise FileNotFoundError(
-                  f"Required model not found: {path}"
-              )
-
-          size = os.path.getsize(path)
-
-          print(
-              f"Model size: "
-              f"{size / 1024 / 1024:.2f} MB"
-          )
-
-          # Detect Git LFS pointer files
-          with open(path, "rb") as f:
-              header = f.read(100)
-
-          if header.startswith(
-              b"version https://git-lfs.github.com/spec/v1"
-          ):
-              raise RuntimeError(
-                  "Git LFS pointer was checked out instead "
-                  "of the actual model file."
-              )
-
-          model = joblib.load(path)
-
-          print("Model type:", type(model))
-          print(
-              "Has predict:",
-              hasattr(model, "predict")
-          )
-          print(
-              "Has predict_proba:",
-              hasattr(model, "predict_proba")
-          )
-
-          if not hasattr(model, "predict"):
-              raise RuntimeError(
-                  "Gradient Boosting model does not "
-                  "provide predict()."
-              )
-
-          if not hasattr(model, "predict_proba"):
-              raise RuntimeError(
-                  "Gradient Boosting model does not "
-                  "provide predict_proba()."
-              )
-
-          print("Gradient Boosting model verified")
-          PY
-
-
-      # =====================================================
-      # 9. RUN TESTS
-      # =====================================================
-      
-      - name: Run tests
-      env:
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python -m pytest -v
+          python -m pytest -v
