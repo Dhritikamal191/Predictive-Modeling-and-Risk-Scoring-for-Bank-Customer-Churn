@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 from sklearn.metrics import confusion_matrix
-from src.supabase_client import save_customer_prediction
+from src.supabase_client import save_customer_predictions
 import seaborn as sns
 from src.dashboard.common import (
     apply_style,
