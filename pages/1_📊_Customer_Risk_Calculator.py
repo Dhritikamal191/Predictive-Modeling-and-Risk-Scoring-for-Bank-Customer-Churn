@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 from sklearn.metrics import confusion_matrix
+from src.supabase_client import save_customer_prediction
 import seaborn as sns
 from src.dashboard.common import (
     apply_style,
@@ -82,7 +83,58 @@ elif risk_score >= 40:
 else:
     risk = "Low Risk"
 
+# =========================================================
+# SAVE PREDICTION TO SUPABASE
+# =========================================================
 
+try:
+
+    prediction_record = {
+        "CustomerId": None,
+        "Surname": None,
+        "Geography": geography,
+        "Gender": gender,
+        "Age": int(age),
+        "CreditScore": int(credit_score),
+        "Balance": float(balance),
+        "EstimatedSalary": float(salary),
+        "NumOfProducts": int(products),
+        "IsActiveMember": int(active_member),
+        "Exited": int(pred),
+        "Cluster": None,
+        "CustomerValue": float(
+            balance + salary
+        ),
+        "ChurnProbability": float(prob),
+        "RiskCategory": risk,
+        "ValueCategory": None,
+        "ExpectedLoss": None,
+        "RetentionCost": None,
+        "ExpectedSavedValue": None,
+        "ROI": None,
+        "Priority": (
+            "P1 — Immediate Retention"
+            if risk_score >= 70
+            else "P2 — High Priority"
+            if risk_score >= 40
+            else "P4 — Monitor"
+        ),
+    }
+
+    save_customer_prediction(
+        prediction_record
+    )
+
+    st.success(
+        "Prediction saved to Supabase."
+    )
+
+except Exception as e:
+
+    st.warning(
+        f"Prediction generated, but could not be saved to Supabase: {e}"
+    )
+    
 if pred == 1:
 
     st.error(
