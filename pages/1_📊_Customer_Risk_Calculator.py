@@ -89,7 +89,7 @@ else:
 
 try:
 
-    save_customer_predictions(
+    prediciton_record =
         {
             "CreditScore": credit_score,
             "Age": age,
@@ -107,8 +107,9 @@ try:
             "RiskCategory": risk,
             "Prediction": int(pred),
         }
-    )
 
+    save_customer_predictions(prediction_record)
+    
 except Exception as e:
 
     st.warning(
