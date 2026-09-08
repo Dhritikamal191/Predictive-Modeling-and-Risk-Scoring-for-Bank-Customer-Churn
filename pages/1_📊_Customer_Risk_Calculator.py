@@ -90,6 +90,7 @@ else:
 try:
 
     save_customer_predictions(
+        {
             "CreditScore": credit_score,
             "Age": age,
             "Tenure": tenure,
@@ -105,6 +106,7 @@ try:
             "RiskScore": float(risk_score),
             "RiskCategory": risk,
             "Prediction": int(pred),
+        }
     )
 
     st.success("Prediction saved to Supabase.")
