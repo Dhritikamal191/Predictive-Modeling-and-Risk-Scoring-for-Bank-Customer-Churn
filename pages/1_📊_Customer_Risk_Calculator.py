@@ -89,7 +89,7 @@ else:
 
 try:
 
-    save_customer_prediction(
+    save_customer_predictions(
         {
             "CreditScore": credit_score,
             "Age": age,
