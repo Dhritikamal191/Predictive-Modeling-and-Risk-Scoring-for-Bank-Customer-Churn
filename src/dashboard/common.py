@@ -130,25 +130,13 @@ def load_models():
 # =========================================================
 
 def kpi_card(title, value, icon):
-
     return f"""
-    <div class="kpi-card">
-
-        <div class="kpi-icon">
-            {icon}
-        </div>
-
-        <div class="kpi-title">
-            {title}
-        </div>
-
-        <div class="kpi-value">
-            {value}
-        </div>
-
-    </div>
-    """
-
+<div class="kpi-card">
+    <div class="kpi-icon">{icon}</div>
+    <div class="kpi-title">{title}</div>
+    <div class="kpi-value">{value}</div>
+</div>
+"""
 
 # =========================================================
 # MODEL INPUTS
