@@ -44,7 +44,7 @@ def load_customer_risk_data():
 # SAVE CUSTOMER PREDICTION
 # =========================================================
 
-def save_customer_prediction(
+def save_customer_predictions(
     credit_score,
     age,
     tenure,
