@@ -90,23 +90,20 @@ else:
 try:
 
     save_customer_predictions(
-        {
-            "CreditScore": credit_score,
-            "Age": age,
-            "Tenure": tenure,
-            "Balance": balance,
-            "NumOfProducts": products,
-            "HasCrCard": has_card,
-            "IsActiveMember": active_member,
-            "EstimatedSalary": salary,
-            "Geography": geography,
-            "Gender": gender,
-            "Model": model_choice,
-            "ChurnProbability": float(prob),
-            "RiskScore": float(risk_score),
-            "RiskCategory": risk,
-            "Prediction": int(pred),
-        }
+        credit_score=credit_score,
+        age=age,
+        tenure=tenure,
+        balance=balance,
+        products=products,
+        has_card=has_card,
+        active_member=active_member,
+        salary=salary,
+        gender=gender,
+        geography=geography,
+        churn_probability=prob,
+        prediction=pred,
+        risk_category=risk,
+        model_name=model_choice,
     )
 
     st.success("Prediction saved to Supabase.")
