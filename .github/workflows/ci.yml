@@ -11,19 +11,14 @@ on:
       - main
       - mlops-upgrade
 
-
 jobs:
-
   test:
-
+    name: Test and Validate
     runs-on: ubuntu-latest
 
-    # IMPORTANT:
-    # These are your GitHub Environment variables/secrets.
-    # The environment name must match the environment where
-    # you stored SUPABASE_URL and SUPABASE_SERVICE_KEY.
-    environment:
-      name: Predictive Modeling Bank Churn
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
 
     steps:
 
@@ -36,7 +31,7 @@ jobs:
 
 
       # =====================================================
-      # SETUP PYTHON
+      # PYTHON
       # =====================================================
 
       - name: Set up Python
@@ -47,29 +42,39 @@ jobs:
 
 
       # =====================================================
+      # VERIFY PYTHON
+      # =====================================================
+
+      - name: Verify Python
+        run: |
+          python --version
+          python -m pip --version
+
+
+      # =====================================================
       # INSTALL DEPENDENCIES
       # =====================================================
 
-      - name: Upgrade pip
+      - name: Install project dependencies
         run: |
           python -m pip install --upgrade pip
 
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          fi
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+          python -m pip install pytest httpx2
 
 
       # =====================================================
-      # SUPABASE ENVIRONMENT VARIABLES
+      # VERIFY TEST ENVIRONMENT
       # =====================================================
 
-      - name: Configure Supabase environment
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || vars.SUPABASE_SERVICE_KEY }}
+      - name: Verify test dependencies
         run: |
-          echo "Supabase environment variables configured."
+          python -m pytest --version
+          python -c "import joblib; print('joblib:', joblib.__version__)"
+          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
 
 
       # =====================================================
@@ -77,8 +82,5 @@ jobs:
       # =====================================================
 
       - name: Run pytest
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || vars.SUPABASE_SERVICE_KEY }}
         run: |
           python -m pytest -v
