@@ -1,56 +1,191 @@
-# =========================================================
-# MODEL VARIABLES
-# =========================================================
+name: Bank Churn CI
 
-model = None
-model_source = None
-model_load_error = None
+on:
+  push:
+    branches:
+      - main
+      - mlops-upgrade
+
+  pull_request:
+    branches:
+      - main
+      - mlops-upgrade
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # =====================================================
+      # 1. CHECKOUT REPOSITORY
+      # =====================================================
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
 
-# =========================================================
-# LOAD GRADIENT BOOSTING MODEL
-# =========================================================
+      # =====================================================
+      # 2. SETUP PYTHON
+      # =====================================================
 
-try:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    print("=" * 70)
-    print("BANK CHURN API — LOADING MODEL")
-    print("=" * 70)
 
-    # -----------------------------------------------------
-    # PRIMARY: LOCAL GRADIENT BOOSTING MODEL
-    # -----------------------------------------------------
+      # =====================================================
+      # 3. SHOW PYTHON VERSION
+      # =====================================================
 
-    if LOCAL_MODEL_PATH.exists():
+      - name: Check Python
+        run: |
+          python --version
+          python -m pip --version
 
-        model = joblib.load(LOCAL_MODEL_PATH)
 
-        model_source = "Local Gradient Boosting Model"
+      # =====================================================
+      # 4. UPGRADE PIP
+      # =====================================================
 
-        print("✓ Gradient Boosting model loaded")
-        print(f"Path: {LOCAL_MODEL_PATH}")
-        print(f"Type: {type(model)}")
-        print(
-            "predict_proba available:",
-            hasattr(model, "predict_proba"),
-        )
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
 
-    else:
 
-        raise FileNotFoundError(
-            f"Gradient Boosting model not found at: "
-            f"{LOCAL_MODEL_PATH}"
-        )
+      # =====================================================
+      # 5. INSTALL PROJECT DEPENDENCIES
+      # =====================================================
 
-except Exception as e:
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          fi
 
-    model = None
-    model_source = None
-    model_load_error = str(e)
+          python -m pip install pytest
+          python -m pip install httpx2
 
-    print("=" * 70)
-    print("✗ BANK CHURN API — MODEL LOAD FAILED")
-    print("=" * 70)
-    print(model_load_error)
 
-    traceback.print_exc()
+      # =====================================================
+      # 6. INSTALL TESTING / API DEPENDENCIES
+      # =====================================================
+
+      - name: Install API dependencies
+        run: |
+          python -m pip install fastapi uvicorn
+          python -m pip install scikit-learn joblib
+          python -m pip install pandas numpy scipy
+          python -m pip install mlflow
+          python -m pip install supabase
+
+
+      # =====================================================
+      # 7. LOAD GITHUB LFS FILES
+      # =====================================================
+
+      - name: Pull Git LFS files
+        run: |
+          git lfs install
+          git lfs pull
+
+
+      # =====================================================
+      # 8. VERIFY GRADIENT BOOSTING MODEL
+      # =====================================================
+
+      - name: Verify Gradient Boosting model
+        run: |
+          echo "Checking model artifact..."
+
+          if [ -f "artifacts/models/gradient_boosting.pkl" ]; then
+            echo "Gradient Boosting model found."
+            ls -lh artifacts/models/gradient_boosting.pkl
+          else
+            echo "ERROR: Gradient Boosting model not found."
+            echo "Expected:"
+            echo "artifacts/models/gradient_boosting.pkl"
+            echo ""
+            echo "Available model files:"
+            find artifacts/models -maxdepth 2 -type f 2>/dev/null || true
+            exit 1
+          fi
+
+
+      # =====================================================
+      # 9. VERIFY SUPABASE ENVIRONMENT VARIABLES
+      # =====================================================
+
+      - name: Configure environment
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "ERROR: SUPABASE_URL secret is missing."
+            exit 1
+          fi
+
+          if [ -z "$SUPABASE_SERVICE_KEY" ]; then
+            echo "ERROR: SUPABASE_SERVICE_KEY secret is missing."
+            exit 1
+          fi
+
+          echo "Supabase environment variables are configured."
+
+
+      # =====================================================
+      # 10. VERIFY PYTEST
+      # =====================================================
+
+      - name: Verify pytest
+        run: |
+          python -m pytest --version
+
+
+      # =====================================================
+      # 11. VERIFY IMPORTANT PACKAGES
+      # =====================================================
+
+      - name: Verify ML packages
+        run: |
+          python -c "import joblib; print('joblib:', joblib.__version__)"
+          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
+          python -c "import pandas; print('pandas:', pandas.__version__)"
+          python -c "import mlflow; print('mlflow:', mlflow.__version__)"
+          python -c "import fastapi; print('fastapi:', fastapi.__version__)"
+          python -c "import supabase; print('supabase: OK')"
+
+
+      # =====================================================
+      # 12. RUN TESTS
+      # =====================================================
+
+      - name: Run pytest
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          python -m pytest -v
+
+
+      # =====================================================
+      # 13. FINAL SUCCESS MESSAGE
+      # =====================================================
+
+      - name: CI completed
+        if: success()
+        run: |
+          echo "=============================================="
+          echo "BANK CHURN CI PASSED"
+          echo "=============================================="
+          echo "Gradient Boosting model verified"
+          echo "Dependencies installed"
+          echo "Supabase configured"
+          echo "All pytest tests passed"
+          echo "=============================================="
