@@ -1,55 +1,56 @@
-name: CI
+# =========================================================
+# MODEL VARIABLES
+# =========================================================
 
-on:
-  push:
-    branches:
-      - main
-      - mlops-upgrade
-  pull_request:
-    branches:
-      - main
-      - mlops-upgrade
+model = None
+model_source = None
+model_load_error = None
 
-jobs:
-  test:
 
-    runs-on: ubuntu-latest
+# =========================================================
+# LOAD GRADIENT BOOSTING MODEL
+# =========================================================
 
-    steps:
+try:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    print("=" * 70)
+    print("BANK CHURN API — LOADING MODEL")
+    print("=" * 70)
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+    # -----------------------------------------------------
+    # PRIMARY: LOCAL GRADIENT BOOSTING MODEL
+    # -----------------------------------------------------
 
-      - name: Upgrade pip
-        run: |
-          python -m pip install --upgrade pip
+    if LOCAL_MODEL_PATH.exists():
 
-      - name: Install dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          python -m pip install pytest
+        model = joblib.load(LOCAL_MODEL_PATH)
 
-      - name: Verify Python environment
-        run: |
-          python --version
-          python -m pip --version
-          python -m pytest --version
-          python -c "import joblib; print('joblib:', joblib.__version__)"
-          python -c "import sklearn; print('scikit-learn:', sklearn.__version__)"
+        model_source = "Local Gradient Boosting Model"
 
-      - name: Verify model file
-        run: |
-          test -f artifacts/models/gradient_boosting.pkl
-          echo "Gradient Boosting model found."
+        print("✓ Gradient Boosting model loaded")
+        print(f"Path: {LOCAL_MODEL_PATH}")
+        print(f"Type: {type(model)}")
+        print(
+            "predict_proba available:",
+            hasattr(model, "predict_proba"),
+        )
 
-      - name: Run tests
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: |
-          python -m pytest -v
+    else:
+
+        raise FileNotFoundError(
+            f"Gradient Boosting model not found at: "
+            f"{LOCAL_MODEL_PATH}"
+        )
+
+except Exception as e:
+
+    model = None
+    model_source = None
+    model_load_error = str(e)
+
+    print("=" * 70)
+    print("✗ BANK CHURN API — MODEL LOAD FAILED")
+    print("=" * 70)
+    print(model_load_error)
+
+    traceback.print_exc()
