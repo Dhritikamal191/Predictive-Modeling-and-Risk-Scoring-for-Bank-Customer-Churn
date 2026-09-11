@@ -90,3 +90,20 @@ def save_customer_predictions(
     )
 
     return response.data
+
+# =========================================================
+# PREDICTION MONITORING DATA
+# =========================================================
+
+def load_prediction_monitoring_data():
+    response = (
+        supabase
+        .table("prediction_monitoring")
+        .select("*")
+        .execute()
+    )
+
+    if not response.data:
+        return pd.DataFrame()
+
+    return pd.DataFrame(response.data)
