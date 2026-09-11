@@ -1,6 +1,6 @@
 from pathlib import Path
 import traceback
-
+from typing import Any
 import joblib
 import mlflow
 import mlflow.sklearn
@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException
 from api.schemas import CustomerInput, PredictionResponse
 from src.features.engineering import create_features
 from src.monitoring.prediction_monitoring import record_prediction
-
+from src.supabase_client import load_prediction_monitoring_data
 
 # =========================================================
 # PROJECT CONFIGURATION
@@ -194,6 +194,193 @@ def health():
         "model_uri": MODEL_URI,
     }
 
+# =========================================================
+# MODEL INFORMATION ENDPOINT
+# =========================================================
+
+@app.get("/model-info")
+def model_info():
+
+    if model is None:
+        return {
+            "model_loaded": False,
+            "model": MODEL_NAME,
+            "alias": MODEL_ALIAS,
+            "model_source": None,
+            "error": model_load_error,
+        }
+
+    return {
+        "model_loaded": True,
+        "model": MODEL_NAME,
+        "alias": MODEL_ALIAS,
+        "model_source": model_source,
+        "model_type": type(model).__name__,
+        "model_uri": MODEL_URI,
+        "predict_proba": hasattr(
+            model,
+            "predict_proba",
+        ),
+    }
+
+
+# =========================================================
+# RECENT PREDICTIONS ENDPOINT
+# =========================================================
+
+@app.get("/predictions/recent")
+def recent_predictions(limit: int = 10):
+
+    if limit < 1 or limit > 100:
+        raise HTTPException(
+            status_code=400,
+            detail="limit must be between 1 and 100",
+        )
+
+    try:
+
+        from src.supabase_client import (
+            load_customer_risk_data
+        )
+
+        df = load_customer_risk_data()
+
+        if df.empty:
+            return {
+                "count": 0,
+                "predictions": [],
+            }
+
+        # Return most recent records
+        df = df.tail(limit)
+
+        # Convert pandas values to JSON-safe values
+        records = df.where(
+            pd.notnull(df),
+            None
+        ).to_dict(orient="records")
+
+        return {
+            "count": len(records),
+            "predictions": records,
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to load predictions: {str(e)}",
+        )
+
+
+# =========================================================
+# RISK DISTRIBUTION ENDPOINT
+# =========================================================
+
+@app.get("/risk-distribution")
+def risk_distribution():
+
+    try:
+
+        from src.supabase_client import (
+            load_customer_risk_data
+        )
+
+        df = load_customer_risk_data()
+
+        if df.empty:
+            return {
+                "total_customers": 0,
+                "distribution": {},
+            }
+
+        if "RiskCategory" not in df.columns:
+            raise RuntimeError(
+                "RiskCategory column is missing "
+                "from customer risk data."
+            )
+
+        distribution = (
+            df["RiskCategory"]
+            .value_counts()
+            .to_dict()
+        )
+
+        return {
+            "total_customers": int(len(df)),
+            "distribution": {
+                str(key): int(value)
+                for key, value in distribution.items()
+            },
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to calculate risk distribution: {str(e)}",
+        )
+
+
+# =========================================================
+# MONITORING SUMMARY ENDPOINT
+# =========================================================
+
+@app.get("/monitoring/summary")
+def monitoring_summary():
+
+    try:
+
+        from src.supabase_client import (
+            load_customer_risk_data
+        )
+
+        df = load_customer_risk_data()
+
+        if df.empty:
+            return {
+                "total_customers": 0,
+                "average_churn_probability": 0,
+                "predicted_churn": 0,
+                "predicted_retention": 0,
+            }
+
+        if "ChurnProbability" not in df.columns:
+            raise RuntimeError(
+                "ChurnProbability column is missing."
+            )
+
+        if "Exited" in df.columns:
+
+            predicted_churn = int(
+                df["Exited"].sum()
+            )
+
+        else:
+
+            predicted_churn = 0
+
+        predicted_retention = (
+            len(df) - predicted_churn
+        )
+
+        return {
+            "total_customers": int(len(df)),
+            "average_churn_probability": float(
+                df["ChurnProbability"].mean()
+            ),
+            "predicted_churn": predicted_churn,
+            "predicted_retention": int(
+                predicted_retention
+            ),
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to generate monitoring summary: {str(e)}",
+        )
 
 # =========================================================
 # PREDICTION ENDPOINT
@@ -380,6 +567,162 @@ def predict(
             detail=f"Prediction failed: {str(e)}",
         )
 
+# =========================================================
+# BATCH PREDICTION ENDPOINT
+# =========================================================
+
+@app.post("/predict/batch")
+def predict_batch(
+    customers: list[CustomerInput],
+):
+
+    if model is None:
+
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Champion model is not available. "
+                "Check MLflow registry or local model file."
+            ),
+        )
+
+    if not customers:
+
+        raise HTTPException(
+            status_code=400,
+            detail="At least one customer is required.",
+        )
+
+    try:
+
+        results = []
+
+        for customer in customers:
+
+            df = pd.DataFrame(
+                [customer.model_dump()]
+            )
+
+            df = create_features(df)
+
+            X = df.drop(
+                columns=[
+                    "Year",
+                    "CustomerId",
+                    "Surname",
+                    "Exited",
+                ],
+                errors="ignore",
+            )
+
+            prediction = int(
+                model.predict(X)[0]
+            )
+
+            probability = float(
+                model.predict_proba(X)[0][1]
+            )
+
+            if probability < 0.20:
+                risk = "Low"
+
+            elif probability < 0.40:
+                risk = "Medium"
+
+            elif probability < 0.60:
+                risk = "High"
+
+            else:
+                risk = "Critical"
+
+            results.append(
+                {
+                    "customer_id": getattr(
+                        customer,
+                        "CustomerId",
+                        None,
+                    ),
+                    "churn_probability": round(
+                        probability,
+                        6,
+                    ),
+                    "churn_prediction": prediction,
+                    "risk_category": risk,
+                }
+            )
+
+        return {
+            "count": len(results),
+            "predictions": results,
+        }
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Batch prediction failed: {str(e)}",
+        )
+
+# =========================================================
+# MONITORING STATISTICS ENDPOINT
+# =========================================================
+
+@app.get("/monitoring/stats")
+def monitoring_stats():
+
+    try:
+
+        df = load_prediction_monitoring_data()
+
+        if df.empty:
+
+            return {
+                "count": 0,
+                "average_churn_probability": 0,
+                "predicted_churn_rate": 0,
+                "risk_distribution": {},
+            }
+
+        probability_column = "churn_probability"
+        prediction_column = "churn_prediction"
+        risk_column = "risk_category"
+
+        result = {
+            "count": len(df),
+            "average_churn_probability": round(
+                float(
+                    df[probability_column].mean()
+                ),
+                6,
+            ),
+            "predicted_churn_rate": round(
+                float(
+                    df[prediction_column].mean()
+                ),
+                6,
+            ),
+            "risk_distribution": (
+                df[risk_column]
+                .value_counts()
+                .to_dict()
+            ),
+        }
+
+        return result
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                f"Unable to load monitoring "
+                f"statistics: {str(e)}"
+            ),
+        )
 
 # =========================================================
 # ROOT ENDPOINT
