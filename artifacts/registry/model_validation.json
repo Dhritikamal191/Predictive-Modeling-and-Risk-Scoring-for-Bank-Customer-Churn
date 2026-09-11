@@ -1,0 +1,32 @@
+{
+    "model_name": "Bank-Churn-Gradient-Boosting",
+    "model_alias": "champion",
+    "model_uri": "models:/Bank-Churn-Gradient-Boosting@champion",
+    "validation_status": "PASSED",
+    "sample_size": 5,
+    "input_features": [
+        "CreditScore",
+        "Geography",
+        "Gender",
+        "Age",
+        "Tenure",
+        "Balance",
+        "NumOfProducts",
+        "HasCrCard",
+        "IsActiveMember",
+        "EstimatedSalary",
+        "BalanceSalaryRatio",
+        "CustomerValue",
+        "ProductDensity",
+        "EngagementScore",
+        "AgeTenureInteraction",
+        "HasBalance"
+    ],
+    "predictions": [
+        1,
+        0,
+        1,
+        0,
+        0
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "PredictionPSI": 0.009963224643618734,
+    "PredictionPSIStatus": "Stable",
+    "PredictionKSStatistic": 0.025047619047619207,
+    "PredictionKSPValue": 0.14114373914031939,
+    "PredictionKSDrift": "Stable",
+    "ReferenceMeanProbability": 0.25275487948652103,
+    "CurrentMeanProbability": 0.2608709633979545
+}

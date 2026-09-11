@@ -1,0 +1,8 @@
+{
+    "total_predictions": 1,
+    "average_churn_probability": 0.576112,
+    "predicted_churn_rate": 1.0,
+    "risk_distribution": {
+        "High": 1
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "model": "Gradient Boosting",
+    "status": "STABLE",
+    "reference_rows": 7000,
+    "current_rows": 3000,
+    "alerts": 0,
+    "reference_metrics": {
+        "Accuracy": 0.8814285714285715,
+        "Precision": 0.7312599681020734,
+        "Recall": 0.650354609929078,
+        "F1": 0.6884384384384384,
+        "ROC_AUC": 0.9054681612301603,
+        "PR_AUC": 0.7772263113068677,
+        "LogLoss": 0.301268531106319,
+        "BrierScore": 0.08955494929153289
+    },
+    "current_metrics": {
+        "Accuracy": 0.8656666666666667,
+        "Precision": 0.7014388489208633,
+        "Recall": 0.6220095693779905,
+        "F1": 0.6593406593406593,
+        "ROC_AUC": 0.8966980336332923,
+        "PR_AUC": 0.7651393585181906,
+        "LogLoss": 0.31678962082856665,
+        "BrierScore": 0.09593724341414278
+    }
+}

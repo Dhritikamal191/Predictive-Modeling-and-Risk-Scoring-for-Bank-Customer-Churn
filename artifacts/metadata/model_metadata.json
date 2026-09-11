@@ -1,0 +1,33 @@
+{
+    "dataset": "data/raw/European_Bank.csv",
+    "rows": 10000,
+    "features": [
+        "CreditScore",
+        "Geography",
+        "Gender",
+        "Age",
+        "Tenure",
+        "Balance",
+        "NumOfProducts",
+        "HasCrCard",
+        "IsActiveMember",
+        "EstimatedSalary",
+        "BalanceSalaryRatio",
+        "CustomerValue",
+        "ProductDensity",
+        "EngagementScore",
+        "AgeTenureInteraction",
+        "HasBalance"
+    ],
+    "models": [
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest",
+        "Gradient Boosting",
+        "XGBoost"
+    ],
+    "target": "Exited",
+    "test_size": 0.2,
+    "random_state": 42,
+    "smote": true
+}

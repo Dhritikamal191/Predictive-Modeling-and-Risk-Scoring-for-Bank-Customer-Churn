@@ -1,0 +1,9 @@
+{
+    "model": "Gradient Boosting",
+    "treatment_effectiveness": 0.3,
+    "retention_cost_rate": 0.05,
+    "customer_value_formula": "Balance + EstimatedSalary",
+    "expected_loss_formula": "ChurnProbability \u00d7 CustomerValue",
+    "expected_saved_value_formula": "ExpectedLoss \u00d7 TreatmentEffectiveness",
+    "roi_formula": "(ExpectedSavedValue - RetentionCost) / RetentionCost"
+}

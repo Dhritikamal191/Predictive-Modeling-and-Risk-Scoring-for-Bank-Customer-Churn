@@ -13,7 +13,7 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import OneHotEncoder
 
-df = pd.read_csv("European_Bank.csv")
+df = pd.read_csv("Data/European_Bank.csv")
 df = df.drop(["Year","CustomerId", "Surname"], axis=1)
 
 X = df.drop("Exited", axis=1)
@@ -54,5 +54,5 @@ for name, model in models.items():
 
     pipelines[name] = pipeline
 
-models=joblib.dump(pipelines,"all_models_pipeline.pkl")
+joblib.dump(pipelines,"all_models_pipeline.pkl")
 print("All models saved in ONE pipeline file")
