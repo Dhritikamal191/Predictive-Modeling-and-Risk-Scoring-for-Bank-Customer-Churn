@@ -140,6 +140,8 @@ X = df.drop(
 y = df["Exited"]
 
 probs = model.predict_proba(X)[:, 1]
+new_prob = model.predict_proba(X)[0,1]
+new_risk = new_prob * 100
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -253,7 +255,7 @@ with col2:
             ],
             "Risk": [
                 risk_score,
-                risk_score,
+                new_risk,
             ],
         }
     )
