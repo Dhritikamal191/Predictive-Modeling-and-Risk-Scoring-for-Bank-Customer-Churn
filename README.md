@@ -496,7 +496,7 @@ Validates the currently deployed champion model.
 Supports model/data monitoring through Evidently when configured.
 
 ## 📁 Project Structure
-
+```
 Predictive-Modeling-and-Risk-Scoring-for-Bank-Customer-Churn/
 │
 ├── api/
@@ -546,7 +546,7 @@ Predictive-Modeling-and-Risk-Scoring-for-Bank-Customer-Churn/
 ├── mlflow.db
 ├── pytest.ini
 └── README.md
-
+```
 ---
 
 ## 🧪 Testing
