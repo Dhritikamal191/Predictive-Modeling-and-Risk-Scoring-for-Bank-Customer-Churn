@@ -95,6 +95,8 @@ API / Dashboard
        ▼
 Monitoring
 
+---
+
 ## 📊 Dataset
 
 The project uses a bank customer churn dataset containing customer demographics, financial information, product usage, engagement information, and churn labels.
