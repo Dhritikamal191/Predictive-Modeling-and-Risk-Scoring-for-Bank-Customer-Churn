@@ -119,3 +119,70 @@ The project uses a bank customer churn dataset containing customer demographics,
 | IsActiveMember  |   Whether customer is an active member |
 | EstimatedSalary |       Estimated customer salary        |
 | Exited    	    |        Churn target variable           |
+
+---
+
+## 🔧 Feature Engineering
+
+Additional business and behavioral features are generated during preprocessing.
+
+Examples include:
+
+- Balance-to-salary relationship
+- Product density
+- Engagement-related interactions
+- Age-tenure interactions
+- Customer value indicators
+- Balance presence indicators
+
+Feature engineering helps the models capture relationships that may not be directly represented by the original variables.
+
+---
+
+## 🤖 Models
+
+The project experiments with multiple classification algorithms.
+
+### Logistic Regression
+
+Used as a baseline interpretable classification model.
+
+### Decision Tree
+
+Provides a simple rule-based representation of customer churn behavior.
+
+### Random Forest
+
+An ensemble model consisting of multiple decision trees.
+
+### Gradient Boosting
+
+The primary model used for the production-style prediction workflow.
+
+### XGBoost
+
+An additional gradient-boosting approach used for model comparison where supported by the environment.
+
+---
+
+## 🏆 Champion Model
+
+The project uses a Gradient Boosting classifier as the champion model for the production prediction workflow.
+
+The API can load the model through:
+text```
+MLflow Model Registry
+```
+and can fall back to the local model artifact when the MLflow model is unavailable.
+
+Local model artifact:
+
+artifacts/models/gradient_boosting.pkl
+
+MLflow model:
+
+Bank-Churn-Gradient-Boosting
+
+Champion alias:
+
+champion
