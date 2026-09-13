@@ -1025,3 +1025,7 @@ For the GitHub repository description, use:
 > **End-to-end bank customer churn prediction and risk scoring platform with MLflow, FastAPI, Streamlit, Supabase, monitoring, Docker, and CI/CD.**
 
 And your README's strongest opening is the combination of **prediction + risk scoring + MLOps**, rather than presenting it as just another churn-classification project.
+
+## ⭐ If you find this project useful
+
+Consider giving the repository a Star ⭐ and exploring the other projects in the portfolio.
