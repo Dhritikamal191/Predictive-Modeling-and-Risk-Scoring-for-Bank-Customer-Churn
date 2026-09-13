@@ -251,11 +251,11 @@ ROI
 Priority
 ```
 ### Risk Categories
-```
+
 |   Probability     |    Risk   |
 |-------------------|-----------|
 |    < 0.20	      |    Low    |
 |  0.20 – < 0.4     |   Medium  |
 |  0.40 – < 0.60    |    High   |
 |    >= 0.60	      |  Critical |
-```
+
