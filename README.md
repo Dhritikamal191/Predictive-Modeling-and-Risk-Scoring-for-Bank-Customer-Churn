@@ -983,6 +983,11 @@ Dhritikamal Das
 MSc MACS
 Data Science / Machine Learning / MLOps
 
+## Connect
+
+💻 GitHub
+https://github.com/Dhritikamal191
+
 ---
 
 ## ⭐ Project Summary
@@ -1025,6 +1030,15 @@ For the GitHub repository description, use:
 > **End-to-end bank customer churn prediction and risk scoring platform with MLflow, FastAPI, Streamlit, Supabase, monitoring, Docker, and CI/CD.**
 
 And your README's strongest opening is the combination of **prediction + risk scoring + MLOps**, rather than presenting it as just another churn-classification project.
+
+---
+## Deployment
+
+### 📚 FastAPI Swagger Documentation
+https://predictive-modeling-and-risk-scoring-for-3rdm.onrender.com
+
+### 🌐 Live Streamlit Application
+https://cncqgzkhswgphber2nz943.streamlit.app/
 
 ## ⭐ If you find this project useful
 
