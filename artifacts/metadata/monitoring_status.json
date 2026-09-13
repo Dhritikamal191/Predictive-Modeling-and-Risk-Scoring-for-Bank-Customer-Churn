@@ -1,0 +1,8 @@
+{
+    "overall_status": "STABLE",
+    "significant_feature_drift_count": 0,
+    "moderate_feature_drift_count": 0,
+    "prediction_drift_detected": false,
+    "reference_rows": 7000,
+    "current_rows": 3000
+}
