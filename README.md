@@ -861,7 +861,7 @@ streamlit run app.py
 The project can be deployed using platforms supporting Python applications and Docker.
 
 Typical deployment architecture:
-
+```
 GitHub
    │
    ▼
@@ -873,6 +873,7 @@ CI/CD
                          │
                          ▼
                       Supabase
+```
 
 Environment variables should be configured directly in the deployment platform.
 
