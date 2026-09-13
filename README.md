@@ -116,4 +116,4 @@ The project uses a bank customer churn dataset containing customer demographics,
 | IsActiveMember  | Whether customer is an active member |
 | EstimatedSalary | Estimated customer salary            |
 | Exited    	    | Churn target variable                |
-|-----------------|--------------------------------------|
+
