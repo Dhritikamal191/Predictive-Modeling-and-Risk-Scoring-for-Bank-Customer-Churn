@@ -582,7 +582,7 @@ The CI pipeline executes these tests automatically.
 GitHub Actions is used to automatically validate the project.
 
 The CI workflow performs tasks such as:
-
+```
 Checkout Repository
         │
         ▼
@@ -599,6 +599,7 @@ Run Pytest
         │
         ▼
 Build / Validation
+```
 
 The pipeline uses:
 ```
@@ -883,6 +884,7 @@ Environment variables should be configured directly in the deployment platform.
 
 A typical prediction workflow is:
 
+```
 User enters customer information
              │
              ▼
@@ -911,6 +913,7 @@ User enters customer information
              │
              ▼
         Monitoring
+```
 
 ---
 
@@ -985,7 +988,7 @@ Data Science / Machine Learning / MLOps
 ## ⭐ Project Summary
 
 This project demonstrates a complete machine-learning lifecycle:
-
+```
 Data
  ↓
 EDA
@@ -1011,9 +1014,9 @@ Monitoring
 CI/CD
  ↓
 Docker
+```
 
 The goal is not only to predict customer churn, but to transform those predictions into actionable, financially informed retention decisions through an end-to-end MLOps architecture.
-
 
 ### Recommended repository tagline
 
