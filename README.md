@@ -170,19 +170,91 @@ An additional gradient-boosting approach used for model comparison where support
 The project uses a Gradient Boosting classifier as the champion model for the production prediction workflow.
 
 The API can load the model through:
-text```
+```text
 MLflow Model Registry
 ```
 and can fall back to the local model artifact when the MLflow model is unavailable.
 
 Local model artifact:
-
+```text
 artifacts/models/gradient_boosting.pkl
-
+```
 MLflow model:
-
+```text
 Bank-Churn-Gradient-Boosting
-
+```
 Champion alias:
-
+```text
 champion
+```
+
+---
+
+## 📈 Model Evaluation
+
+The models are evaluated using classification metrics including:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- ROC-AUC
+- Confusion Matrix
+- ROC Curve
+
+ROC curves are available in the Streamlit dashboard.
+
+---
+
+## 📈 ROC Curve & Partial Dependence Analysis
+
+The project includes a dedicated Streamlit page for model interpretation.
+
+The analysis provides:
+
+### ROC Analysis
+- Individual ROC curve
+- Model comparison
+- AUC visualization
+- 
+### Partial Dependence Analysis
+
+Partial Dependence Plots are used to understand how important numerical features affect predicted churn probability.
+
+Example features include:
+
+- Age
+- Credit Score
+- Balance
+- Estimated Salary
+- Number of Products
+- Tenure
+
+This provides an additional layer of model interpretability beyond standard feature importance.
+
+---
+
+## 🛡️ Customer Risk Scoring
+
+The prediction system goes beyond simply returning 0 or 1.
+
+Each customer receives:
+```text
+Churn Probability
+Risk Category
+Customer Value
+Value Category
+Expected Loss
+Retention Cost
+Expected Saved Value
+ROI
+Priority
+```
+### Risk Categories
+```text
+Probability	Risk
+< 0.20	Low
+0.20 – < 0.40	Medium
+0.40 – < 0.60	High
+>= 0.60	Critical
+```
