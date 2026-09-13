@@ -94,3 +94,26 @@ API / Dashboard
        │
        ▼
 Monitoring
+
+## 📊 Dataset
+
+The project uses a bank customer churn dataset containing customer demographics, financial information, product usage, engagement information, and churn labels.
+
+### Main Features
+
+|   Feature	    |          Description                 |
+|-----------------|--------------------------------------|
+| CustomerId	    | Unique customer identifier           |
+| Surname	    | Customer surname                     |
+| CreditScore	    | Customer credit score                |
+| Geography	    | Customer country                     |
+| Gender   	    | Customer gender                      |
+| Age	           | Customer age                         |
+| Tenure	    | Number of years with the bank        |
+| Balance	    | Account balance                      |
+| NumOfProducts   | Number of bank products              |
+| HasCrCard	    | Whether customer has a credit card   |
+| IsActiveMember  | Whether customer is an active member |
+| EstimatedSalary | Estimated customer salary            |
+| Exited    	    | Churn target variable                |
+|-----------------|--------------------------------------|
